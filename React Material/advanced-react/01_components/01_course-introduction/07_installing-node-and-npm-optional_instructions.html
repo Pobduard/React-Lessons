@@ -1,0 +1,275 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Before installing Node.js and npm on your machine, you first need to verify if it's already installed.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Verifying the existing installation on Windows
+ </h2>
+ <p>
+  On Windows, you can use the
+  <var>
+   WINKEY+r
+  </var>
+  shortcut key, which opens the Run window. Inside the
+  <var>
+   Open:
+  </var>
+  input of the Run window, type
+  <var>
+   cmd
+  </var>
+  and press the enter key. This will open the command prompt.
+ </p>
+ <p>
+  Inside the command prompt, type:
+ </p>
+ <ul bullettype="bullets">
+  <li>
+   <p>
+    <var>
+     node --version
+    </var>
+   </p>
+  </li>
+ </ul>
+ <p>
+  If there is Node.js installed on your Windows OS, it will return a value similar to this:
+ </p>
+ <ul bullettype="bullets">
+  <li>
+   <p>
+    <var>
+     v16.14.2
+    </var>
+   </p>
+  </li>
+ </ul>
+ <p>
+  Then you can confirm that you have npm as well, running this:
+ </p>
+ <ul bullettype="bullets">
+  <li>
+   <p>
+    <var>
+     npm --version
+    </var>
+   </p>
+  </li>
+ </ul>
+ <p>
+  If npm is installed, you'll get output similar to this:
+ </p>
+ <ul bullettype="bullets">
+  <li>
+   <p>
+    <var>
+     8.5.0
+    </var>
+   </p>
+  </li>
+ </ul>
+ <h2 level="2" variant="h2semibold">
+  Verifying the existing Node.js and npm installation on Ubuntu (Linux)
+ </h2>
+ <p>
+  You can quickly open a new bash (terminal) window on Ubuntu by pressing the
+  <var>
+   CTRL+ALT+t
+  </var>
+  shortcut key.
+ </p>
+ <p>
+  In the bash window that opens, type:
+ </p>
+ <ul bullettype="bullets">
+  <li>
+   <p>
+    <var>
+     node --version &amp;&amp; npm --version
+    </var>
+   </p>
+  </li>
+ </ul>
+ <p>
+  Both version numbers should appear in the bash window.
+ </p>
+ <p>
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Installing Node.js and npm
+ </h2>
+ <h3 level="3" variant="h3semibold">
+  On Windows OS
+ </h3>
+ <p>
+  In case Node.js and npm are not installed on your Windows OS, navigate to
+  <a href="https://nodejs.org/" title="">
+   https://nodejs.org
+  </a>
+  .
+ </p>
+ <p>
+  Locate the big download button, listing the LTS version. As of May 2022, the LTS version available for download is 16.15.0.
+ </p>
+ <p>
+ </p>
+ <h3 level="3" variant="h3semibold">
+  <strong>
+   On Mac OS - XCode
+  </strong>
+ </h3>
+ <p>
+  To install brew, you need to install Xcode first. Homebrew does not come with its own compiler and it needs Xcode installed for it to work correctly. To install Xcode do the following:
+ </p>
+ <ol bullettype="numbers">
+  <li>
+   <p>
+    Open a terminal.
+   </p>
+  </li>
+  <li>
+   <p>
+    Run the following:
+   </p>
+   <p>
+    <var>
+     shell xcode-select --install
+    </var>
+   </p>
+  </li>
+  <li>
+   <p>
+    A popup will appear asking you to confirm the installation. Click on the Install button.
+   </p>
+  </li>
+  <li>
+   <p>
+    Agree to the license agreement.
+   </p>
+  </li>
+ </ol>
+ <h2 level="2" variant="h2semibold">
+  brew
+ </h2>
+ <p>
+  Macs do not come with package managers like most Linux distributions. To make up for this an external tool called brew was created. To install brew, go to the official website  (
+  <a href="https://brew.sh/" title="https://brew.sh/">
+   https://brew.sh/
+  </a>
+  )  and copy the command provided, open a terminal and run the command :
+ </p>
+ <pre language="sh">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+ <p>
+  Once Brew is installed you can run the following command in the terminal
+ </p>
+ <p>
+  <var>
+   brew install node
+  </var>
+ </p>
+ <p>
+  Homebrew will download and install the dependencies, once this is complete, confirm the installation by typing
+ </p>
+ <p>
+  <var>
+   node -v
+  </var>
+ </p>
+ <p>
+  This will display the Node.js version
+ </p>
+ <p>
+  Type :
+ </p>
+ <p>
+  <var>
+   npm -v
+  </var>
+ </p>
+ <p>
+  to display the NPM version number.
+ </p>
+ <h3 level="3" variant="h3semibold">
+  On Ubuntu
+ </h3>
+ <p>
+  Use the
+  <var>
+   CTRL+ALT+t
+  </var>
+  shortcut key to open a new bash window, then run the following commands:
+ </p>
+ <ul bullettype="bullets">
+  <li>
+   <p>
+    <var>
+     sudo apt update
+    </var>
+   </p>
+  </li>
+  <li>
+   <p>
+    <var>
+     sudo apt install nodejs
+    </var>
+   </p>
+  </li>
+ </ul>
+ <p>
+ </p>
+ <p>
+  That's it, you should be all set.
+ </p>
+ <p>
+  For a more advanced setup and troubleshooting, please refer to the additional reading.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

@@ -1,0 +1,254 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Here's the completed App.js file:
+ </p>
+ <pre language="javascript">import React from "react"; 
+ 
+function App() { 
+ 
+  const bird1 = new Audio( 
+    "https://upload.wikimedia.org/wikipedia/commons/9/9b/Hydroprogne_caspia_-_Caspian_Tern_XC432679.mp3" 
+  ); 
+ 
+  const bird2 = new Audio( 
+    "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hydroprogne_caspia_-_Caspian_Tern_XC432881.mp3" 
+  ); 
+ 
+  function toggle1() { 
+    if (bird1.paused) { 
+      bird1.play(); 
+    } else { 
+      bird1.pause(); 
+    } 
+  }; 
+ 
+  function toggle2() { 
+    if (bird2.paused) { 
+      bird2.play(); 
+    } else { 
+      bird2.pause(); 
+    } 
+  }; 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;button onClick={toggle1}&gt;Caspian Tern 1&lt;/button&gt; 
+      &lt;button onClick={toggle2}&gt;Caspian Tern 2&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} 
+ 
+export default App;</pre>
+ <p>
+  Here is the output from the solution code for the App.js file:
+ </p>
+ <img assetid="QvlqciQBQG2YfBua7Dwvzg" src="data:image/png;base64,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LQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAFElsAAAAACiS2AAAAABRIbAEAAAAokNgCAAAAUCCxBQAAAKBAYgsAAABAgcQWAAAAgAKJLQAAAAAF+v+4I1cugo6vcQAAAABJRU5ErkJggg=="/>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Step 1
+  </strong>
+ </h3>
+ <p>
+  In this ungraded lab, your goal was to read through the existing code of the App.js file, and update the second button so that it's running the
+  <var>
+   toggle2
+  </var>
+  function on a click to the second button.
+ </p>
+ <pre language="javascript">import React from "react";
+
+function App() {
+
+  const bird1 = new Audio(
+    "https://upload.wikimedia.org/wikipedia/commons/9/9b/Hydroprogne_caspia_-_Caspian_Tern_XC432679.mp3"
+  );
+
+  // const bird2 = new Audio(
+  //   "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hydroprogne_caspia_-_Caspian_Tern_XC432881.mp3"
+  // );
+
+  function toggle1() {
+    if (bird1.paused) {
+      bird1.play();
+    } else {
+      bird1.pause();
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={toggle1}&gt;Caspian Tern 1&lt;/button&gt;
+      &lt;button onClick={toggle2}&gt;Caspian Tern 2&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</pre>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Step 2
+  </strong>
+ </h3>
+ <p>
+  After adding the
+  <var>
+   toggle2
+  </var>
+  function to the JSX expression in the second button's
+  <var>
+   onClick
+  </var>
+  event-handling attribute, you should have un-commented the
+  <var>
+   bird2
+  </var>
+  variable on lines 9 to 11.
+ </p>
+ <pre language="javascript">import React from "react";
+
+function App() {
+
+  const bird1 = new Audio(
+    "https://upload.wikimedia.org/wikipedia/commons/9/9b/Hydroprogne_caspia_-_Caspian_Tern_XC432679.mp3"
+  );
+
+  const bird2 = new Audio(
+    "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hydroprogne_caspia_-_Caspian_Tern_XC432881.mp3"
+  );
+
+  function toggle1() {
+    if (bird1.paused) {
+      bird1.play();
+    } else {
+      bird1.pause();
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={toggle1}&gt;Caspian Tern 1&lt;/button&gt;
+      &lt;button onClick={toggle2}&gt;Caspian Tern 2&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</pre>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Step 3
+  </strong>
+ </h3>
+ <p>
+  Next, you needed to define the
+  <var>
+   toggle2
+  </var>
+  function: it should have had the exact same functionality as the
+  <var>
+   toggle1
+  </var>
+  function, but it needed to work with the
+  <var>
+   bird2
+  </var>
+  variable (instead of the
+  <var>
+   bird1
+  </var>
+  variable as it did in the
+  <var>
+   toggle1
+  </var>
+  function).
+ </p>
+ <pre language="javascript">import React from "react"; 
+ 
+function App() { 
+ 
+  const bird1 = new Audio( 
+    "https://upload.wikimedia.org/wikipedia/commons/9/9b/Hydroprogne_caspia_-_Caspian_Tern_XC432679.mp3" 
+  ); 
+ 
+  const bird2 = new Audio( 
+    "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hydroprogne_caspia_-_Caspian_Tern_XC432881.mp3" 
+  ); 
+ 
+  function toggle1() { 
+    if (bird1.paused) { 
+      bird1.play(); 
+    } else { 
+      bird1.pause(); 
+    } 
+  }; 
+ 
+  function toggle2() { 
+    if (bird2.paused) { 
+      bird2.play(); 
+    } else { 
+      bird2.pause(); 
+    } 
+  }; 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;button onClick={toggle1}&gt;Caspian Tern 1&lt;/button&gt; 
+      &lt;button onClick={toggle2}&gt;Caspian Tern 2&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} 
+ 
+export default App;</pre>
+ <p>
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

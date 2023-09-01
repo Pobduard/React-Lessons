@@ -1,0 +1,144 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  You’re now aware that React can work with most of the same events found in HTML, although React handles them differently.
+ </p>
+ <p>
+  This means that you may encounter unfamiliar errors when you run your event-driven React code. However, in this reading, you’ll learn about some of the most common errors associated with events and how you can deal with them.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Event Errors
+ </h2>
+ <p>
+  When you work in any programming environment, language, or framework, you are bound to write code that throws errors, for a variety of reasons.
+ </p>
+ <p>
+  Sometimes it's just about writing the wrong syntax. Other times it's about not thinking of all the possible scenarios and all the possible ways that things can go wrong in your code.
+ </p>
+ <p>
+  Regardless of what causes them, errors are a part of everyday life for a developer.
+ </p>
+ <p>
+  The JavaScript language comes with a built-in error handling syntax, the
+  <strong>
+   try...catch
+  </strong>
+  syntax.
+ </p>
+ <p>
+  Let’s examine an example of an error in JavaScript:
+ </p>
+ <pre language="javascript">(5).toUpperCase()</pre>
+ <p>
+  Obviously, you cannot uppercase a number value, and thus, this throws the following error:
+ </p>
+ <pre language="javascript">Uncaught TypeError: 5.toUpperCase is not a function</pre>
+ <p>
+  To handle this TypeError, you can update the code with a try...catch block that instructs the code to continue running after the error is encountered:
+ </p>
+ <pre language="javascript">try {
+    (5).toUpperCase();
+} 
+catch(e) {
+    console.log(`Oops, you can't uppercase a number. 
+        Trying to do it resulted in the following`, e);
+}</pre>
+ <p>
+  The try-catch block will output some text in the console:
+ </p>
+ <p>
+  <strong>
+   Oops, you can't uppercase a number. Trying to do it resulted in the following TypeError: 5.toUpperCase is not a function
+  </strong>
+ </p>
+ <p>
+  It is assumed that if you are taking this course that you are already familiar with how the try...catch syntax works, so I won't go into any details after this quick refresher.
+ </p>
+ <p>
+  Back to React, here's an example of a simple error in a React component:
+ </p>
+ <pre language="javascript">function NumBillboard(props) {
+    return (
+      &lt;&gt;
+        &lt;h1&gt;{prop.num}&lt;/h1&gt;
+      &lt;/&gt;
+    )
+  }
+
+export default NumBillboard;</pre>
+ <p>
+  In React, an error in the code, such as the one above, will result in the error overlay showing in the app in the browser.
+ </p>
+ <p>
+  In this specific example, the error would be:
+ </p>
+ <p>
+  ReferenceError
+ </p>
+ <p>
+  prop is not defined
+ </p>
+ <p>
+  Note:
+  <em>
+   You can click the X button to close the error overlay.
+  </em>
+ </p>
+ <p>
+  Since event-handling errors occur after the UI has already been rendered, all you have to do is use the error-handling mechanism that already exists in JavaScript – that is, you just use the
+  <var>
+   try...catch
+  </var>
+  blocks.
+ </p>
+ <p>
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

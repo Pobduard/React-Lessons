@@ -1,0 +1,270 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  You learned more about fetching data using hooks and that fetching data from a third-party API is considered a side-effect that requires the use of the
+  <var>
+   useEffect
+  </var>
+  hook to deal with the Fetch API calls in React.
+ </p>
+ <p>
+  You also explored how the response from fetching third-party data might fail, or be delayed, and that it can be useful to provide different renders, based on whether or not the data has been received.
+ </p>
+ <p>
+  In this reading, you will explore the different approaches to setting up the
+  <var>
+   useEffect
+  </var>
+  hook when fetching JSON data from the web. You will also learn why it can be useful to provide different renders, based on whether or not the data has been received.
+ </p>
+ <p>
+  You have previously learned about using the Fetch API to get some JSON data from a third-party website in plain JavaScript.
+ </p>
+ <p>
+  You'll be glad to learn that data fetching is not that different in React.
+ </p>
+ <p>
+  There is only one more ingredient that you need to keep in mind when working with React, namely, that fetching data from a third-party API is considered a side-effect.
+ </p>
+ <p>
+  Being a side-effect, you need to use the useEffect hook to deal with using the Fetch API calls in React.
+ </p>
+ <p>
+  To understand what that entails, let me illustrate it with a code example where a component is fetching some data from an external API to display information about a cryptocurrency.
+ </p>
+ <pre language="javascript">import { useState, useEffect } from "react"; 
+ 
+export default function App() { 
+  const [btcData, setBtcData] = useState({}); 
+  useEffect(() =&gt; { 
+    fetch(`https://api.coindesk.com/v1/bpi/currentprice.json`) 
+      .then((response) =&gt; response.json()) 
+      .then((jsonData) =&gt; setBtcData(jsonData.bpi.USD)) 
+      .catch((error) =&gt; console.log(error)); 
+  }, []); 
+ 
+  return ( 
+    &lt;&gt; 
+      &lt;h1&gt;Current BTC/USD data&lt;/h1&gt; 
+      &lt;p&gt;Code: {btcData.code}&lt;/p&gt; 
+      &lt;p&gt;Symbol: {btcData.symbol}&lt;/p&gt; 
+      &lt;p&gt;Rate: {btcData.rate}&lt;/p&gt; 
+      &lt;p&gt;Description: {btcData.description}&lt;/p&gt; 
+      &lt;p&gt;Rate Float: {btcData.rate_float}&lt;/p&gt; 
+    &lt;/&gt; 
+  ); 
+} </pre>
+ <p>
+  This example shows that in order to fetch data from a third party API, you need to pass an anonymous function as a call to the
+  <var>
+   useEffect
+  </var>
+  hook.
+ </p>
+ <pre language="javascript">useEffect( 
+    () =&gt; { 
+        // ... data fetching code goes here 
+    }, 
+    [] 
+); </pre>
+ <p>
+  The code above emphasizes the fact that the
+  <var>
+   useEffect
+  </var>
+  hook takes two arguments, and that the first argument holds the anonymous function, which, inside its body, holds the data fetching code.
+ </p>
+ <p>
+  Alternatively, you might extract this anonymous function into a separate function expression or function declaration, and then just reference it.
+ </p>
+ <p>
+  Using the above example, that code could be presented as follows:
+ </p>
+ <pre language="javascript">import { useState, useEffect } from "react"; 
+ 
+export default function App() { 
+  const [btcData, setBtcData] = useState({}); 
+ 
+  const fetchData = () =&gt; { 
+    fetch(`https://api.coindesk.com/v1/bpi/currentprice.json`) 
+      .then((response) =&gt; response.json()) 
+      .then((jsonData) =&gt; setBtcData(jsonData.bpi.USD)) 
+      .catch((error) =&gt; console.log(error)); 
+  }; 
+ 
+  useEffect(() =&gt; { 
+    fetchData(); 
+  }, []); 
+ 
+  return ( 
+    &lt;&gt; 
+      &lt;h1&gt;Current BTC/USD data&lt;/h1&gt; 
+      &lt;p&gt;Code: {btcData.code}&lt;/p&gt; 
+      &lt;p&gt;Symbol: {btcData.symbol}&lt;/p&gt; 
+      &lt;p&gt;Rate: {btcData.rate}&lt;/p&gt; 
+      &lt;p&gt;Description: {btcData.description}&lt;/p&gt; 
+      &lt;p&gt;Rate Float: {btcData.rate_float}&lt;/p&gt; 
+    &lt;/&gt; 
+  ); 
+} </pre>
+ <p>
+  The code essentially does the same thing, but this second example is cleaner and better organized.
+ </p>
+ <p>
+  One additional thing that can be discussed here is the
+  <var>
+   return
+  </var>
+  statement of the above example.
+ </p>
+ <p>
+  Very often, the response from fetching third-party data might fail, or be delayed. That's why it can be useful to provide different renders, based on whether or not the data has been received.
+ </p>
+ <p>
+  The simplest conditional rendering might involve setting up two renders, based on whether or not the data has been successfully fetched.
+ </p>
+ <p>
+  For example:
+ </p>
+ <pre language="javascript"> return someStateVariable.length &gt; 0 ? ( 
+    &lt;div&gt; 
+      &lt;h1&gt;Data returned:&lt;/h1&gt; 
+      &lt;h2&gt;{someStateVariable.results[0].price}&lt;/h2&gt; 
+    &lt;/div&gt; 
+  ) : ( 
+    &lt;h1&gt;Data pending...&lt;/h1&gt; 
+  ); </pre>
+ <p>
+  In this example, I'm conditionally returning an
+  <var>
+   h1
+  </var>
+  and
+  <var>
+   h2
+  </var>
+  ,
+  <strong>
+   if
+  </strong>
+  the length of the
+  <var>
+   someStateVariable
+  </var>
+  binding's length is longer than 0.
+ </p>
+ <p>
+  This approach would work if the
+  <var>
+   someStateVariable
+  </var>
+  holds an array.
+ </p>
+ <p>
+  If the
+  <var>
+   someStateVariable
+  </var>
+  is initialized as an empty array, passed to the call to the
+  <var>
+   useState
+  </var>
+  hook, then it would be possible to update this state variable with an array item that might get returned from a
+  <var>
+   fetch()
+  </var>
+  call to a third-party JSON data provider.
+ </p>
+ <p>
+  If this works out as described above, the length of the
+  <var>
+   someStateVariable
+  </var>
+  would increase from the starting length of zero - because an empty array's length is zero.
+ </p>
+ <p>
+  Let's inspect the conditional
+  <var>
+   return
+  </var>
+  again:
+ </p>
+ <pre language="javascript"> return someStateVariable.length &gt; 0 ? ( 
+    &lt;div&gt; 
+      &lt;h1&gt;Data returned:&lt;/h1&gt; 
+      &lt;h2&gt;{someStateVariable.results[0].price}&lt;/h2&gt; 
+    &lt;/div&gt; 
+  ) : ( 
+    &lt;h1&gt;Data pending...&lt;/h1&gt; 
+  ); </pre>
+ <p>
+  If the data fetching fails, the text of "Data pending..." will render on the screen, since the length of the
+  <var>
+   someStateVariable
+  </var>
+  will remain being zero.
+ </p>
+ <p>
+  <strong>
+   Conclusion
+  </strong>
+ </p>
+ <p>
+  You learned more about fetching data using hooks and that fetching data from a third-party API is considered a side-effect that requires the use of the
+  <var>
+   useEffect
+  </var>
+  hook to deal with the Fetch API calls in React.
+ </p>
+ <p>
+  You also explored how the response from fetching third-party data might fail, or be delayed, and that it can be useful to provide different renders, based on whether or not the data has been received.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

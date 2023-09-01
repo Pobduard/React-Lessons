@@ -1,0 +1,223 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  You’ve observed that JSX is incredibly versatile, and can accept a combination of JavaScript, HTML and CSS.  In this reading, you'll learn some approaches for styling JSX elements and doing so in a way that achieves both a functional and visual aspect within an app.
+ </p>
+ <p>
+  There are various ways to style JSX elements.
+ </p>
+ <p>
+  Probably the simplest way to do this is using the
+  <var>
+   link
+  </var>
+  HTML element in the head of the
+  <strong>
+   index.html
+  </strong>
+  file in which your React app will mount.
+ </p>
+ <p>
+  The
+  <var>
+   href
+  </var>
+  attribute loads some CSS styles, probably with some CSS classes, and then, inside the function component's declarations, you can access those CSS classes using the
+  <var>
+   className
+  </var>
+  attribute.
+ </p>
+ <pre language="javascript">function Promo(props) {
+    return (
+        &lt;div className="promo-section"&gt;
+            &lt;div&gt;
+                &lt;h1&gt;{props.heading}&lt;/h1&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h2&gt;{props.promoSubHeading}&lt;/h2&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+ <p>
+  In CSS:
+ </p>
+ <pre language="css">.promo-section {
+    font-weight: bold;
+    line-height: 20px;
+}</pre>
+ <p>
+ </p>
+ <p>
+  Another way to add CSS styles to components is using inline styles.
+ </p>
+ <p>
+  The syntax of inline styles in JSX is a bit custom.
+ </p>
+ <p>
+  Consider a starting
+  <var>
+   Promo
+  </var>
+  <strong>
+  </strong>
+  component, containing code that you encountered earlier:
+ </p>
+ <pre language="javascript">function Promo(props) {
+    return (
+        &lt;div className="promo-section"&gt;
+            &lt;div&gt;
+                &lt;h1&gt;{props.heading}&lt;/h1&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h2&gt;{props.promoSubHeading}&lt;/h2&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+
+export default Promo;</pre>
+ <p>
+  Now you can add some inline styles to it:
+ </p>
+ <pre language="javascript">function Promo(props) {
+    return (
+        &lt;div className="promo-section"&gt;
+            &lt;div&gt;
+                &lt;h1 style={{color:"tomato", fontSize:"40px", fontWeight:"bold"}}&gt;
+                    {props.heading}
+                &lt;/h1&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h2&gt;{props.promoSubHeading}&lt;/h2&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+
+export default Promo;</pre>
+ <p>
+  You can start updating the
+  <var>
+   Promo
+  </var>
+  <strong>
+  </strong>
+  component by adding the JavaScript expression syntax:
+ </p>
+ <pre language="javascript">&lt;h1 style={}&gt;</pre>
+ <p>
+  As explained previously, this means that whatever code you add inside these opening and closing curly braces is to be parsed as regular JavaScript. Now let’s add a
+  <strong>
+   style object literal
+  </strong>
+  inside of these curly braces:
+ </p>
+ <pre language="javascript">&lt;h1 style={{color:"tomato",fontSize:"40px"}}&gt;</pre>
+ <p>
+  You can then re-write this object literal:
+ </p>
+ <pre language="javascript">{
+    color: "tomato",
+    fontSize: "40px"
+}</pre>
+ <p>
+  So, there's nothing special about this object, except for the fact that you’ve inlined it and placed it inside a pair of curly braces. Additionally, since it's just JavaScript, those CSS properties that would be hyphenated in plain CSS, such as, for example,
+  <var>
+   font-size:40px
+  </var>
+  , become camelCased, and the value is a string, making it look like this:
+  <var>
+   fontSize:"40px"
+  </var>
+  .
+ </p>
+ <p>
+  Besides inlining a
+  <em>
+   style object literal
+  </em>
+  , you can also save it in a variable, and then use that variable instead of passing an object literal.
+ </p>
+ <p>
+  That gives you an updated
+  <var>
+   Promo
+  </var>
+  <strong>
+  </strong>
+  component, with the styles object saved as a JavaScript variable:
+ </p>
+ <pre language="javascript">function Promo(props) {
+
+const styles = {
+    color: "tomato",
+    fontSize: "40px"
+}
+
+return (
+        &lt;div className="promo-section"&gt;
+            &lt;div&gt;
+                &lt;h1 style={styles}&gt;
+                    {props.heading}
+                &lt;/h1&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;h2&gt;{props.promoSubHeading}&lt;/h2&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+ <p>
+  Using this approach makes your components more self-contained, because they come with their own styles built-in, but it also makes them a bit harder to maintain.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

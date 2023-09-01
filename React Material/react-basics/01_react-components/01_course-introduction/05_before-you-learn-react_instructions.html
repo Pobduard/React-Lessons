@@ -1,0 +1,391 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Do you know the fundamentals of HTML, CSS and JavaScript? Perhaps you learned about these technologies from another course. Either way, a quick summary will be useful so let's explore some fundamental HTML, CSS and JavaScript principles and practices.
+ </p>
+ <p>
+  In this reading, let’s take a practical approach, and revisit some of the development techniques you'll need to be comfortable with before learning React.
+ </p>
+ <p>
+  To get the most out of this course on React basics, you should first understand the fundamental methods and concepts of JavaScript. Otherwise, you may feel like you’re a child learning to run before you can walk. React is a declarative, efficient, and flexible JavaScript library for building user interfaces. It lets you compose complex UIs from small and isolated pieces of code called “components”.
+ </p>
+ <p>
+  React apps are built using modern JavaScript features, which are commonly known as ES6. Developers use React to develop Singe Page Applications. And you can also develop mobile applications with React Native.
+ </p>
+ <p>
+  As an aspiring developer, you may opt for a ‘learn as you go approach’ regarding JavaScript and React. But this may not help your productivity and even at times frustrate you. This is because you may confuse code or functionality that is plain JavaScript, or code that is React.
+ </p>
+ <p>
+  For example, with a solid foundational knowledge of JavaScript, you can quickly identify code that is JavaScript ES6 and code that is React. And throughout this course, there will be help for you along the way with some friendly reminders.
+ </p>
+ <p>
+  Also, keep in mind that you are using React to build user interfaces which also include HTML and CSS code.
+ </p>
+ <p>
+  So let’s begin with the fundamental HTML knowledge needed to learn React.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  HTML
+ </h2>
+ <p>
+  Recall that HTML is used to describe the structure of Web pages. Developers use HTML elements with their opening and closing tags to “mark up” an HTML document.
+ </p>
+ <p>
+  These elements form the structure of a web page and describe what to display to the web browser. When it comes to HTML it's important to know about:
+ </p>
+ <ol bullettype="numbers">
+  <li>
+   <p>
+    The purpose of HTML in the web browser,
+   </p>
+  </li>
+  <li>
+   <p>
+    the use of HTML tags and correct syntax,
+   </p>
+  </li>
+  <li>
+   <p>
+    and how HTML elements are used in a web document.
+   </p>
+  </li>
+ </ol>
+ <p>
+  Another important concept to know about when you're talking about HTML is the Document Object Model, or DOM.
+ </p>
+ <p>
+  Users need to be able to interact with elements on a web page. This means that an HTML document must be represented in a way that JavaScript code can query and update it. And that's the function of the DOM. It's a model of the objects in your HTML file.
+ </p>
+ <p>
+  And web developers interact with the DOM through JavaScript to update content, set up events and animate HTML elements.
+ </p>
+ <p>
+  Before you learn React, it’s advisable that you are comfortable with the following HTML tags and concepts
+ </p>
+ <h3 level="3" variant="h3bold">
+  Layout &amp; Style
+ </h3>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    <var>
+     &lt;html&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    <var>
+     &lt;head&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    <var>
+     &lt;body&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    <var>
+     &lt;div&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <h3 level="3" variant="h3bold">
+  Text formatting &amp; lists
+ </h3>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    <var>
+     &lt;h1&gt;…&lt;h6&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="4">
+   <p>
+    <var>
+     &lt;p&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    <var>
+     &lt;ul&gt;&lt;li&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    <var>
+     &lt;b&gt;&lt;i&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <h3 level="3" variant="h3bold">
+  Images and links
+ </h3>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    <var>
+     &lt;img src=""&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="4">
+   <p>
+    <var>
+     &lt;a href=""&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <h3 level="3" variant="h3bold">
+  Linking and Meta
+ </h3>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    <var>
+     &lt;link&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    <var>
+     &lt;title&gt;
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    <var>
+     &lt;meta&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <h3 level="3" variant="h3bold">
+  Semantic
+ </h3>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    <var>
+     &lt;header&gt;
+    </var>
+   </p>
+  </li>
+ </ul>
+ <h2 level="2" variant="h2semibold">
+  CSS
+ </h2>
+ <p>
+  CSS (Cascading Style Sheets) is the code that you use to style HTML. You need to be familiar with basic CSS concepts before you start learning React. This is because you will need to style your React components as well, and basic CSS knowledge will help your learning journey.
+ </p>
+ <p>
+  Before you learn React, make sure you are comfortable with these CSS styling options:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Font styling (font size, font color, etc.)
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Flex Box Layout (Layout of items using CSS Flex Box Layout)
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    CSS Selectors
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="4">
+   <p>
+    Position, Padding, Margins and Display
+   </p>
+  </li>
+ </ul>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Colors, Background and Icons
+   </p>
+  </li>
+ </ul>
+ <p>
+  Y​ou can refresh your knowledge of HTML and CSS in the Meta course titled:
+  <a href="https://www.coursera.org/learn/introduction-to-front-end-development" title="Introduction to Front-End Development">
+   Introduction to Front-End Development
+  </a>
+ </p>
+ <h2 level="2" variant="h2semibold">
+  JavaScript fundamentals and ES6
+ </h2>
+ <p>
+  React is completely written in JavaScript and uses the more modern version of JavaScript which is ES6. While learning React, you should already know JavaScript fundamentals.
+ </p>
+ <p>
+  JavaScript is the programming language and React is a JavaScript UI library. This means the first step is to be proficient at JavaScript.
+ </p>
+ <p>
+  Here are some of the JavaScript topics that you need to be comfortable with before you begin your journey learning React.
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Data types
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Using var, let and const
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    Conditionals and Loops
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="4">
+   <p>
+    Using objects, arrays and functions
+   </p>
+  </li>
+ </ul>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    ES6 Arrow functions
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    In-built functions such as map(), forEach() and promises.
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    Destructuring Arrays and Objects
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="4">
+   <p>
+    Error Handling
+   </p>
+  </li>
+ </ul>
+ <h2 level="2" variant="h2semibold">
+  Package Manager (Node + npm)
+ </h2>
+ <p>
+  React is a UI library, and you will encounter that many times you will need to add other packages to your React application. A package in JavaScript contains all the files needed for a module. To install these packages effectively and manage their dependencies you can use a package manager like NPM (Node Package Manager).
+ </p>
+ <p>
+  You can install npm by installing Node.js, which will then automatically install npm.
+ </p>
+ <p>
+  You need to be comfortable with using npm as your package manager, since you will be using npm to install packages within your React application.  Make sure you are aware of how to do the following with npm before you get started on this course.
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Installation command to install npm modules in your project
+   </p>
+  </li>
+ </ul>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Installing a package as a dev dependency
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Start command
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    Updating npm version
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="4">
+   <p>
+    Navigating around the package.json file
+   </p>
+  </li>
+ </ul>
+ <p>
+  Once you have become confident with these skills, you’ll be in a better position to learn and apply React concepts and prepare yourself for development of React apps.
+ </p>
+ <p>
+  T​o refresh your knowledge of JavaScript and the basics of Node and npm, please visit Meta course titled:
+  <a href="https://www.coursera.org/learn/programming-with-javascript" title="Programming with JavaScript">
+   Programming with JavaScript
+  </a>
+  .
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

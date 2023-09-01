@@ -1,0 +1,192 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  You've already learned a bit about using expressions as props. These can be, among other things, ternary operators, function calls, or some arithmetic operations.
+ </p>
+ <p>
+  However, you can pass almost any kind of expression as a prop.
+ </p>
+ <p>
+  For example:
+ </p>
+ <pre language="javascript">const bool = false; 
+
+function Example(props) {
+    return (
+        &lt;h2&gt;The value of the toggleBoolean prop is: {props.toggleBoolean.toString()}&lt;/h2&gt;
+    );
+};
+
+export default function App() { 
+    return ( 
+        &lt;div className="App"&gt; 
+            &lt;Example toggleBoolean={!bool} /&gt; 
+        &lt;/div&gt; 
+    ); 
+};</pre>
+ <p>
+  In the example above, you’re using the
+  <var>
+   !bool
+  </var>
+  , that is, the NOT operator, which evaluates to
+  <var>
+   true
+  </var>
+  ,
+  <strong>
+  </strong>
+  since
+  <var>
+   !false
+  </var>
+  <strong>
+  </strong>
+  is true.
+ </p>
+ <p>
+  Also, for the
+  <var>
+   toggleBoolean
+  </var>
+  <strong>
+  </strong>
+  prop to be rendered on the page, you’re converting its boolean value to a string using the JavaScript’s built-in toString method.
+ </p>
+ <p>
+  Here’s an extension of the above code which shows more ways to work with expressions as props in React.
+ </p>
+ <p>
+  What is happening here is several props are being passed to the
+  <var>
+   Example
+  </var>
+  component, and rendering each of these props’ values to the screen.
+ </p>
+ <pre language="javascript">const bool = false;
+const str1 = "just";
+
+function Example(props) {
+    return (
+        &lt;div&gt;
+            &lt;h2&gt;
+                The value of the toggleBoolean prop is:{props.toggleBoolean.toString()}
+            &lt;/h2&gt;
+            &lt;p&gt;The value of the math prop is: &lt;em&gt;{props.math}&lt;/em&gt;&lt;/p&gt;
+            &lt;p&gt;The value of the str prop is: &lt;em&gt;{props.str}&lt;/em&gt;&lt;/p&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default function App() {
+    return (
+        &lt;div className="App"&gt;
+            &lt;Example
+                toggleBoolean={!bool}
+                math={(10 + 20) / 3}
+                str={str1 + ' another ' + 'string'}
+            /&gt;
+        &lt;/div&gt;
+    );
+};</pre>
+ <p>
+  In this improvement to the
+  <var>
+   Example
+  </var>
+  component, three props are being passed to it:
+  <var>
+   toggleBoolean
+  </var>
+  ,
+  <var>
+   math
+  </var>
+  , and
+  <var>
+   str
+  </var>
+  . The
+  <var>
+   toggleBoolean
+  </var>
+  is unchanged, and the
+  <var>
+   math
+  </var>
+  prop and the
+  <var>
+   str
+  </var>
+  prop have been added.
+ </p>
+ <p>
+  The
+  <var>
+   math
+  </var>
+  prop is there to show that you can add arithmetic operators and numbers inside JSX, and it will be evaluated just like it does in plain JavaScript.
+ </p>
+ <p>
+  The
+  <var>
+   str
+  </var>
+  prop is there to show that you can concatenate strings, as well as strings and variables – which is shown by adding string literals of “ another ” and “string” to the
+  <var>
+   str1
+  </var>
+  variable.
+ </p>
+ <p>
+  In summary, just like you can use expressions inside function components, you can also use them as prop values inside JSX elements, when rendering those function components.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

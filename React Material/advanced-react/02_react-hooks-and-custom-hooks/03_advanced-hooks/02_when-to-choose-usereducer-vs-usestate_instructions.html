@@ -1,0 +1,147 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  The
+  <var>
+   useState
+  </var>
+  hook is best used on less complex data.
+ </p>
+ <p>
+  While it's possible to use any kind of a data structure when working with
+  <var>
+   useState
+  </var>
+  , it's better to use it with primitive data types, such as strings, numbers, or booleans.
+ </p>
+ <p>
+  The
+  <var>
+   useReducer
+  </var>
+  hook is best used on more complex data, specifically, arrays or objects.
+ </p>
+ <p>
+  While this rule is simple enough, there are situations where you might be working with a simple object and still decide to use the
+  <var>
+   useState
+  </var>
+  hook.
+ </p>
+ <p>
+  Such a decision might stem from the simple fact that working with
+  <var>
+   useState
+  </var>
+  can sometimes feel easier than thinking about how the state is controlled when working with
+  <var>
+   useReducer
+  </var>
+  .
+ </p>
+ <p>
+  It might help conceptualizing this dilemma as a gradual scale, on the left side of which, there is the
+  <var>
+   useState
+  </var>
+  hook with primitive data types and simple use cases, such as toggling a variable on or off.
+ </p>
+ <p>
+  At the end of this spectrum, there is the
+  <var>
+   useReducer
+  </var>
+  hook used to control state of large state-holding objects.
+ </p>
+ <p>
+  There's no clear-cut point on this spectrum, at which point you would decide: "If my state object has three or more properties, I'll use the
+  <var>
+   useReducer
+  </var>
+  hook".
+ </p>
+ <p>
+  Sometimes such a statement might make sense, and other times it might not.
+ </p>
+ <p>
+  What's important to remember is to keep your code simple to understand, collaborate on, contribute to, and build from.
+ </p>
+ <p>
+  One negative characteristic of
+  <var>
+   useState
+  </var>
+  is that it often gets hard to maintain as the state gets more complex.
+ </p>
+ <p>
+  On the flip side, a negative characteristic of
+  <var>
+   useReducer
+  </var>
+  is that it requires more prep work to begin with. There's more setup involved. However, once this setup is completed, it gets easier to extend the code based on new requirements.
+ </p>
+ <p>
+  <strong>
+   Conclusion
+  </strong>
+ </p>
+ <p>
+  You learned about the decision-making process when choosing between
+  <var>
+   useReducer
+  </var>
+  and
+  <var>
+   useState
+  </var>
+  for working with different types of data.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

@@ -1,0 +1,154 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Have you ever visited a website that required a user account? To log in you click on a
+  <strong>
+   Log in
+  </strong>
+  button and once you’ve logged in, the
+  <strong>
+   Log in
+  </strong>
+  button changes to a
+  <strong>
+   Log out
+  </strong>
+  button.
+ </p>
+ <p>
+  This is often done using something called conditional rendering.
+ </p>
+ <p>
+  In a previous course, you’ve already learned about simple conditions using if and switch statements.
+ </p>
+ <p>
+  Using these statements allows you to change the behaviour of code based on certain conditions being met.
+ </p>
+ <p>
+  For example, you can set a variable to a different value based on the result of a condition check.
+ </p>
+ <pre language="javascript">let name; 
+if (Math.random() &gt; 0.5) { 
+	name = "Mike" 
+} else { 
+	name = "Susan" 
+} </pre>
+ <p>
+ </p>
+ <pre language="javascript">let name; 
+let newUser = true; 
+if (Math.random() &gt; 0.5 &amp;&amp; newUser) { 
+	name = "Mike" 
+} else { 
+	name = "Susan" 
+} </pre>
+ <p>
+  Conditional rendering is built on the same principle. By using conditions, you can return different child components. This is often done using the props that are passed into the parent component, but can also be done based on component state.
+ </p>
+ <p>
+  Let’s take a look at a simple example.
+ </p>
+ <p>
+  Let’s say you have two child components called
+  <var>
+   LoginButton
+  </var>
+  and
+  <var>
+   LogoutButton
+  </var>
+  ; each displaying their corresponding button.
+ </p>
+ <p>
+  In the parent component, named
+  <var>
+   LogInOutButton
+  </var>
+  , you can check the props passed into the parent component and return a different child component based on the value of the props.
+ </p>
+ <p>
+  In this example, the props contains a property named
+  <var>
+   isLoggedIn
+  </var>
+  . When this is set to
+  <var>
+   true
+  </var>
+  , the
+  <var>
+   LogoutButton
+  </var>
+  component is returned. Otherwise, the
+  <var>
+   LoginButton
+  </var>
+  component is returned.
+ </p>
+ <pre language="javascript">function LogInOutButton(props) {
+const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return &lt;LogoutButton /&gt;;
+  } else {
+  return &lt;LoginButton /&gt;;
+}</pre>
+ <p>
+  Then when the
+  <var>
+   LogInOutButton
+  </var>
+  parent component is used, the prop can be passed in.
+ </p>
+ <pre language="javascript">&lt;LogInOutButton isLoggedIn={false} /&gt;</pre>
+ <p>
+  This is a simple example showing how you can change what is displayed based on a condition check. You will use this often when developing React applications.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

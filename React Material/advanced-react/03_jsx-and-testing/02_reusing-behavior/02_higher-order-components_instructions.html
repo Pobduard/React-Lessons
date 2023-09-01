@@ -1,0 +1,238 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  In a previous lesson, you learned about Higher-order components (HOC) as a pattern to abstract shared behavior, as well as a basic example of an implementation.
+ </p>
+ <p>
+  Let's dive deeper to illustrate some of the best practices and caveats regarding HOCs.
+ </p>
+ <p>
+  These include never mutating a component inside a HOC, passing unrelated props to your wrapped component, and maximizing composability by leveraging the
+  <var>
+   Component =&gt; Component
+  </var>
+  signature.
+ </p>
+ <p>
+  <strong>
+   Don’t mutate the original component
+  </strong>
+ </p>
+ <p>
+  One of the possible temptations is to modify the component that is provided as an argument, or in other words, mutate it. That's because JavaScript allows you to perform such operations, and in some cases, it seems the most straightforward and quickest path. Remember that React promotes immutability in all scenarios. So instead, use composition and turn the HOC into a pure function that does not alter the argument it receives, always returning a new component.
+ </p>
+ <pre language="javascript">const HOC = (WrappedComponent) =&gt; {
+  // Don't do this and mutate the original component
+  WrappedComponent = () =&gt; {
+    
+  }; 
+ …
+}</pre>
+ <p>
+  <strong>
+   Pass unrelated props through to the Wrapped Component
+  </strong>
+ </p>
+ <p>
+  HOC adds features to a component. In other words, it enhances it. That's why they shouldn't drastically alter their original contract. Instead, the component returned from a HOC is expected to have a similar interface to the wrapped component.
+ </p>
+ <p>
+  HOCs should spread and pass through all the props that are unrelated to their specific concern, helping ensure that HOCs are as flexible and reusable as possible, as demonstrated in the example below:
+ </p>
+ <pre language="javascript">const withMousePosition = (WrappedComponent) =&gt; {
+  const injectedProp = {mousePosition: {x: 10, y: 10}};
+
+  return (originalProps) =&gt; {
+    return &lt;WrappedComponent injectedProp={injectedProp} {...originalProps} /&gt;;
+  };
+};</pre>
+ <p>
+  <strong>
+   Maximize composability
+  </strong>
+ </p>
+ <p>
+  So far, you have learned that the primary signature of a HOC is a function that accepts a React component and returns a new component.
+ </p>
+ <p>
+  Sometimes, HOCs can accept additional arguments that act as extra configuration determining the type of enhancement the component receives.
+ </p>
+ <pre language="javascript">const EnhancedComponent = HOC(WrappedComponent, config)</pre>
+ <p>
+  The most common signature for HOCs uses a functional programming pattern called "currying" to maximize function composition. This signature is used extensively in React libraries, such as
+  <a href="https://react-redux.js.org/api/connect" title="">
+   <u>
+    React Redux
+   </u>
+  </a>
+  , which is a popular library for managing state in React applications.
+ </p>
+ <pre language="javascript">const EnhancedComponent = connect(selector, actions)(WrappedComponent);</pre>
+ <p>
+  This syntax may seem strange initially, but if you break down what's happening separately, it would be easier to understand.
+ </p>
+ <pre language="javascript">const HOC = connect(selector, actions);
+const EnhancedComponent = HOC(WrappedComponent);</pre>
+ <p>
+  <var>
+   connect
+  </var>
+  is a function that returns a higher-order component, presenting a valuable property for composing several HOCs together.
+ </p>
+ <p>
+  Single-argument HOCs like the ones you have explored so far, or the one returned by the connect function has the signature
+  <var>
+   Component =&gt; Component
+  </var>
+  . It turns out that functions whose output type is the same as its input type are really easy to compose together.
+ </p>
+ <pre language="javascript">const enhance = compose(
+  // These are both single-argument HOCs
+  withMousePosition,
+  withURLLocation,
+  connect(selector)
+);
+
+// Enhance is a HOC
+const EnhancedComponent = enhance(WrappedComponent);</pre>
+ <p>
+  Many third-party libraries already provide an implementation of the compose utility function, like
+  <a href="https://lodash.com/docs/4.17.15#flowRight" title="">
+   <u>
+    lodash
+   </u>
+  </a>
+  ,
+  <a href="https://redux.js.org/api/compose" title="">
+   <u>
+    Redux
+   </u>
+  </a>
+  , and
+  <a href="https://ramdajs.com/docs/#compose" title="">
+   <u>
+    Ramda
+   </u>
+  </a>
+  . Its signature is as follows:
+ </p>
+ <p>
+  <var>
+   compose(f, g, h)
+  </var>
+  is the same as
+  <var>
+   (...args) =&gt; f(g(h(...args)))
+  </var>
+ </p>
+ <p>
+  <strong>
+   Caveats
+  </strong>
+ </p>
+ <p>
+  Higher-order components come with a few caveats that aren’t immediately obvious.
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Don't use HOCs inside other components: always create your enhanced components outside any component scope. Otherwise, if you do so inside the body of other components and a re-render occurs, the enhanced component will be different. That forces React to remount it instead of just updating it. As a result, the component and its children would lose their previous state.
+   </p>
+  </li>
+ </ol>
+ <pre language="javascript">const Component = (props) =&gt; {
+  // This is wrong. Never do this
+  const EnhancedComponent = HOC(WrappedComponent);
+  return &lt;EnhancedComponent /&gt;;
+};
+
+// This is the correct way
+const EnhancedComponent = HOC(WrappedComponent);
+const Component = (props) =&gt; {
+  return &lt;EnhancedComponent /&gt;;
+};</pre>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Refs aren’t passed through: since React
+    <var>
+     refs
+    </var>
+    are not
+    <var>
+     props
+    </var>
+    , they are handled specially by React. If you add a ref to an element whose component is the result of a HOC, the ref refers to an instance of the outermost container component, not the wrapped component. To solve this, you can use the
+    <a href="https://reactjs.org/docs/forwarding-refs.html" title="">
+     <u>
+      React.forwardRef API
+     </u>
+    </a>
+    . You can learn more about this API and its use cases in the additional resources section from this lesson.
+   </p>
+  </li>
+ </ol>
+ <p>
+  <strong>
+   Conclusion
+  </strong>
+ </p>
+ <p>
+  And in summary, you have examined higher-order components in more detail. The main takeaways are never mutating a component inside a HOC and passing unrelated props to your wrapped component.
+ </p>
+ <p>
+  You also learned how to maximize composability by leveraging the
+  <var>
+   Component =&gt; Component
+  </var>
+  signature and addressed some caveats about HOC.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

@@ -1,0 +1,341 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  In this reading you will learn about the default behavior of React rendering and when context is used. You will discover how to prevent unnecessary top-level re-renders with
+  <var>
+   React.memo
+  </var>
+  and how object references work in JavaScript. You will also learn how to utilize the
+  <var>
+   useMemo
+  </var>
+  hook to guarantee object references don’t change during re-rendering.
+ </p>
+ <p>
+  So far, you have learned that when a component consumes some context value and the value of this context changes, that component re-renders.
+ </p>
+ <p>
+  But what happens with all components in between? Is React wise enough to only re-render the consumers and bypass the intermediary components in the tree? Well, as it turns out, that doesn’t always happen and extra care should be taken when designing your React Context.
+ </p>
+ <p>
+  When it comes to the default behavior of React rendering, if a component renders, React will recursively re-render all its children regardless of props or context. Let’s illustrate this point with an example that uses some context.
+ </p>
+ <p>
+  Imagine the following component structure, where the top level component injects a Context provider at the top:
+ </p>
+ <p>
+  <var>
+   App (ContextProvider) &gt; A &gt; B &gt; C
+  </var>
+ </p>
+ <pre language="javascript">const App = () =&gt; {
+return (
+   &lt;AppContext.Provider&gt;
+     &lt;ComponentA /&gt;
+   &lt;/AppContext.Provider&gt;
+ );
+};
+
+const ComponentA = () =&gt; &lt;ComponentB /&gt;;
+const ComponentB = () =&gt; &lt;ComponentC /&gt;;
+const ComponentC = () =&gt; null;</pre>
+ <p>
+  If the outermost App component re-renders for whatever reason, all
+  <var>
+   ComponentA
+  </var>
+  ,
+  <var>
+   ComponentB
+  </var>
+  and
+  <var>
+   ComponentC
+  </var>
+  components will re-render as well, following this order:
+ </p>
+ <p>
+  <var>
+   App (ContextProvider) -&gt; A -&gt; B -&gt; C
+  </var>
+ </p>
+ <p>
+  If some of your top level components are complex in nature, this could result in some performance hit. To mitigate this issue, you can make use of the top level API
+  <var>
+   React.memo()
+  </var>
+  .
+ </p>
+ <p>
+  If your component renders the same result given the same props, you can wrap it in a call to
+  <var>
+   React.memo
+  </var>
+  for a performance boost by memoizing the result.
+ </p>
+ <p>
+  Memoization is a programming technique that accelerates performance by caching the return values of expensive function calls.
+ </p>
+ <p>
+  This means that React will skip rendering the component, and reuse the last rendered result. This is a trivial case for
+  <var>
+   ComponentA
+  </var>
+  , since it doesn’t receive any props.
+ </p>
+ <p>
+  <var>
+   const ComponentA = React.memo(() =&gt; &lt;ComponentB /&gt;);
+  </var>
+ </p>
+ <p>
+  React.memo takes the component definition as a first argument. An optional second argument can be included if you would like to specify some custom logic that defines when the component should re-render based on previous and current props.
+ </p>
+ <p>
+  After that little adjustment, you will prevent any rendering from happening in all
+  <var>
+   ComponentA
+  </var>
+  ,
+  <var>
+   ComponentB
+  </var>
+  and
+  <var>
+   ComponentC
+  </var>
+  if the App component re-renders.
+ </p>
+ <pre language="javascript">const App = () =&gt; {
+return (
+   &lt;AppContext.Provider&gt;
+     &lt;ComponentA /&gt;
+   &lt;/AppContext.Provider&gt;
+ );
+};
+
+const ComponentA = React.memo(() =&gt; &lt;ComponentB /&gt;);
+const ComponentB = () =&gt; &lt;ComponentC /&gt;;
+const ComponentC = () =&gt; null;</pre>
+ <p>
+  A good rule of thumb is to wrap the React component right after your context provider with
+  <var>
+   React.memo
+  </var>
+  .
+ </p>
+ <p>
+  In real-life applications, you will find yourself in need of passing several pieces of data as context value, rather than a single primitive like a string or number, so you’ll be working most likely with JavaScript objects.
+ </p>
+ <p>
+  Now, according to React context rules, all consumers that are descendants of a provider will re-render whenever the provider’s value prop changes.
+ </p>
+ <p>
+  Let’s go through the following scenario built upon the previous example, where the context value that gets injected is defined as an object called
+  <var>
+   value
+  </var>
+  with two properties, ‘a’ and ‘b’, being both strings. Also,
+  <var>
+   ComponentC
+  </var>
+  is now a consumer of context, so any time the provider
+  <var>
+   value
+  </var>
+  prop changes,
+  <var>
+   ComponentC
+  </var>
+  will re-render.
+ </p>
+ <pre language="javascript">const App = () =&gt; {
+  const value = {a: 'hi', b: 'bye'};
+  return (
+    &lt;AppContext.Provider value={value}&gt;
+      &lt;ComponentA /&gt;
+    &lt;/AppContext.Provider&gt;
+  );
+};
+
+const ComponentA = React.memo(() =&gt; &lt;ComponentB /&gt;);
+const ComponentB = () =&gt; &lt;ComponentC /&gt;;
+const ComponentC = () =&gt; {
+  const contextValue = useContext(AppContext);
+  return null;
+};</pre>
+ <p>
+  Imagine that the value prop from the provider changes to
+  <var>
+   {a: ‘hello’, b: ‘bye’}
+  </var>
+  .
+ </p>
+ <p>
+  If that happens, the sequence of re-renders would be:
+ </p>
+ <p>
+  <var>
+   App (ContextProvider) -&gt; C
+  </var>
+ </p>
+ <p>
+  That’s all fine and expected, but what would happen if the App component re-renders for any other reason and the provider value doesn’t change at all, being still
+  <var>
+   {a: ‘hi’, b: ‘bye’}
+  </var>
+  ?
+ </p>
+ <p>
+  It may be a surprise to you to find out that the sequence of re-renders is the same as before:
+ </p>
+ <p>
+  <var>
+   App (ContextProvider) -&gt; C
+  </var>
+ </p>
+ <p>
+  Even though the provider value doesn’t seem to change,
+  <var>
+   ComponentC
+  </var>
+  gets re-rendered.
+ </p>
+ <p>
+  To understand what’s happening, you need to remember that in JavaScript, the below assertion is true:
+ </p>
+ <p>
+  <var>
+   {a: ‘hi’, b: ‘bye’} !== {a: ‘hi’, b: ‘bye’}
+  </var>
+ </p>
+ <p>
+  That is because object comparison in JavaScript is done by reference. Every time a new re-render happens in the App component, a new instance of the
+  <var>
+   value
+  </var>
+  object is created, resulting in the provider performing a comparison against its previous value and determining that it has changed, hence informing all context consumers that they should re-render.
+ </p>
+ <p>
+  This problem can be resolved by using the
+  <var>
+   useMemo
+  </var>
+  hook from React as follows.
+ </p>
+ <pre language="javascript">const App = () =&gt; {
+  const a = 'hi';
+  const b = 'bye';
+  const value = useMemo(() =&gt; ({a, b}), [a, b]);
+
+  return (
+    &lt;AppContext.Provider value={value}&gt;
+      &lt;ComponentA /&gt;
+    &lt;/AppContext.Provider&gt;
+  );
+};
+
+const ComponentA = React.memo(() =&gt; &lt;ComponentB /&gt;);
+const ComponentB = () =&gt; &lt;ComponentC /&gt;;
+const ComponentC = () =&gt; {
+  const contextValue = useContext(AppContext);
+  return null;
+};</pre>
+ <p>
+  Hooks will be covered in depth in the next module, so don’t worry too much if this is new for you.
+ </p>
+ <p>
+  For the purpose of this example, it suffices to say that
+  <var>
+   useMemo
+  </var>
+  will memoize the returned value from the function passed as the first argument and will only re-run the computation if any of the values are passed into the array as a second argument change.
+ </p>
+ <p>
+  With that implementation, if the App re-renders for any other reason that does not change any of ‘a’ or ‘b’ values, the sequence of re-renders will be as such:
+ </p>
+ <p>
+  <var>
+   App (ContextProvider)
+  </var>
+ </p>
+ <p>
+  This is the desired result, avoiding an unnecessary re-render on
+  <var>
+   ComponentC
+  </var>
+  .
+  <var>
+   useMemo
+  </var>
+  guarantees keeping the same object reference for the
+  <var>
+   value
+  </var>
+  variable and since that’s assigned to the provider’s value, it determines that the context has not changed and should not notify any consumer.
+ </p>
+ <p>
+  <strong>
+   Conclusion
+  </strong>
+ </p>
+ <p>
+  You have learned about how re-rendering works in React when context is used and how
+  <var>
+   React.memo
+  </var>
+  and
+  <var>
+   useMemo
+  </var>
+  APIs from React can help you perform some optimizations to avoid unnecessary re-renders in your components tree.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

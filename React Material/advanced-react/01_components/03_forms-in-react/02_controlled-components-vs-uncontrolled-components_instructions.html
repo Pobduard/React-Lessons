@@ -1,0 +1,445 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p variant="body1">
+  This reading will teach you how to work with uncontrolled inputs in React and the advantages of controlled inputs via state design. You will also learn when to choose controlled or uncontrolled inputs and the features each option supports.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Introduction
+  </strong>
+ </h2>
+ <p variant="body1">
+  In most cases, React recommends using controlled components to implement forms. While this approach aligns with the React declarative model, uncontrolled form fields are still a valid option and have their merit. Let's break them down to see the differences between the two approaches and when you should use each method.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Uncontrolled Inputs
+  </strong>
+ </h2>
+ <p variant="body1">
+  Uncontrolled inputs are like standard HTML form inputs:
+ </p>
+ <pre language="javascript">const Form = () =&gt; { 
+ return ( 
+   &lt;div&gt; 
+     &lt;input type="text" /&gt; 
+   &lt;/div&gt; 
+ ); 
+}; </pre>
+ <p variant="body1">
+  They remember exactly what you typed, being the DOM itself that maintains that internal state. How can you then get their value? The answer is by using a React ref.
+ </p>
+ <p variant="body1">
+  In the code below, you can see how a ref is used to access the value of the input whenever the form is submitted.
+ </p>
+ <pre language="javascript">const Form = () =&gt; { 
+ const inputRef = useRef(null); 
+
+ const handleSubmit = () =&gt; { 
+   const inputValue = inputRef.current.value; 
+   // Do something with the value 
+ } 
+ return ( 
+   &lt;form onSubmit={handleSubmit}&gt; 
+     &lt;input ref={inputRef} type="text" /&gt; 
+   &lt;/form&gt; 
+ ); 
+}; </pre>
+ <p variant="body1">
+  In other words, you must
+  <strong>
+   pull
+  </strong>
+  the value from the field when needed.
+ </p>
+ <p variant="body1">
+  Uncontrolled components are the simplest way to implement form inputs. There are certainly valued cases for them, especially when your form is straightforward. Unfortunately, they are not as powerful as their counterpart, so let's look at controlled inputs next.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Controlled Inputs
+  </strong>
+ </h2>
+ <p variant="body1">
+  Controlled inputs accept their current value as a prop and a callback to change that value. That implies that the value of the input has to live in the React state somewhere. Typically, the component that renders the input (like a form component) saves that in its state:
+ </p>
+ <pre language="javascript">const Form = () =&gt; { 
+ const [value, setValue] = useState(""); 
+
+ const handleChange = (e) =&gt; { 
+   setValue(e.target.value) 
+ } 
+
+ return ( 
+   &lt;form&gt; 
+     &lt;input 
+       value={value} 
+       onChange={handleChange} 
+       type="text" 
+     /&gt; 
+   &lt;/form&gt; 
+ ); 
+}; </pre>
+ <p>
+  Every time you type a new character, the
+  <var>
+   handleChange
+  </var>
+  function is executed. It receives the new value of the input, and then it sets it in the state. In the code example above, the flow would be as follows:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The input starts out with an empty string:
+    <var>
+     “”
+    </var>
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    You type
+    <var>
+     “a”
+    </var>
+    and
+    <var>
+     handleChange
+    </var>
+    gets an
+    <var>
+     “a”
+    </var>
+    attached in the event object, as
+    <var>
+     e.target.value
+    </var>
+    , and subsequently calls
+    <var>
+     setValue
+    </var>
+    with it. The input is then updated to have the value of
+    <var>
+     “a”
+    </var>
+    .
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    You type
+    <var>
+     “b”
+    </var>
+    and
+    <var>
+     handleChange
+    </var>
+    gets called with
+    <var>
+     e.target.value
+    </var>
+    being
+    <var>
+     “ab”
+    </var>
+    .and sets that to the state. That gets set into the state. The input is then re-rendered once more, now with
+    <var>
+     value = "ab"
+    </var>
+    .
+   </p>
+  </li>
+ </ul>
+ <p variant="body1">
+  This flow
+  <strong>
+   pushes
+  </strong>
+  the value changes to the form component instead of pulling like the ref example from the uncontrolled version. Therefore, the Form component always has the input's current value without needing to ask for it explicitly.
+ </p>
+ <p variant="body1">
+  As a result, your data (React state) and UI (input tags) are always in sync. Another implication is that forms can respond to input changes immediately, for example, by:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Instant validation per field
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Disabling the submit button unless all fields have valid data
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    Enforcing a specific input format, like phone or credit card numbers
+   </p>
+  </li>
+ </ul>
+ <p>
+  Sometimes you will find yourself not needing any of that. In that case uncontrolled could be a more straightforward choice.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   The file input type
+  </strong>
+ </h2>
+ <p variant="body1">
+  There are some specific form inputs that are always uncontrolled, like the file input tag.
+ </p>
+ <p variant="body1">
+  In React, an
+  <var>
+   &lt;input type="file" /&gt;
+  </var>
+  is always an uncontrolled component because its value is read-only and can't be set programmatically.
+ </p>
+ <p variant="body1">
+  The following example illustrates how to create a ref to the DOM node to access any files selected in the form submit handler:
+ </p>
+ <pre language="javascript">const Form = () =&gt; { 
+ const fileInput = useRef(null); 
+
+ const handleSubmit = (e) =&gt; { 
+   e.preventDefault(); 
+   const files = fileInput.current.files; 
+   // Do something with the files here 
+ } 
+
+ return ( 
+   &lt;form onSubmit={handleSubmit}&gt; 
+     &lt;input 
+       ref={fileInput} 
+       type="file" 
+     /&gt; 
+   &lt;/form&gt; 
+ ); 
+}; </pre>
+ <p>
+  <strong>
+   Conclusion
+  </strong>
+ </p>
+ <p variant="body1">
+  Uncontrolled components with refs are fine if your form is incredibly simple regarding UI feedback. However, controlled input fields are the way to go if you need more features in your forms.
+ </p>
+ <p variant="body1">
+  Evaluate your specific situation and pick the option that works best for you.
+ </p>
+ <p variant="body1">
+  The below table summarizes the features that each one supports:
+ </p>
+ <table columns="3" rows="8">
+  <thead>
+   <tr>
+    <th>
+     <p>
+      Feature
+     </p>
+    </th>
+    <th>
+     <p>
+      Uncontrolled
+     </p>
+    </th>
+    <th>
+     <p>
+      Controlled
+     </p>
+    </th>
+   </tr>
+  </thead>
+  <tr>
+   <td>
+    <p>
+     One-time value retrieval (e.g. on submit)
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <p>
+     Validating on submit
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <p>
+     Instant field validation
+    </p>
+   </td>
+   <td>
+    <p>
+     No
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <p>
+     Conditionally disabling a submit button
+    </p>
+   </td>
+   <td>
+    <p>
+     No
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <p>
+     Enforcing a specific input format
+    </p>
+   </td>
+   <td>
+    <p>
+     No
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <p>
+     Several inputs for one piece of data
+    </p>
+   </td>
+   <td>
+    <p>
+     No
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <p>
+     Dynamic inputs
+    </p>
+   </td>
+   <td>
+    <p>
+     No
+    </p>
+   </td>
+   <td>
+    <p>
+     <strong>
+      Yes
+     </strong>
+    </p>
+   </td>
+  </tr>
+ </table>
+ <p>
+  And that's it about controlled vs. uncontrolled components. You have learned in detail about each option, when to pick one or another, and finally, a comparison of the features supported.
+ </p>
+ <p>
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

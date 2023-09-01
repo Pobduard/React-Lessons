@@ -1,0 +1,289 @@
+<meta charset="utf-8"/>
+<co-content>
+ <h2 level="2" variant="h2semibold">
+  By the end of this reading, you will have learned how a component is built.
+ </h2>
+ <h2 level="2" variant="h2semibold">
+  Introduction
+ </h2>
+ <p>
+  Components are a nice way to build websites in React because they allow you to build more modular apps. However, how do you build components using React, JSX, and JavaScript? You'll learn how this works in this lesson item.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  A browser cannot understand JSX syntax.
+ </h2>
+ <p>
+  This means that making a browser understand React code requires a lot of supporting technologies.
+ </p>
+ <p>
+  An example of such a technology is a
+  <strong>
+   transpiler
+  </strong>
+  .
+ </p>
+ <p>
+  A
+  <strong>
+   transpiler
+  </strong>
+  takes a piece of code and transforms it into some other code.
+ </p>
+ <p>
+  To understand why this is done, here is an example of an ES6 variable declaration:
+ </p>
+ <pre language="javascript">const PI = 3.14</pre>
+ <p>
+  This is perfectly valid ES6 syntax.
+ </p>
+ <p>
+  However, if you were using a very old computer, that computer will have an old browser. Perhaps that browser was built before ES6 came out in 2015.
+ </p>
+ <p>
+  This means that the JavaScript engine that is built into your old computer's browser is likely to be an ES5 JavaScript engine.
+ </p>
+ <p>
+  In ES5, the only way to declare a variable is the following:
+ </p>
+ <pre language="javascript">var pi = 3.14</pre>
+ <p>
+  What this means is that for this old browser to understand the ES6 code, the only way to do it is by
+  <strong>
+   transpiling
+  </strong>
+  it.
+ </p>
+ <p>
+  If you feel like it, you can try transpiling ES6 to ES5 code yourself, using
+  <a href="https://es6console.com/" title="">
+   <u>
+    the es6console website
+   </u>
+  </a>
+  .
+ </p>
+ <p>
+  Now, let’s move the focus to another example of transpiling.
+ </p>
+ <p>
+  Let's say that you want to use a brand new, most modern ECMAScript syntax in an app. The only problem is that this new syntax is currently not supported by any browser; even an up-to-date browser.
+ </p>
+ <p>
+  However, by transpiling the new most-modern JavaScript syntax into something that modern browsers can understand, it is able to convert some code that the browser cannot comprehend, into code that it can comprehend, run, and produce a result from.
+ </p>
+ <p>
+  Likely the most popular site that shows off how this works is
+  <a href="https://babeljs.io/" title="">
+   <u>
+    Babel
+   </u>
+  </a>
+  . As the heading of the website reads, "Babel is a JavaScript Compiler".
+ </p>
+ <p>
+  This finally brings you to the point of this discussion about transpiling JavaScript code.
+ </p>
+ <p>
+  What Babel does is this: it allows you to transpile JSX code (which cannot be understood by a browser) into plain JavaScript code (which can be understood by a browser).
+ </p>
+ <p>
+  This is where React and JSX come in.
+ </p>
+ <p>
+  For React code to be understood by a browser, you need to have a
+  <strong>
+   transpiling step
+  </strong>
+  in which the JSX code gets converted to plain JavaScript code that a modern browser can work with.
+ </p>
+ <p>
+  To demonstrate how this works, let’s use the
+  <var>
+   Heading
+  </var>
+  component from the previous lesson.
+ </p>
+ <p>
+  Add the JSX code into
+  <a href="https://babeljs.io/repl#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&amp;build=&amp;builtIns=false&amp;corejs=3.21&amp;spec=false&amp;loose=false&amp;code_lz=GYVwdgxgLglg9mABACQKYEMAmMwHMAUADgE5yEDOAlIgN4BQijixqUIxSAPABYCMAfDRJlyAOlhQANqgC-nAPR9-dGUA&amp;debug=false&amp;forceAllTransforms=false&amp;shippedProposals=false&amp;circleciRepo=&amp;evaluate=false&amp;fileSize=false&amp;timeTravel=false&amp;sourceType=module&amp;lineWrap=true&amp;presets=env%2Creact%2Cstage-2&amp;prettier=false&amp;targets=&amp;version=7.18.5&amp;externalPlugins=&amp;assumptions=%7B%7D" title="">
+   <u>
+    the online Babel repl
+   </u>
+  </a>
+  . Repl stands for "read-eval-print loop" and it accepts code you write, evaluates it, and produces some result. In the specific case of
+  <a href="https://babeljs.io/repl#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&amp;build=&amp;builtIns=false&amp;corejs=3.21&amp;spec=false&amp;loose=false&amp;code_lz=GYVwdgxgLglg9mABACQKYEMAmMwHMAUADgE5yEDOAlIgN4BQijixqUIxSAPABYCMAfDRJlyAOlhQANqgC-nAPR9-dGUA&amp;debug=false&amp;forceAllTransforms=false&amp;shippedProposals=false&amp;circleciRepo=&amp;evaluate=false&amp;fileSize=false&amp;timeTravel=false&amp;sourceType=module&amp;lineWrap=true&amp;presets=env%2Creact%2Cstage-2&amp;prettier=false&amp;targets=&amp;version=7.18.5&amp;externalPlugins=&amp;assumptions=%7B%7D" title="">
+   <u>
+    the online Babel repl
+   </u>
+  </a>
+  , that result is some transpiled code. Here's a more detailed explanation.
+ </p>
+ <p>
+  If you've visited the above-linked URL, you'll find a web page that has two panels. On the left, there's source JSX code:
+ </p>
+ <pre language="javascript">function Heading(props) {
+    return &lt;h1&gt;{props.title}&lt;/h1&gt;
+}</pre>
+ <p>
+  ... and on the right, there's the transpiled, plain JavaScript code:
+ </p>
+ <pre language="javascript">"use strict";
+
+function Heading(props) {
+  return /*#__PURE__*/React.createElement("h1", null, props.title);
+}</pre>
+ <p>
+  If you now analyze the difference between the source JSX code and the transpiled, plain JavaScript code, dis-regarding the comment, here's the body of the Heading function:
+ </p>
+ <pre language="javascript">React.createElement("h1", null, props.title);
+</pre>
+ <p>
+  So, here you have a React object, and this object has a
+  <var>
+   createElement()
+  </var>
+  method on it. The method is invoked with three arguments:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    <var>
+     "h1"
+    </var>
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    <var>
+     null
+    </var>
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    <var>
+     props.title
+    </var>
+   </p>
+  </li>
+ </ol>
+ <p>
+  The first argument is the DOM element to render - in this case, an
+  <var>
+   h1
+  </var>
+  element. The second property is any HTML attribute that should be added, and there's a null here - meaning, there should be an object with some data, but there isn't any data so instead of the object there's the null value. The third property is the contents of the inner HTML of the DOM element specified as the first argument - in this case, the contents of the inner HTML of the
+  <var>
+   h1
+  </var>
+  element.
+ </p>
+ <p>
+  Now let’s use Babel again, and this time transpile the
+  <var>
+   render
+  </var>
+  syntax for the
+  <var>
+   Heading
+  </var>
+  component:
+ </p>
+ <pre language="javascript">&lt;Heading title="This is the heading text!"&gt;&lt;/Heading&gt;</pre>
+ <p>
+  Again using
+  <a href="https://babeljs.io/repl#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&amp;build=&amp;builtIns=false&amp;corejs=3.21&amp;spec=false&amp;loose=false&amp;code_lz=DwCQpghgJglgdgcwAQBcYoDZgLwCIAqAFjAM5KmqFhJXTzIpgAeKAhLgHzAD04diHIA&amp;debug=false&amp;forceAllTransforms=false&amp;shippedProposals=false&amp;circleciRepo=&amp;evaluate=false&amp;fileSize=false&amp;timeTravel=false&amp;sourceType=module&amp;lineWrap=true&amp;presets=env%2Creact%2Cstage-2&amp;prettier=false&amp;targets=&amp;version=7.18.5&amp;externalPlugins=&amp;assumptions=%7B%7D" title="">
+   <u>
+    the Babel repl
+   </u>
+  </a>
+  , and as can be confirmed in
+  <a href="https://babeljs.io/repl#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&amp;build=&amp;builtIns=false&amp;corejs=3.21&amp;spec=false&amp;loose=false&amp;code_lz=DwCQpghgJglgdgcwAQBcYoDZgLwCIAqAFjAM5KmqFhJXTzIpgAeKAhLgHzAD04diHIA&amp;debug=false&amp;forceAllTransforms=false&amp;shippedProposals=false&amp;circleciRepo=&amp;evaluate=false&amp;fileSize=false&amp;timeTravel=false&amp;sourceType=module&amp;lineWrap=true&amp;presets=env%2Creact%2Cstage-2&amp;prettier=false&amp;targets=&amp;version=7.18.5&amp;externalPlugins=&amp;assumptions=%7B%7D" title="">
+   <u>
+    the link
+   </u>
+  </a>
+  , the output of the tranpilation is the following code:
+ </p>
+ <pre language="javascript">"use strict";
+
+/*#__PURE__*/
+React.createElement(Heading, {
+  title: "This is the heading text!"
+});</pre>
+ <p>
+  Again, you have the
+  <var>
+   React.createElement()
+  </var>
+  method call, and this time, the first item to render is
+  <var>
+   Heading
+  </var>
+  , and then you have an object as the second argument (instead of a null that you had in the previous transpilation example).
+ </p>
+ <p>
+  This brings me to an interesting question: What is the minimum code that a component must have to be able to show something on the screen when rendered?
+ </p>
+ <p>
+  You can see the answer below:
+ </p>
+ <pre language="javascript">function Example() {
+    return &lt;div&gt;An element&lt;/div&gt;
+}
+export default Example</pre>
+ <p>
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

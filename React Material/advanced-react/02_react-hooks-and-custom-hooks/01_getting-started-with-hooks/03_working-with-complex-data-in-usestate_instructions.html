@@ -1,0 +1,287 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  In this reading, you will learn how to use objects as state variables when using
+  <var>
+   useState
+  </var>
+  . You will also discover the proper way to only update specific properties, such as state objects and why this is done. This will be demonstrated by exploring what happens when changing the string data type to an object.
+ </p>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   An example of holding state in an object and updating it based on user-generated events
+  </strong>
+ </h3>
+ <p>
+  When you need to hold state in an object and update it, initially, you might try something like this:
+ </p>
+ <pre language="javascript">import { useState } from "react"; 
+ 
+export default function App() { 
+  const [greeting, setGreeting] = useState({ greet: "Hello, World" }); 
+  console.log(greeting, setGreeting); 
+ 
+  function updateGreeting() { 
+    setGreeting({ greet: "Hello, World-Wide Web" }); 
+  } 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;h1&gt;{greeting.greet}&lt;/h1&gt; 
+      &lt;button onClick={updateGreeting}&gt;Update greeting&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} </pre>
+ <p>
+  While this works, it's not the recommended way of working with state objects in React, this is because the state object usually has more than a single property, and it is costly to update the entire object just for the sake of updating only a small part of it.
+ </p>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   The correct way to update the state object in React when using useState
+  </strong>
+ </h3>
+ <p>
+  The suggested approach for updating the state object in React when using
+  <var>
+   useState
+  </var>
+  is to copy the state object and then update the copy.
+ </p>
+ <p>
+  This usually involves using the spread operator (
+  <var>
+   ...
+  </var>
+  ).
+ </p>
+ <p>
+  Keeping this in mind, here's the updated code:
+ </p>
+ <pre language="javascript">import { useState } from "react"; 
+ 
+export default function App() { 
+  const [greeting, setGreeting] = useState({ greet: "Hello, World" }); 
+  console.log(greeting, setGreeting); 
+ 
+  function updateGreeting() { 
+    const newGreeting = {...greeting}; 
+    newGreeting.greet = "Hello, World-Wide Web"; 
+    setGreeting(newGreeting); 
+  } 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;h1&gt;{greeting.greet}&lt;/h1&gt; 
+      &lt;button onClick={updateGreeting}&gt;Update greeting&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} </pre>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Incorrect ways of trying to update the state object
+  </strong>
+ </h3>
+ <p>
+  To prove that a copy of the old state object is needed to update state, let’s explore what happens when you try to update the old state object directly:
+ </p>
+ <pre language="javascript">import { useState } from "react"; 
+ 
+export default function App() { 
+  const [greeting, setGreeting] = useState({ greet: "Hello, World" }); 
+  console.log(greeting, setGreeting); 
+ 
+  function updateGreeting() { 
+    greeting = {greet: "Hello, World-Wide Web}; 
+    setGreeting(greeting); 
+  } 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;h1&gt;{greeting.greet}&lt;/h1&gt; 
+      &lt;button onClick={updateGreeting}&gt;Update greeting&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} </pre>
+ <p>
+  The above code does not work because it has a
+  <var>
+   TypeError
+  </var>
+  hiding inside of it.
+ </p>
+ <p>
+  Specifically, the
+  <var>
+   TypeError
+  </var>
+  is: "Assignment to constant variable".
+ </p>
+ <p>
+  In other words, you cannot reassign a variable declared using const, such as in the case of the
+  <var>
+   useState
+  </var>
+  hook's array destructuring:
+ </p>
+ <pre language="javascript">const [greeting, setGreeting] = useState({ greet: "Hello, World" }); </pre>
+ <p>
+  Another approach you might attempt to use to work around the suggested way of updating state when working with a state object might be the following:
+ </p>
+ <pre language="javascript">import { useState } from "react"; 
+ 
+export default function App() { 
+  const [greeting, setGreeting] = useState({ greet: "Hello, World" }); 
+  console.log(greeting, setGreeting); 
+ 
+  function updateGreeting() { 
+    greeting.greet = "Hello, World-Wide Web; 
+    setGreeting(greeting); 
+  } 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;h1&gt;{greeting.greet}&lt;/h1&gt; 
+      &lt;button onClick={updateGreeting}&gt;Update greeting&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} </pre>
+ <p>
+  The above code is problematic because it doesn't throw any errors; however, it also doesn't update the heading, so it is not working correctly. This means that, regardless of how many times you click the "Update greeting" button, it will still be "Hello, World".
+ </p>
+ <p>
+  To reiterate, the proper way of working with state when it's saved as an object is to:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Copy the old state object using the spread (
+    <var>
+     ...
+    </var>
+    ) operator and save it into a new variable and
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Pass the new variable to the state-updating function
+   </p>
+  </li>
+ </ol>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Updating the state object using arrow functions
+  </strong>
+ </h3>
+ <p>
+  Now, let’s use a more complex object to update state.
+ </p>
+ <p>
+  The state object now has two properties: greet and location.
+ </p>
+ <p>
+  The intention of this update is to demonstrate what to do when only a specific property of the state object is changing, while keeping the remaining properties unchanged:
+ </p>
+ <pre language="javascript">import { useState } from "react"; 
+ 
+export default function App() { 
+  const [greeting, setGreeting] = useState( 
+    { 
+        greet: "Hello", 
+        place: "World" 
+    } 
+  ); 
+  console.log(greeting, setGreeting); 
+ 
+  function updateGreeting() { 
+    setGreeting(prevState =&gt; { 
+        return {...prevState, place: "World-Wide Web"} 
+    }); 
+  } 
+ 
+  return ( 
+    &lt;div&gt; 
+      &lt;h1&gt;{greeting.greet}, {greeting.place}&lt;/h1&gt; 
+      &lt;button onClick={updateGreeting}&gt;Update greeting&lt;/button&gt; 
+    &lt;/div&gt; 
+  ); 
+} </pre>
+ <p>
+  The reason this works is because it uses the previous state, which is named
+  <var>
+   prevState
+  </var>
+  , and this is the previous value of the greeting variable. In other words, it makes a copy of the
+  <var>
+   prevState
+  </var>
+  object, and updates only the place property on the copied object. It then returns a brand-new object:
+ </p>
+ <pre language="javascript">return {...prevState, place: "World-Wide Web"} </pre>
+ <p>
+  Everything is wrapped in curly braces so that this new object is built correctly, and it is returned from the call to
+  <var>
+   setGreeting
+  </var>
+  .
+ </p>
+ <p>
+  <strong>
+   Conclusion
+  </strong>
+ </p>
+ <p>
+  You have learned what happens when changing the string data type to an object, with examples of holding state in an object and updating it based on user-generated events. You also learned about correct and incorrect ways to update the state object in React when using
+  <var>
+   useState
+  </var>
+  , and about updating the state object using arrow functions.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

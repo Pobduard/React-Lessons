@@ -1,0 +1,299 @@
+<meta charset="utf-8"/>
+<co-content>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Components as Function Expressions
+  </strong>
+ </h3>
+ <p>
+  Up to this point, you’ve likely only observed ES5 function declarations used to define components in React. However, this is not the only way to do it.
+ </p>
+ <p>
+  In this reading, you learn about some alternative approaches, specifically by using function expressions and arrow functions.
+ </p>
+ <p>
+  <strong>
+   Function Expressions
+  </strong>
+ </p>
+ <p>
+  Let’s start with a function declaration used as a component in React:
+ </p>
+ <pre language="javascript">function Nav(props) {
+    return (
+        &lt;ul&gt;
+            &lt;li&gt;{props.first}&lt;/li&gt;
+        &lt;/ul&gt;
+    )
+}</pre>
+ <p>
+  This component's code returns a list item containing the value of the ‘first’ prop.
+ </p>
+ <p>
+  Now, let's change this function declaration to a function expression:
+ </p>
+ <pre language="javascript">const Nav = function(props) {
+    return (
+        &lt;ul&gt;
+            &lt;li&gt;{props.first}&lt;/li&gt;
+        &lt;/ul&gt;
+    )
+}</pre>
+ <p>
+  The component is, for the most part, the same. The only thing that's changed is that you’re now using an anonymous (nameless) function, and assigning this anonymous function declaration to a variable declared using the
+  <var>
+   const
+  </var>
+  keyword, and the name
+  <var>
+   Nav
+  </var>
+  . The rest of the code is identical.
+ </p>
+ <p>
+  Changing a component from a function declaration to a function expression doesn't change its behavior, or how you write the code to render the
+  <var>
+   Nav
+  </var>
+  component. It's still the same:
+ </p>
+ <pre language="javascript">&lt;Nav first="Home" /&gt;</pre>
+ <p>
+  You can also take this concept a step further, using arrow functions.
+ </p>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Components as Arrow Functions
+  </strong>
+ </h3>
+ <p>
+  Arrow functions are a core feature of the ES6 version of JavaScript.
+ </p>
+ <p>
+  One of the main benefits of using arrow functions is its shorter syntax.
+ </p>
+ <p>
+  Consider the Nav function expression written as an arrow function:
+ </p>
+ <pre language="javascript">const Nav = (props) =&gt; {
+    return (
+        &lt;ul&gt;
+            &lt;li&gt;{props.first}&lt;/li&gt;
+        &lt;/ul&gt;
+    )
+}</pre>
+ <p>
+  So, the way to think about this is the following:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The arrow itself can be thought of as the replacement for the
+    <var>
+     function
+    </var>
+    keyword.
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    The parameters that this arrow function accepts are listed before the arrow itself.
+   </p>
+  </li>
+ </ul>
+ <p>
+  To reiterate, take the smallest possible
+  <strong>
+   anonymous ES5 function
+  </strong>
+  :
+ </p>
+ <pre language="javascript">const example = function() {}</pre>
+ <p>
+  And then observe how this is written as an arrow function:
+ </p>
+ <pre language="javascript">const example = () =&gt; {}</pre>
+ <p>
+  Another important rule regarding arrow functions is that using the parentheses is optional if there's a single parameter that a function accepts.
+ </p>
+ <p>
+  In other words, another correct way to write the previous Nav arrow function component would be to drop the parentheses around ‘props’:
+ </p>
+ <pre language="javascript">const Nav = props =&gt; {
+    return (
+        &lt;ul&gt;
+            &lt;li&gt;{props.first}&lt;/li&gt;
+        &lt;/ul&gt;
+    )
+}</pre>
+ <p>
+  In all other cases, when you write arrow functions,
+  <strong>
+   for any number of parameters other than a single parameter, using parentheses around parameters is compulsory
+  </strong>
+  .
+ </p>
+ <p>
+  For example, if your
+  <var>
+   Nav
+  </var>
+  component wasn't accepting any parameters, you'd code it with empty parentheses:
+ </p>
+ <pre language="javascript">const Nav = () =&gt; {
+    return (
+        &lt;ul&gt;
+            &lt;li&gt;Home&lt;/li&gt;
+        &lt;/ul&gt;
+    )
+}</pre>
+ <p>
+  Another interesting thing about arrow functions is the
+  <strong>
+   implicit return
+  </strong>
+  . However, it only works if it's on the same line of code as the arrow itself. In other words, the implicit return works if your entire component is a single line of code.
+ </p>
+ <p>
+  To demonstrate how this works, let’s re-write the
+  <var>
+   Nav
+  </var>
+  component as a one-liner:
+ </p>
+ <pre language="javascript">const Nav = () =&gt; &lt;ul&gt;&lt;li&gt;Home&lt;/li&gt;&lt;/ul&gt;</pre>
+ <p>
+  Note that with the implicit return, you don't even have to use the curly braces that are compulsory function body delimiters in all other cases.
+ </p>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Using Arrow Functions in Other Situations
+  </strong>
+ </h3>
+ <p>
+  In React, just like in plain JavaScript, arrow functions can be used in many different situations. One such situation is using it with, for example, the
+  <var>
+   forEach()
+  </var>
+  built-in array method.
+ </p>
+ <p>
+  For example:
+ </p>
+ <pre language="javascript">[10, 20, 30].forEach(item =&gt; item * 10)</pre>
+ <p>
+  The output of the above vanilla JavaScript line of code would be three number values:
+ </p>
+ <p>
+  <strong>
+   100
+  </strong>
+  <strong>
+   200
+  </strong>
+  <strong>
+   300
+  </strong>
+ </p>
+ <p>
+  A​s a side-note, the term "vanilla JavaScript" is often used to describe the plain, regular JavaScript language syntax, without any framework-specific or library-specific code. For example, React is a library, so in this context, saying that a piece of code is "vanilla JavaScript" means that it doesn't need any special library to run. It can run in "plain" JavaScript without any additional dependencies.
+ </p>
+ <p>
+  You could also write this code in ES5 syntax:
+ </p>
+ <pre language="javascript">[10, 20, 30].forEach(function(item) {
+        return item * 10
+    }
+)</pre>
+ <p>
+  Regardless of how you write it, the
+  <var>
+   forEach()
+  </var>
+  method can be run on an array. The
+  <var>
+   forEach()
+  </var>
+  method accepts a single parameter:
+  <strong>
+   an anonymous function
+  </strong>
+  . If you write this anonymous function in ES5 syntax, then it would contain a return statement:
+ </p>
+ <pre language="javascript">function(item) {
+    return item * 10
+}</pre>
+ <p>
+  If you write it as an ES6 function instead, it can be simplified as one line:
+ </p>
+ <pre language="javascript">item =&gt; item * 10</pre>
+ <p>
+  Both these functions perform the exact same task. Only the syntax is different. The ES6 function is a lot shorter because:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The arrow function has a single parameter, so you do not need to add parentheses around the item parameter (to the left of the arrow)
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Since the arrow function fits on one line of code, you don’t need to use curly braces around the function body, or the return keyword; it's implicit
+   </p>
+  </li>
+ </ul>
+ <p>
+  Arrow functions are used extensively in JSX in React, and getting used to their syntax and being able to "mentally parse" it as you read it is an important skill to have and helps you get better at writing React apps.
+ </p>
+ <p>
+  Now that you have completed this reading, you’ve learned about some alternative approaches, specifically by using function expressions and arrow functions.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

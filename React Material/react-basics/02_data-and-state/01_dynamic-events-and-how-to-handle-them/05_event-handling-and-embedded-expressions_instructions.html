@@ -1,0 +1,198 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  In this reading, you’ll learn the different ways to embed expressions in event handlers in React:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    With an inline anonymous ES5 function
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    With an inline, anonymous ES6 function (an arrow function)
+   </p>
+  </li>
+ </ul>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Using a separate function declaration
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Using a separate function expression
+   </p>
+  </li>
+ </ul>
+ <p>
+  You may find this reading useful as a reference sheet.
+ </p>
+ <p>
+  For clarity and simplicity: a function will simply console log some words. This will allow you to compare the difference in syntax between these four approaches, while the result of the event handling will always be the same: just some words output to the console.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Handling events using inline anonymous ES5 functions
+  </strong>
+ </h2>
+ <p>
+  This approach allows you to directly pass in an ES5 function declaration as the
+  <var>
+   onClick
+  </var>
+  event-handling attribute’s value:
+ </p>
+ <pre language="javascript">&lt;button onClick={function() {console.log('first example')}}&gt;
+    An inline anonymous ES5 function event handler
+&lt;/button&gt;</pre>
+ <p>
+  A​lthough it's possible to write your click handlers using this syntax, it's not a common approach and you will not find such code very often in React apps.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Handling events using inline anonymous ES6 functions (arrow functions)
+  </strong>
+ </h2>
+ <p>
+  With this approach, you can directly pass in an ES6 function declaration as the
+  <var>
+   onClick
+  </var>
+  event-handling attribute’s value:
+ </p>
+ <pre language="javascript">&lt;button onClick={() =&gt; console.log('second example')}&gt;
+    An inline anonymous ES6 function event handler
+&lt;/button&gt;</pre>
+ <p>
+  T​his approach is much more common then the previous one. If you want to keep all your logic inside the JSX expression assigned to the onClick attribute, use this syntax.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Handling events using separate function declarations
+  </strong>
+ </h2>
+ <p>
+  With this approach, you declare a separate ES5 function declaration, and then you reference its name in the event-handling
+  <var>
+   onClick
+  </var>
+  attribute, as follows:
+ </p>
+ <pre language="javascript">function App() {
+    function thirdExample() {
+        console.log('third example');
+    };
+    return (
+        &lt;div className="thirdExample"&gt;
+            &lt;button onClick={thirdExample}&gt;
+                using a separate function declaration
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+};
+export default App;</pre>
+ <p>
+  T​his syntax makes sense to be used when your onClick logic is too complex to easily fit into an anonymous function. While this example is not really showing this scenario, imagine a function that has, for example, 20 lines of code, and that needs to be ran when the click event is triggered. This is a perfect use-case for a separate function declaration.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Handling events using separate function expressions
+  </strong>
+ </h2>
+ <p>
+  <strong>
+   Tip
+  </strong>
+  <em>
+   :
+  </em>
+  A way to determine if a function is defined as an expression or a declaration is: if it does not start the line with the keyword
+  <var>
+   function
+  </var>
+  , then it’s an expression.
+ </p>
+ <p>
+  In the following example, you’re assigning an anonymous ES6 arrow function to a
+  <var>
+   const
+  </var>
+  variable – hence, this is a function expression.
+ </p>
+ <p>
+  You’re then using this const variable’s name to handle the
+  <var>
+   onClick
+  </var>
+  event, so this is an example of handling events using a separate function expression.
+ </p>
+ <pre language="javascript">function App() {
+    const fourthExample = () =&gt; console.log('fourth example');
+
+    return (
+        &lt;div className="fourthExample"&gt;
+            &lt;button onClick={fourthExample}&gt;
+                using a separate function expression
+            &lt;/button&gt;
+        &lt;/div&gt;
+  );
+};
+export default App;</pre>
+ <p>
+  T​he syntax in this example is very common in React. It uses arrow functions, but also allows us to handle situations where our separate function expression spans multiple lines of code.
+ </p>
+ <p>
+  In this reading lesson item, you’ve learned the several types of functions you can use to handle events in React. Some of those are more common than others, but now that you know all the different ways of doing this, you can understand other people’s code more easily, as well as choose the syntax that best suits your given use case, such as a specific company coding style guide.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

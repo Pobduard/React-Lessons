@@ -1,0 +1,244 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Recall that much like parameters in a JavaScript function which allow you to pass in values as arguments, React uses properties, or
+  <strong>
+   props
+  </strong>
+  , to pass data between components. But how exactly do they work?
+ </p>
+ <p>
+  In this reading, you’ll use a transpiler to break JSX code to plain JavaScript, making its purpose more understandable.
+ </p>
+ <p>
+  Remember first that JSX code in React is just syntactic sugar - meaning, a nicer way to write some hard-to-read code.
+ </p>
+ <p>
+  For the browser to understand this syntactic sugar, you need to transpile JSX down to plain JavaScript code. You have a resource online, at the URL of
+  <a href="https://babeljs.io/" title="Babel.io">
+   babeljs.io
+  </a>
+  , which allows you to inspect the results of this transpiling. Once you visit the website, make sure to navigate to the
+  <em>
+   Try it out
+  </em>
+  link in the main navigation.
+ </p>
+ <p>
+  For example, let’s say you have a component that returns a piece of JSX:
+ </p>
+ <pre language="javascript">function App() {
+  return &lt;h1&gt;Hello there&lt;/h1&gt;
+}</pre>
+ <p>
+  … if you used the Babel transpiler to transpile this JSX syntactic sugar code down to plain JavaScript code, you’d get back some unusual code:
+ </p>
+ <pre language="javascript">"use strict";
+function App() {
+    return /*#__PURE__*/React.createElement("h1", null, "Hello there");
+}</pre>
+ <p>
+  You just want to focus on the
+  <var>
+   React.createElement("h1", null, "Hello there");
+  </var>
+  part. You can ignore the rest.
+ </p>
+ <p>
+  This means that the
+  <var>
+   createElement
+  </var>
+  function receives three arguments:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The wrapping element to render.
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    A null value (which is there to show an absence of an expected JavaScript object value).
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    The inner content that will go inside the wrapping element.
+   </p>
+  </li>
+ </ol>
+ <p>
+  Interestingly, the inner content that will go inside the wrapping element can also be a call to the
+  <var>
+   createElement
+  </var>
+  function.
+ </p>
+ <p>
+  For example, let’s say you have a slightly more complex JSX element structure:
+ </p>
+ <pre language="javascript">function App() { 
+  return (
+    &lt;div&gt;
+    &lt;h1&gt;Hello there&lt;/h1&gt; 
+    &lt;/div&gt;
+  )
+}</pre>
+ <p>
+  … the transpiled return statement in plain JavaScript again returns two
+  <var>
+   createElement
+  </var>
+  functions:
+ </p>
+ <pre language="javascript">"use strict";
+function App() {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Hello there"));
+}</pre>
+ <p>
+  If you format this output, remove the
+  <var>
+   "use strict"
+  </var>
+  line, and remove the
+  <var>
+   __PURE__
+  </var>
+  comments, you get a more readable output:
+ </p>
+ <pre language="javascript">function App() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement("h1", null, "Hello there")
+  );
+}</pre>
+ <p>
+  So now the third argument of the outer-most
+  <var>
+   React.createElement
+  </var>
+  call is another
+  <var>
+   React.createElement
+  </var>
+  call.
+ </p>
+ <p>
+  This is how you can nest as many elements as you want.
+ </p>
+ <p>
+  This means that a nested JSX structure is just a bunch of nested
+  <var>
+   React.createElement
+  </var>
+  calls, passed in to other
+  <var>
+   React.createElement
+  </var>
+  calls as their third argument.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  The second –
+  <var>
+   null
+  </var>
+  – argument
+ </h2>
+ <p>
+  The second argument of
+  <var>
+   null
+  </var>
+  can – in this case – be replaced with an empty object.
+ </p>
+ <p>
+  In that case, your code would contain a pair of curly braces instead of the word
+  <var>
+   null
+  </var>
+  :
+ </p>
+ <pre language="javascript">"use strict";
+
+function App() {
+  return React.createElement(
+    "div",
+    {},
+    React.createElement("h1", {}, "Hello there")
+  );
+}</pre>
+ <p>
+  This object is referred to as the
+  <em>
+   props
+  </em>
+  object. It is the main mechanism of sending data from a parent component to a child component in React.
+ </p>
+ <p>
+  The way this works is described in React docs using the following code:
+ </p>
+ <pre language="javascript">React.createElement(
+  type,
+  [props],
+  [...children]
+)</pre>
+ <h2 level="2" variant="h2semibold">
+  The third argument (...children)
+ </h2>
+ <p>
+  This is the inner content that will go inside the wrapping element. It's what makes it possible to nest elements inside other elements, mimicking the way that HTML works.
+ </p>
+ <p>
+  In this reading you’ve learned how to use a transpiler to break JSX code to plain JavaScript, making its purpose more understandable.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

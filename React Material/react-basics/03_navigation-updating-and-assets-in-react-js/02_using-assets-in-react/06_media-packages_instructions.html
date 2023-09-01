@@ -1,0 +1,110 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  In this reading, you’ll learn how to install the reactjs-media npm package.
+ </p>
+ <p>
+  You can find this package on the npmjs.org website at the following URL:
+ </p>
+ <p>
+  <a href="https://www.npmjs.com/package/react-player" title="https://www.npmjs.com/package/react-player">
+   https://www.npmjs.com/package/react-player
+  </a>
+ </p>
+ <p>
+  To install this package you'll need to use the following command
+  <em>
+   in the terminal
+  </em>
+  :
+ </p>
+ <pre language="javascript">npm install react-player</pre>
+ <p>
+ </p>
+ <p>
+  Once you have this package installed, you can start using it in your project.
+ </p>
+ <p>
+  There are a few ways that you can import and use the installed package. For example, to get the entire package's functionality, use the following import:
+ </p>
+ <pre language="javascript">import ReactPlayer from "react-player";</pre>
+ <p>
+  If you are, for example, only planning to use videos from a site like YouTube, t​o reduce bundle size, you can use the following import:
+ </p>
+ <pre language="javascript">import ReactPlayer from "react-player/youtube";</pre>
+ <p>
+ </p>
+ <p>
+  Here’s an example of using the react-player packaged in a small React app:
+ </p>
+ <pre language="javascript">import React from "react";
+import ReactPlayer from "react-player/youtube";
+
+const App = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;MyVideo /&gt;
+    &lt;/div&gt;
+  );
+};
+
+const MyVideo = () =&gt; {
+  return (
+    &lt;ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' /&gt;
+  );
+};
+
+export default App;
+</pre>
+ <p>
+  In this reading, you learned how to install and use the react-player npm package.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

@@ -1,0 +1,285 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  State is all the data your app is currently working with. With this in mind, you can decide to conditionally render specific components in your app, based on whether specific state data has specific values. To make this possible, React works with the readily available JavaScript syntax and concepts.
+ </p>
+ <p>
+  Consider a minimalistic productivity app.
+ </p>
+ <p>
+  The app takes the client computer’s current datetime, and based on the data, displays one of two messages on the screen:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    For workdays, the message is: “Get it done”
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    For weekends, the message is: “Get some rest”
+   </p>
+  </li>
+ </ol>
+ <p>
+  There are a few ways you can achieve this in React.
+ </p>
+ <p>
+  One approach would include setting a component for each of the possible messages, which means you’d have two components. Let’s name them
+  <var>
+   Workdays
+  </var>
+  and
+  <var>
+   Weekends
+  </var>
+  .
+ </p>
+ <p>
+  Then, you’d have a
+  <var>
+   CurrentMessage
+  </var>
+  component, which would render the appropriate component based on the value returned from the
+  <var>
+   getDay()
+  </var>
+  function call.
+ </p>
+ <p>
+  Here’s a simplified
+  <var>
+   CurrentMessage
+  </var>
+  component:
+ </p>
+ <pre language="javascript">function CurrentMessage() {
+    const day = new Date().getDay();
+    if (day &gt;= 1 &amp;&amp; day &lt;= 5) {
+        return &lt;Workdays /&gt;
+    }
+    return &lt;Weekends /&gt;
+}</pre>
+ <p>
+  Instead of calculating it directly, you could use some historical data instead, and perhaps get that data from a user via an input, from a parent component.
+ </p>
+ <p>
+  In that case, the
+  <var>
+   CurrentMessage
+  </var>
+  component might look like this:
+ </p>
+ <pre language="javascript">function CurrentMessage(props) {
+    if (props.day &gt;= 1 &amp;&amp; props.day &lt;= 5) {
+        return &lt;Workdays /&gt;
+    }
+    return &lt;Weekends /&gt;
+}</pre>
+ <h2 level="2" variant="h2semibold">
+  C​onditional rendering with the help of element variables
+ </h2>
+ <p>
+  To further improve your
+  <var>
+   CurrentMessage
+  </var>
+  component, you might want to use element variables. This is useful in some cases, where you want to streamline your render code - that is, when you want to separate the conditional logic from the code to render your UI.
+ </p>
+ <p>
+  Here’s an example of doing this with the
+  <var>
+   CurrentMessage
+  </var>
+  component:
+ </p>
+ <pre language="javascript">function CurrentMessage({day}) {
+    const weekday = (day &gt;= 1 &amp;&amp; day &lt;= 5);
+    const weekend = (day &gt;= 6 &amp;&amp; day &lt;= 7);
+    let message;
+
+    if (weekday) {
+        message = &lt;Workdays /&gt;
+    } else if (weekend) {
+        message = &lt;Weekends /&gt;
+    } else {
+        message = &lt;ErrorComponent /&gt;
+    }
+
+    return (
+        &lt;div&gt;
+            {message}
+        &lt;/div&gt;
+    )
+}</pre>
+ <p>
+  T​he output of the
+  <var>
+   CurrentMessage
+  </var>
+  component will depend on what the received value of the day variable is. On the condition of the day variable having the value of any number between 1 and 5 (inclusive), the output will be the contents of the
+  <var>
+   Workdays
+  </var>
+  component. Otherwise, on the condition of the day variable having the value of either 6 or 7, the output will be the contents of the
+  <var>
+   Weekends
+  </var>
+  component.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  C​onditional rendering using the logical AND operator
+ </h2>
+ <p>
+  Another interesting approach in conditional rendering is the use of the logical
+  <var>
+   AND
+  </var>
+  operator
+  <var>
+   &amp;&amp;
+  </var>
+  .
+ </p>
+ <p>
+  In the following component, here's how the
+  <var>
+   &amp;&amp;
+  </var>
+  operator is used to achieve conditional rendering:
+ </p>
+ <pre language="javascript">function LogicalAndExample() {
+    const val = prompt('Anything but a 0')
+
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Please don't type in a zero&lt;/h1&gt;
+            {val &amp;&amp;
+                &lt;h2&gt;Yay, no 0 was typed in!&lt;/h2&gt;
+            }
+        &lt;/div&gt;
+    )
+}</pre>
+ <p>
+  There are a few things to unpack here, so here is the explanation of the
+  <var>
+   LogicalAndExample
+  </var>
+  component, top to bottom:
+ </p>
+ <ol bullettype="numbers">
+  <li>
+   <p>
+    First, you ask the user to type into the prompt, specifying that you require anything other than a zero character; and you save the input into the
+    <var>
+     val
+    </var>
+    value.
+   </p>
+  </li>
+  <li>
+   <p>
+    In the return statement, an
+    <var>
+     h1
+    </var>
+    heading is wrapped inside a
+    <var>
+     div
+    </var>
+    element, and then curly braces are used to include a JSX expression. Inside this JSX expression is a single
+    <var>
+     &amp;&amp;
+    </var>
+    operator, which is surrounded by some code both on its left and on its right sides; on the left side, the val value is provided, and on the right, a piece of JSX is provided.
+   </p>
+  </li>
+ </ol>
+ <p>
+  To understand what will be output on screen, consider the following example in standard JavaScript:
+ </p>
+ <pre language="javascript">true &amp;&amp; console.log('This will show')</pre>
+ <p>
+  If you ran this command in the browser’s console, the text ‘This will show’ will be output.
+ </p>
+ <p>
+  On the flip side, consider the following example:
+ </p>
+ <pre language="javascript">false &amp;&amp; console.log('This will never show')</pre>
+ <p>
+  If you ran
+  <em>
+   this
+  </em>
+  command, the output will just be the boolean value of
+  <var>
+   false
+  </var>
+  .
+ </p>
+ <p>
+  In other words, if a prop gets evaluated to
+  <var>
+   true
+  </var>
+  , using the
+  <var>
+   &amp;&amp;
+  </var>
+  operator, you can render whatever JSX elements you want to the right of the
+  <var>
+   &amp;&amp;
+  </var>
+  operator.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

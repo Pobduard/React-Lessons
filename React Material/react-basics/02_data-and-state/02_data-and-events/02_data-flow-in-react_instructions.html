@@ -1,0 +1,131 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  You’ve just learned how the parent-child relationship can be set up so that data flows from parent to child.
+ </p>
+ <p>
+  In this reading, you’ll learn how to detail the flow of data from parent to child. You will then learn why code samples need to be clear and concise. Finally, you will explore data flow in greater detail by looking at more examples. This should act as a refresher to knowledge gained in previous courses.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Parent-child data flow
+  </strong>
+ </h2>
+ <p>
+  In React, data flow is a one-way street. Sometimes it's said that the data flow is unidirectional. Put differently, the data in React flows from a parent component to a child component. The data flow starts at the root and can flow to multiple levels of nesting, from the root component (parent component) to the child component, then the grandchild component, and further down the hierarchy.
+ </p>
+ <p>
+  A React app consists of many components, organized as a component tree. The data flows from the root component to all the  components in the tree structure that require this data, using props.
+ </p>
+ <p>
+  Props are immutable (cannot be changed).
+ </p>
+ <p>
+  The two main benefits of this unidirectional data flow are that it allows developers to:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    comprehend the logic of React apps more quickly and
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    simplify the data flow.
+   </p>
+  </li>
+ </ol>
+ <p>
+  Here’s a practical example of this:
+ </p>
+ <p>
+  Imagine that the parent component passes a prop (name) to the child component. The child component then uses this prop to render the name in the UI.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Parent component:
+  </strong>
+ </h2>
+ <pre language="javascript">function Dog() {
+    return (
+        &lt;Puppy name="Max" bowlShape="square" bowlStatus="full" /&gt;
+    );
+};</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Child component:
+  </strong>
+ </h2>
+ <pre language="javascript">function Puppy(props) {
+    return (
+        &lt;div&gt;
+            {props.name} has &lt;Bowl bowlShape="square" bowlStatus="full" /&gt;
+        &lt;/div&gt;
+    );
+};</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Grandchild component:
+  </strong>
+ </h2>
+ <pre language="javascript">function Bowl(props) {
+    return (
+        &lt;span&gt;
+            {props.bowlShape}-shaped bowl, and it's currently {props.bowlStatus}
+        &lt;/span&gt;
+    );
+};</pre>
+ <p>
+  Having data move through props in only one direction makes it simpler to understand the logic of how the components interact. If data were moving everywhere, all the time, then it would be much harder to comprehend its logical flow. Any optimization you tried to implement would likely not be as efficient as it could be, especially in modern React.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

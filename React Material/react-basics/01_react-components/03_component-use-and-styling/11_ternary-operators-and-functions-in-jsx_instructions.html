@@ -1,0 +1,352 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  So you’ve explored several ways to define components in React; this includes function declarations, function expressions and arrow functions.
+ </p>
+ <p>
+  As you continue with building your knowledge of React syntax, you’ll learn to make more use of JSX and embedded JSX expressions.
+ </p>
+ <p>
+  In this reading, you will become familiar with how to use ternary expressions to achieve a random return, as well as how to invoke functions inside of JSX expressions.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  A​ different way of writing an if...else conditional
+ </h2>
+ <p>
+  You are likely familiar with the structure of an if...else conditional. Here is a quick refresher:
+ </p>
+ <pre language="javascript">let name = 'Bob';
+if (name == 'Bob') {
+    console.log('Hello, Bob');
+} else {
+    console.log('Hello, Friend');
+};
+</pre>
+ <p>
+  The above code works as follows:
+ </p>
+ <ol bullettype="numbers">
+  <li>
+   <p>
+    F​irst, I declare a
+    <var>
+     name
+    </var>
+    variable and set it to a string of
+    <var>
+     "Bob"
+    </var>
+    .
+   </p>
+  </li>
+  <li>
+   <p>
+    N​ext, I use the
+    <var>
+     if
+    </var>
+    statement to check if the value of the name variable is
+    <var>
+     "Bob"
+    </var>
+    . If it is, I want to
+    <var>
+     console.log
+    </var>
+    the word
+    <var>
+     "Bob"
+    </var>
+    .
+   </p>
+  </li>
+  <li>
+   <p>
+    O​therwise, if the name variable's value is not
+    <var>
+     "Bob"
+    </var>
+    , the
+    <var>
+     else
+    </var>
+    block will execute and output the words
+    <var>
+     "Hello, Friend"
+    </var>
+    in the console.
+   </p>
+  </li>
+ </ol>
+ <p>
+  Above, I gave you an example of using an
+  <var>
+   if...else
+  </var>
+  conditional. Did you know that there is another, different way, to effectively do the same thing? It's known as the
+  <strong>
+   ternary operator
+  </strong>
+  . A ternary operator in JavaScript uses two distict characters: the first oneis
+  <strong>
+   the question mark
+  </strong>
+  , that is, the
+  <var>
+   ?
+  </var>
+  character. To the left of the
+  <var>
+   ?
+  </var>
+  character, you put
+  <em>
+   a condition that you'd like to check for
+  </em>
+  . Just like I did in the above
+  <var>
+   if...else
+  </var>
+  statement, the condition I'm checking is
+  <var>
+   name == 'Bob'
+  </var>
+  . In other words, I'm asking the JavaScript engine to look at the value that's stored inside the
+  <var>
+   name
+  </var>
+  variable, and to verify if that value is the same as
+  <var>
+   'Bob'
+  </var>
+  . If it is, then the JavaScript engine will return the boolean value of
+  <var>
+   true
+  </var>
+  . If the value of the
+  <var>
+   name
+  </var>
+  variable is something different from
+  <var>
+   'Bob'
+  </var>
+  , the value that the JavaScript engine returns will be the boolean value of
+  <var>
+   false
+  </var>
+  .
+ </p>
+ <p>
+  Here is the code that reflects the explanation in the previous paragraph:
+ </p>
+ <pre language="javascript">name == 'Bob' ?</pre>
+ <p>
+  Note that the above code is incompleted. I have the condition that I'm checking (the
+  <var>
+   name == 'Bob'
+  </var>
+  part). I also have the
+  <var>
+   ?
+  </var>
+  character, that is, the first of the two characters needed to construct a syntactically valid ternary operator. However, I still need the second character, which is the colon, that is the
+  <var>
+   :
+  </var>
+  character. This character is placed after the question mark character. I can now expand my code to include this as well:
+ </p>
+ <pre language="javascript">name == 'Bob' ? :</pre>
+ <p>
+  T​his brings me a step closer to completing my ternary operator. Although I've added the characters needed to construct the ternary operator, I still need to add the return values. In other words, if
+  <var>
+   name == 'Bob'
+  </var>
+  evaluates to true, I want to return the words, "Yes, it is Bob!". Otherwise, I want to return the words "I don't know this person".
+ </p>
+ <pre language="javascript">name == Bob ? "Yes, it is Bob" : "I don't know this person";</pre>
+ <p>
+  T​his, in essence, is how the ternary operator works. It's just some shorthand syntax that I can use as a replacement for the
+  <var>
+   if
+  </var>
+  statement. To prove that this is really the case, here's my starting if...else example, written as a ternary operator:
+ </p>
+ <pre language="javascript">let name = 'Bob';
+name == 'Bob' ? console.log('Hello, Bob') : console.log('Hello, Friend');
+</pre>
+ <p>
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Using ternary expressions in JSX
+  </strong>
+ </h2>
+ <p>
+  Let’s examine an example of a component which uses a ternary expression to randomly change the text that is displayed.
+ </p>
+ <pre language="javascript">function Example() {
+    return (
+        &lt;div className="heading"&gt;
+            &lt;h1&gt;{Math.random() &gt;= 0.5 ? "Over 0.5" : "Under 0.5"}&lt;/h1&gt;
+        &lt;/div&gt;
+    );
+};</pre>
+ <p>
+  Inside the
+  <var>
+   &lt;h1&gt;
+  </var>
+  element, the curly braces signal to React that you want it to parse the code inside as regular JavaScript.
+ </p>
+ <p>
+  Then, inside the curly braces, you can add a ternary statement. Every ternary statement conceptually, expressed in pseudo-code, works like this:
+ </p>
+ <pre language="javascript">comparison ? true : false</pre>
+ <p>
+  In the actual code example at the start of this lesson item, the comparison part, which goes to the left of the question mark, is using the &gt;= (greater-than-or-equal-to operator), to return a Boolean value. If the result of the comparison evaluates to
+  <var>
+   true
+  </var>
+  , then the string "Over 0.5" gets returned. In other words, whatever sits between the question mark and the semi-colon character will get returned. Otherwise, if the result of the comparison evaluates to
+  <var>
+   false
+  </var>
+  , then the string "Under 0.5" gets returned. In other words, the value that sits to the right of the colon character will get returned from the ternary expression.
+ </p>
+ <p>
+  This is how you can use a ternary expression to check for a condition right inside a component and return a value dynamically.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Using function calls in JSX
+  </strong>
+ </h2>
+ <p>
+  Another way to work with an expression in JSX is to invoke a function. Function invocation is an expression because every expression returns a value, and function invocation will always return a value, even when that return value is
+  <var>
+   undefined
+  </var>
+  .
+ </p>
+ <p>
+  Like the previous example, you can use function invocation inside JSX to return a random number:
+ </p>
+ <pre language="javascript">function Example2() {
+    return (
+        &lt;div className="heading"&gt;
+            &lt;h1&gt;Here's a random number from 0 to 10: 
+                { Math.floor(Math.random() * 10) + 1 }
+            &lt;/h1&gt;
+        &lt;/div&gt;
+    );
+};</pre>
+ <p>
+  In the
+  <var>
+   Example2
+  </var>
+  component, built-in
+  <var>
+   Math.floor()
+  </var>
+  and
+  <var>
+   Math.random()
+  </var>
+  methods are being used, as well as some number values and arithmetic operators, to display a random number between 0 and 10.
+ </p>
+ <p>
+  You can also extract this functionality into a separate function:
+ </p>
+ <pre language="javascript">function Example3() {
+
+    const getRandomNum = () =&gt; Math.floor(Math.random() * 10) + 1
+
+    return (
+        &lt;div className="heading"&gt;
+            &lt;h1&gt;Here's a random number from 0 to 10: { getRandomNum() }&lt;/h1&gt;
+        &lt;/div&gt;
+    );
+};</pre>
+ <p>
+  The
+  <var>
+   getRandomNum()
+  </var>
+  function can also be written as a function declaration, or as a function expression. It does not have to be an arrow function.
+ </p>
+ <p>
+  But let’s observe both alternatives: the function expression
+  <em>
+   and
+  </em>
+  the function declaration.
+ </p>
+ <p>
+  Function expression:
+ </p>
+ <pre language="javascript">const getRandomNum = function() {
+    return Math.floor(Math.random() * 10) + 1
+} ;</pre>
+ <p>
+  Function declaration:
+ </p>
+ <pre language="javascript">function getRandomNum() {
+    return Math.floor(Math.random() *10) + 1
+};</pre>
+ <p>
+  Of course, there are many other examples. The ones used here are there to help you understand how versatile and seamless the JSX syntax is. As you improve your React skills, you will find many creative ways of using JavaScript expressions in JSX.
+ </p>
+ <p>
+  Now that you have completed this reading, you have learned about a few more ways that you can use expressions in JSX.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

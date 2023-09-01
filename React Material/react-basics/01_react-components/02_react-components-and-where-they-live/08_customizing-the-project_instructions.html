@@ -1,0 +1,498 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  So far, you’ve learned about React components, but now you will focus on learning how to customize the project. You will learn about the software development approach, detailing the creation of separate associated files, the requirements gathering and the subsequent folder structure to be created.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Building a Layout
+ </h2>
+ <p>
+  Imagine that you've been given the task of building a somewhat more complex website layout using React.
+ </p>
+ <p>
+  At this point, you still don't know too much about how React works, but even with your limited knowledge, you can still build some relatively interesting designs.
+ </p>
+ <p>
+  Currently, you need to build a simple typography-focused layout for a coding blog.
+ </p>
+ <p>
+  This means that you will not have to use images, which simplifies your task significantly.
+ </p>
+ <p>
+  The layout you're supposed to build will consist of the following sections:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Main navigation
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Promo (main advertisement)
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    A list of newest posts' previews (intros)
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The footer
+   </p>
+  </li>
+ </ul>
+ <h2 level="2" variant="h2semibold">
+  Organizing Your Code
+ </h2>
+ <p>
+  Keeping in mind the above structure, how would you organize your code?
+ </p>
+ <p>
+  This is where
+  <u>
+   React docs
+  </u>
+  can help. They suggest two approaches:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Grouping by features
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Grouping by file type
+   </p>
+  </li>
+ </ol>
+ <p>
+  They also advise not to nest folders too deep, and to keep things simple and not overthink it.
+ </p>
+ <p>
+  They even say that if you're just starting out, you shouldn't spend more than five minutes setting up a project.
+ </p>
+ <p>
+  Taking this advice into account, you might say that for a small project like this, you could keep it as simple as just adding a
+  <strong>
+   components
+  </strong>
+  folder and moving all your components into it. This is exactly what you’ll do next.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Building The App
+ </h2>
+ <p>
+  Since this is app's focus is on customization, let’s name the app
+  <strong>
+   customizing-example
+  </strong>
+  <em>
+   .
+  </em>
+ </p>
+ <p>
+  What follows is the command to run
+  <strong>
+   in a suitable folder on your own computer
+  </strong>
+  . By "a suitable folder", I mean: "a folder where you feel comfortable installing a boilerplate React application". This also includes that the folder you chose will need to be accessible for your user on your OS (Operating System).
+ </p>
+ <pre language="javascript">npm init react-app customizing-example</pre>
+ <p>
+  This will produce a brand-new starter app with a familiar structure.
+ </p>
+ <p>
+  Inspecting the
+  <strong>
+   src
+  </strong>
+  folder of the starter app, it looks like this:
+ </p>
+ <pre language="javascript">src/
+    App.js
+    App.test.js
+    index.css
+    index.js
+    logo.svg
+    reportWebVitals.js
+    setupTests.js</pre>
+ <p>
+  Then simply add a components folder to it, like this:
+ </p>
+ <pre language="javascript">src/
+    components/
+    App.js
+    App.test.js
+    index.css
+    index.js
+    logo.svg
+    reportWebVitals.js
+    setupTests.js</pre>
+ <p>
+  Since the components folder is currently empty, you can add a component for each of the sections of the typography-focused blog. Here's the structural update:
+ </p>
+ <pre language="javascript">src/
+    components/
+        Nav.js
+        Promo.js
+        Intro1.js
+        Intro2.js
+        Intro3.js
+        Footer.js
+    App.js
+    App.test.js
+    index.css
+    index.js
+    logo.svg
+    reportWebVitals.js
+    setupTests.js</pre>
+ <p>
+  At this point, there's no need to complicate things. You have the
+  <strong>
+   Nav
+  </strong>
+  component, the
+  <strong>
+   Promo
+  </strong>
+  component, the
+  <strong>
+   Intro1
+  </strong>
+  ,
+  <strong>
+   Intro2
+  </strong>
+  , and the
+  <strong>
+   Intro3
+  </strong>
+  component. Finally, there's also a
+  <strong>
+   Footer.js
+  </strong>
+  component.
+ </p>
+ <p>
+  This means you've fully planned the app, based on some best practices as suggested by the official React docs website, and based on the level of complexity of the project itself. Since this project is relatively simple, this structure feels right.
+ </p>
+ <p>
+  In this reading, you’ll just build all the components inside the components folder, and then, in the upcoming lesson items, import them into the
+  <strong>
+   App.js
+  </strong>
+  file.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Building Components
+ </h2>
+ <p>
+  For now, let’s just build those components. After you've added the
+  <strong>
+   components
+  </strong>
+  folder, you’ve also added all the functional component files. Since they are all currently empty, you can start adding them, one by one.
+ </p>
+ <p>
+  Heres' the contents of the
+  <strong>
+   Nav.js
+  </strong>
+  file:
+ </p>
+ <pre language="javascript">function Nav() {
+    return (
+        &lt;nav className="main-nav"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Home&lt;/li&gt;
+                &lt;li&gt;Articles&lt;/li&gt;
+                &lt;li&gt;About&lt;/li&gt;
+                &lt;li&gt;Contact&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    );
+};
+
+export default Nav;</pre>
+ <p>
+  Next, you can focus on the
+  <strong>
+   Promo.js
+  </strong>
+  file:
+ </p>
+ <pre language="javascript">function Promo() {
+    return (
+        &lt;div className="promo-section"&gt;
+            &lt;div&gt;
+                &lt;h1&gt;Don't miss this deal!&lt;/h1&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                &lt;h2&gt;Subscribe to my newsletter and get all the shop items at 50% off!&lt;/h2&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default Promo;</pre>
+ <p>
+  Once you’ve finished the promo section, you can focus on the Intro components.
+ </p>
+ <p>
+  Here's
+  <strong>
+   Intro1.js:
+  </strong>
+ </p>
+ <pre language="javascript">function Intro1() {
+    return (
+        &lt;div className="blog-post-intro"&gt;
+            &lt;h2&gt;I've become a React developer!&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;p&gt;I've completed the React Basics course and I'm happy to announce that I'm now a Junior React Developer!&lt;/p&gt;
+                &lt;p className="link"&gt;Read more...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default Intro1;</pre>
+ <p>
+  Here's the code for the
+  <strong>
+   Intro2.js
+  </strong>
+  component:
+ </p>
+ <pre language="javascript">function Intro2() {
+    return (
+        &lt;div className="blog-post-intro"&gt;
+            &lt;h2&gt;Why I love front-end web development&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;p&gt;In this blog post, I'll list 10 reasons why I love to work as a front-end developer.&lt;/p&gt;
+                &lt;p className="link"&gt;Read more...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default Intro2;</pre>
+ <p>
+  You can finish the previews for my blog posts with the code for
+  <strong>
+   Intro3.js
+  </strong>
+  component:
+ </p>
+ <pre language="javascript">function Intro3() {
+    return (
+        &lt;div className="blog-post-intro"&gt;
+            &lt;h2&gt;What's the best way to style your React apps?&lt;/h2&gt;
+            &lt;div&gt;
+                &lt;p&gt;There are so many options to choose from. Here's a high-level overview of the popular ones.&lt;/p&gt;
+                &lt;p className="link"&gt;Read more...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default Intro3;</pre>
+ <p>
+  There's just one more thing left to code, the
+  <strong>
+   Footer
+  </strong>
+  component, so here it is:
+ </p>
+ <pre language="javascript">function Footer() {
+    return (
+        &lt;div className="copyright"&gt;
+            &lt;p&gt;Made with love by Myself&lt;/p&gt;
+        &lt;/div&gt;
+    );
+};
+
+export default Footer;</pre>
+ <p>
+  Now that you have completed all the components for the app, here are a few more interesting things about the syntax.
+ </p>
+ <p>
+  These are:
+ </p>
+ <ul bullettype="bullets">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The use of the
+    <var>
+     className
+    </var>
+    attribute in JSX
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    The use of separate components for repetitive code
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Where are all the props?
+   </p>
+  </li>
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Why was I not using the
+    <var>
+     &lt;a&gt;
+    </var>
+    element for empty links?
+   </p>
+  </li>
+ </ul>
+ <h2 level="2" variant="h2semibold">
+  Discussing the Syntax
+ </h2>
+ <p>
+  Now let’s briefly discuss the four bullet points above.
+ </p>
+ <p>
+  Why use the
+  <var>
+   className
+  </var>
+  attribute in the JSX syntax?
+ </p>
+ <p>
+  Well, with JSX, it looks like HTML so much that it's easy to forget that it's actually JavaScript code - not HTML.
+ </p>
+ <p>
+  While regular HTML does indeed have a
+  <var>
+   class
+  </var>
+  attribute, which is used to list one or more CSS classes to be used on a given HTML element, this cannot really work in JSX. The reason is that JSX is a special kind of JavaScript syntax, and the word
+  <var>
+   class
+  </var>
+  is a reserved keyword in JSX. That's why the React team had to make a compromise and so
+  <var>
+   className
+  </var>
+  is used in JSX to list one or more CSS classes to be used on a given element or component.
+ </p>
+ <p>
+  But why use
+  <strong>
+   Intro1.js, Intro2.js,
+  </strong>
+  and
+  <strong>
+   Intro3.js
+  </strong>
+  ? Isn't one of the tenets of coding the DRY approach - that is, the "Don't repeat yourself" approach?
+ </p>
+ <p>
+  Indeed, it is. However, there are still a few concepts to discuss before you learn how to re-use a single component with variations in its content. This has to do with data in components, but don’t worry, we’ll be getting to that later.
+ </p>
+ <p>
+  The third question is about the
+  <strong>
+   props
+  </strong>
+  object. It has been mentioned before, but so far it hasn't been used. It hasn’t been used in this example either.
+ </p>
+ <p>
+  The answer to this question has to do with the next lesson, titled
+  <em>
+   <strong>
+    Component Use and Styling
+   </strong>
+  </em>
+  . In this lesson, you’ll see in practice how you can make components work better, with the help of
+  <strong>
+   props
+  </strong>
+  .
+ </p>
+ <p>
+  The final question is about not using the
+  <var>
+   &lt;a&gt;
+  </var>
+  element for empty links in my app.
+ </p>
+ <p>
+  The answer here depends on whether those links are "internal" - inside an app, or "external", meaning, leading to some external link, such as
+  <a href="https://www.coursera.org/" title="">
+   <em>
+    <u>
+     https://www.coursera.org
+    </u>
+   </em>
+  </a>
+  . If the links are internal to the app - as they are envisioned here - using the
+  <var>
+   &lt;a&gt;
+  </var>
+  tag is simply not the React way of doing things. You'll learn why that is the case when discussing the use of React Router.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  Conclusion
+ </h2>
+ <p>
+  Having finished this reading, you have now learned about the software development approach, detailing the creation of separate associated files, the requirements gathering, and the subsequent folder structure to be created.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

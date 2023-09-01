@@ -1,0 +1,460 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Previously, you learned that you could pass props to and within a component. But there is also a special prop known as
+  <var>
+   props.children
+  </var>
+  <strong>
+   ,
+  </strong>
+  which is automatically passed to every component. In this reading, you’ll learn about
+  <var>
+   props.children
+  </var>
+  <strong>
+  </strong>
+  and what its purpose is.
+ </p>
+ <p>
+  To understand the concept of
+  <var>
+   props.children
+  </var>
+  , consider the following real-life situation: you have a couple of apples, and you have a couple of pears. You'd like to carry the apples some distance, so obviously, you'll use a bag.
+ </p>
+ <p>
+  It's not a "bag for apples". It's not a "bag for pairs". It's just a bag. Nothing about this bag makes it such that it needs to be referred to as a bag in which you'd only and always carry apples, nor a bag in which you'd only and always carry pears.
+ </p>
+ <p>
+  In a way, the bag "doesn't care" if it is used to carry apples or pears. Nothing about the bag changes. There are no changes in the bag's material, size, shape, or color - because it can handle apples or pears being carried inside of it, without issues.
+ </p>
+ <p>
+  Now, consider the following component:
+ </p>
+ <pre language="javascript">function Apples(props) {
+  return (
+    &lt;div className="promo-section"&gt;
+        &lt;div&gt;
+            &lt;h2&gt;These apples are: {props.color}&lt;/h2&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+            &lt;h3&gt;There are {props.number} apples.&lt;/h3&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}
+export default Apples</pre>
+ <p>
+  There is also a
+  <var>
+   Pears
+  </var>
+  <strong>
+  </strong>
+  component:
+ </p>
+ <pre language="javascript">function Pears(props) {
+  return (
+    &lt;h2&gt;I don't like pears, but my friend, {props.friend}, does&lt;/h2&gt;
+  )
+}</pre>
+ <p>
+  Now, the question is this: Let's say you want to have a
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  component, which can be used to "carry"
+  <var>
+   Apples
+  </var>
+  <strong>
+  </strong>
+  or
+  <var>
+   Pears
+  </var>
+  . How would you do that?
+ </p>
+ <p>
+  This is where
+  <var>
+   props.children
+  </var>
+  <strong>
+  </strong>
+  comes in.
+ </p>
+ <p>
+  You can define a
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  component as follows:
+ </p>
+ <pre language="javascript">function Bag(props) {
+    const bag = {
+        padding: "20px",
+        border: "1px solid gray",
+        background: "#fff",
+        margin: "20px 0"
+    }
+    return (
+        &lt;div style={bag}&gt;
+            {props.children}
+        &lt;/div&gt;
+    )
+}
+export default Bag</pre>
+ <p>
+  So, what this does in the
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  component is: it adds a wrapping
+  <var>
+   div
+  </var>
+  <strong>
+  </strong>
+  with a specific styling, and then gives it
+  <var>
+   props.children
+  </var>
+  <strong>
+  </strong>
+  as its content.
+ </p>
+ <p>
+  But what is this
+  <var>
+   props.children
+  </var>
+  <strong>
+   ?
+  </strong>
+ </p>
+ <p>
+  Consider a very simple example:
+ </p>
+ <pre language="javascript">&lt;Example&gt;
+    Hello there
+&lt;/Example&gt;</pre>
+ <p>
+  The
+  <var>
+   Hello there
+  </var>
+  text is a child of the Example JSX element. The Example JSX Element above is an "invocation" of the
+  <strong>
+   Example.js
+  </strong>
+  file, which, in modern React, is usually a function component.
+ </p>
+ <p>
+  Now, did you know that this
+  <var>
+   Hello there
+  </var>
+  piece of text can be passed as a
+  <strong>
+   named prop
+  </strong>
+  when rendering the
+  <var>
+   Example
+  </var>
+  <strong>
+  </strong>
+  component?
+ </p>
+ <p>
+  Here's how that would look like:
+ </p>
+ <pre language="javascript">&lt;Example children="Hello there" /&gt;</pre>
+ <p>
+  Ok, so, there are two ways to do it. But this is just the beginning.
+ </p>
+ <p>
+  What if you, say, wanted to surround the
+  <var>
+   Hello there
+  </var>
+  text in an
+  <var>
+   h3
+  </var>
+  <strong>
+  </strong>
+  HTML element?
+ </p>
+ <p>
+  Obviously, in JSX, that is easily achievable:
+ </p>
+ <pre language="javascript">&lt;Example children={&lt;h3&gt;Hello there&lt;/h3&gt;} /&gt;</pre>
+ <p>
+  What if the
+  <var>
+   &lt;h3&gt;Hello there&lt;/h3&gt;
+  </var>
+  was a separate component, for example, named
+  <var>
+   Hello
+  </var>
+  ?
+ </p>
+ <p>
+  In that case, you'd have to update the code like this:
+ </p>
+ <pre language="javascript">&lt;Example children={&lt;Hello /&gt;} /&gt;</pre>
+ <p>
+  You could even make the
+  <var>
+   Hello
+  </var>
+  <strong>
+  </strong>
+  component more dynamic, by giving it its own prop:
+ </p>
+ <pre language="javascript">&lt;Example children={&lt;Hello message="Hello there" /&gt;} /&gt;</pre>
+ <p>
+  So, given the
+  <strong>
+   Bag
+  </strong>
+  ,
+  <strong>
+   Apples
+  </strong>
+  , and
+  <strong>
+   Pears
+  </strong>
+  examples from the beginning of this reading, armed with this new knowledge, how can you make it work?
+ </p>
+ <p>
+  Here's how you'd render the
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  component with the
+  <var>
+   Apples
+  </var>
+  <strong>
+  </strong>
+  component as its
+  <var>
+   props.children
+  </var>
+  :
+ </p>
+ <pre language="javascript">&lt;Bag children={&lt;Apples color="yellow" number="5" /&gt;} /&gt;</pre>
+ <p>
+  And here's how you'd render the
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  component, wrapping the
+  <var>
+   Pears
+  </var>
+  <strong>
+  </strong>
+  component:
+ </p>
+ <pre language="javascript">&lt;Bag children={&lt;Pears friend="Peter" /&gt;} /&gt;</pre>
+ <p>
+  While the above syntax might look a bit weird, it's important to understand what is happening "under the hood".
+ </p>
+ <p>
+  Effectively, the above syntax is the same as the two examples below.
+ </p>
+ <pre language="javascript">&lt;Bag&gt;
+    &lt;Apples color="yellow" number="5" /&gt;
+&lt;/Bag&gt;
+
+&lt;Bag&gt;
+    &lt;Pears friend="Peter" /&gt;
+&lt;/Bag&gt;</pre>
+ <p>
+  You can even have multiple levels of nested JSX elements, or a single JSX element having multiple children, such as, for example:
+ </p>
+ <pre language="javascript">&lt;Trunk&gt;
+    &lt;Bag&gt;
+        &lt;Apples color="yellow" number="5" /&gt;
+        &lt;Pears friend="Peter" /&gt;
+    &lt;/Bag&gt;
+&lt;/Trunk&gt;</pre>
+ <p>
+  So, in the above structure, there's a
+  <var>
+   Trunk
+  </var>
+  <strong>
+  </strong>
+  JSX element, inside of which is a single
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  JSX element, holding an
+  <var>
+   Apples
+  </var>
+  <strong>
+  </strong>
+  and a
+  <var>
+   Pairs
+  </var>
+  <strong>
+  </strong>
+  JSX element.
+ </p>
+ <p>
+  Before the end of this reading, consider this JSX element again:
+ </p>
+ <pre language="javascript">&lt;Bag&gt;
+    &lt;Apples color="yellow" number="5" /&gt;
+&lt;/Bag&gt;</pre>
+ <p>
+  What is
+  <strong>
+   Apples
+  </strong>
+  to
+  <strong>
+   Bag
+  </strong>
+  in the above code?
+ </p>
+ <p>
+  <strong>
+   In the above code,
+  </strong>
+  <var>
+   Apples
+  </var>
+  <strong>
+   is a prop of the
+  </strong>
+  <var>
+   Bag
+  </var>
+  <strong>
+   component.
+  </strong>
+  To explain further, the Bag component can wrap the Apples component,
+  <strong>
+   or
+  </strong>
+  <strong>
+   <em>
+    any
+   </em>
+  </strong>
+  <strong>
+   other component
+  </strong>
+  , because I used the
+  <var>
+   {props.children}
+  </var>
+  <strong>
+   syntax in the
+  </strong>
+  <var>
+   Bag
+  </var>
+  <strong>
+   component function declaration
+  </strong>
+  . In other words, just like in the real world, when you take a bag to a grocery store, you can “wrap” a wide variety of groceries inside the bag, you can do the same thing in React: wrap a wide variety of components inside the
+  <var>
+   Bag
+  </var>
+  <strong>
+  </strong>
+  component, using the children prop to achieve this
+  <strong>
+   .
+  </strong>
+ </p>
+ <p>
+  It's crucial to understand this when working with React.
+ </p>
+ <p>
+  Before the end of this reading, there's another important concept that you need to be aware of:
+  <em>
+   finding the right amount of modularization
+  </em>
+  . What does this mean? Imagine, for example, that you had a number of small bags, and that each bag could only carry a single apple or pear. You'd end up having to wrap each "apple" inside a "bag". That doesn't make much sense. You can think about components making your layouts modular in a similar way. You don't want to have an entire layout contained in a single component, because that would be very difficult to work with. On the flip side, if you made each HTML element in your layout a separate component, that would make it very hard to work with, although such layout would be modular. So it's all about moderation. You need to organize your layouts by splitting them into meaningful areas of the page, and then code those meaningful areas as separate components. that would constitute the right amount of modularity. To reinforce this point, It might help to think of it in terms of how a person would describe a website: there's a menu, a footer, the shopping cart, etc.
+ </p>
+ <p>
+  In conclusion, when you see a JSX element wrapping some other JSX element, you can easily understand that it's all just
+  <var>
+   props.children
+  </var>
+  in the background.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

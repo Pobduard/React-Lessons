@@ -1,0 +1,293 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  In JSX expressions, the content between an opening and closing tag is passed as a unique prop called children. There are several ways to pass children, such as rendering string literals or using JSX elements and JavaScript expressions. It is also essential to understand the types of JavaScript values that are ignored as children and don’t render anything. Let’s explore these in a bit more detail:
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   String literals
+  </strong>
+ </h2>
+ <p>
+  String literals refer to simple JavaScript strings. They can be put between the opening and closing tags, and the
+  <var>
+   children
+  </var>
+  prop will be that string.
+ </p>
+ <p>
+  <var>
+   &lt;MyComponent&gt;Little Lemon&lt;/MyComponent&gt;
+  </var>
+ </p>
+ <p>
+  In the above example, the
+  <var>
+   children
+  </var>
+  prop in
+  <var>
+   MyComponent
+  </var>
+  will be simply the string “Little Lemon”.
+ </p>
+ <p>
+  There are also some rules JSX follows regarding whitespaces and blank lines you need to bear in mind, so that you understand what to expect on your screen when those edge cases occur.
+ </p>
+ <h3 level="3" variant="h3semibold">
+  1. JSX removes whitespaces at the beginning and end of a line, as well as blank lines:
+ </h3>
+ <pre language="javascript">&lt;div&gt;    Little Lemon   &lt;/div&gt;
+ &lt;div&gt;
+   Little Lemon
+ &lt;/div&gt;</pre>
+ <h3 level="3" variant="h3semibold">
+  2. New lines adjacent to tags are removed:
+ </h3>
+ <pre language="javascript">&lt;div&gt;
+
+  Little Lemon
+&lt;/div&gt;</pre>
+ <h3 level="3" variant="h3semibold">
+  3. JSX condenses new lines that happen in the middle of string literals into a single space:
+ </h3>
+ <pre language="javascript">&lt;div&gt;
+  Little
+  Lemon
+&lt;/div&gt;</pre>
+ <p>
+  That means that all the instances above render the same thing.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   JSX Elements
+  </strong>
+ </h2>
+ <p>
+  You can provide JSX elements as children to display nested components:
+ </p>
+ <pre language="javascript">&lt;Alert&gt;
+  &lt;Title /&gt;
+  &lt;Body /&gt;
+&lt;/Alert&gt;</pre>
+ <p>
+  JSX also enables mixing and matching different types of children, like a combination of string literals and JSX elements:
+ </p>
+ <pre language="javascript">&lt;Alert&gt;
+  &lt;div&gt;Are you sure?&lt;/div&gt;
+  &lt;Body /&gt;
+&lt;/Alert&gt;</pre>
+ <p>
+  A React component can also return a bunch of elements without wrapping them in an extra tag. For that, you can use React Fragments either using the explicit component imported from React or empty tags, which is a shorter syntax for a fragment. A React Fragment component lets you group a list of children without adding extra nodes to the DOM. You can learn more about fragments in the additional resources unit from this lesson.
+ </p>
+ <p>
+  The two code examples below are equivalent, and it’s up to your personal preference what to choose, depending on whether you prefer explicitness or a shorter syntax:
+ </p>
+ <pre language="javascript">return (
+  &lt;React.Fragment&gt;
+    &lt;li&gt;Pizza margarita&lt;/li&gt;
+    &lt;li&gt;Pizza diavola&lt;/li&gt;
+  &lt;/React.Fragment&gt;
+);
+
+return (
+  &lt;&gt;
+    &lt;li&gt;Pizza margarita&lt;/li&gt;
+    &lt;li&gt;Pizza diavola&lt;/li&gt;
+  &lt;/&gt;
+);</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   JavaScript Expressions
+  </strong>
+ </h2>
+ <p>
+  You can pass any JavaScript expression as children by enclosing it within curly braces,
+  <var>
+   {}
+  </var>
+  . The below expressions are identical:
+ </p>
+ <p>
+  <var>
+   &lt;MyComponent&gt;Little Lemon&lt;/MyComponent&gt;
+  </var>
+ </p>
+ <p>
+  <var>
+   &lt;MyComponent&gt;{'Little Lemon'}&lt;/MyComponent&gt;
+  </var>
+ </p>
+ <p>
+  This example is just for illustration purposes. When dealing with string literals as children, the first expression is preferred.
+ </p>
+ <p>
+  Earlier in the course, you learned about lists. JavaScript expressions can be helpful when rendering a list of JSX elements of arbitrary length:
+ </p>
+ <pre language="javascript">function Dessert(props) {
+  return &lt;li&gt;{props.title}&lt;/li&gt;;
+}
+
+function List() {
+  const desserts = ['tiramisu', 'ice cream', 'cake'];
+  return (
+    &lt;ul&gt;
+      {desserts.map((dessert) =&gt; &lt;Item key={dessert} title={dessert} /&gt;)}
+    &lt;/ul&gt;
+  );
+}</pre>
+ <p>
+  Also, you can mix JavaScript expressions with other types of children without having to resort to string templates, like in the example below:
+ </p>
+ <pre language="javascript">function Hello(props) {
+  return &lt;div&gt;Hello {props.name}!&lt;/div&gt;;
+}</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Functions
+  </strong>
+ </h2>
+ <p>
+  Suppose you insert a JavaScript expression inside JSX. In that case, React will evaluate it to a string, a React element, or a combination of the two. However, the children prop works just like any other prop, meaning it can be used to pass any type of data, like functions.
+ </p>
+ <p>
+  Function as children is a React pattern used to abstract shared functionality that you will see in detail in the next lesson.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Booleans, Null and Undefined, are ignored
+  </strong>
+ </h2>
+ <p>
+  false, null, undefined, and true are all valid children. They simply don’t render anything. The below expressions will all render the same thing:
+ </p>
+ <p>
+  <var>
+   &lt;div /&gt;
+  </var>
+ </p>
+ <p>
+  <var>
+   &lt;div&gt;&lt;/div&gt;
+  </var>
+ </p>
+ <p>
+  <var>
+   &lt;div&gt;{false}&lt;/div&gt;
+  </var>
+ </p>
+ <p>
+  <var>
+   &lt;div&gt;{null}&lt;/div&gt;
+  </var>
+ </p>
+ <p>
+  <var>
+   &lt;div&gt;{undefined}&lt;/div&gt;
+  </var>
+ </p>
+ <p>
+  <var>
+   &lt;div&gt;{true}&lt;/div&gt;
+  </var>
+ </p>
+ <p>
+  Again, this is all for demonstration purposes so that you know what to expect on your screen when these special values are used in your JSX.
+ </p>
+ <p>
+  When used in isolation, they don’t offer any value. However, boolean values like true and false can be useful to conditionally render React elements, like rendering a Modal component only if the variable
+  <var>
+   showModal
+  </var>
+  is true
+ </p>
+ <pre language="javascript">&lt;div&gt;
+  {showModal &amp;&amp; &lt;Modal /&gt;}
+&lt;/div&gt;</pre>
+ <p>
+  However, keep in mind that React still renders some "false" values, like the 0 number. For example, the below code will not behave as you may expect because 0 will be printed when
+  <var>
+   props.desserts
+  </var>
+  is an empty array:
+ </p>
+ <pre language="javascript">&lt;div&gt;
+  {props.desserts.length &amp;&amp;
+    &lt;DessertList desserts={props.desserts} /&gt;
+  }
+&lt;/div&gt;</pre>
+ <p>
+  To fix this, you need to make sure the expression before
+  <var>
+   &amp;&amp;
+  </var>
+  is always boolean:
+ </p>
+ <pre language="javascript">&lt;div&gt;
+  {props.desserts.length &gt; 0 &amp;&amp;
+    &lt;DessertList desserts={props.desserts} /&gt;
+  }
+&lt;/div&gt;
+
+&lt;div&gt;
+  {!!props.desserts.length &amp;&amp;
+    &lt;DessertList desserts={props.desserts} /&gt;
+  }
+&lt;/div&gt;</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Conclusion
+  </strong>
+ </h2>
+ <p>
+  You have learned about different types of children in JSX, such as how to render string literals as children, how JSX elements and JavaScript expressions can be used as children, and the boolean, null or undefined values that are ignored as children and don’t render anything.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

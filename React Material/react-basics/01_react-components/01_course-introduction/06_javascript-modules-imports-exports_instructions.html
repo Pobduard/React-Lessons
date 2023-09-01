@@ -1,0 +1,352 @@
+<meta charset="utf-8"/>
+<co-content>
+ <p>
+  Before you start creating the next great app, let’s explore a little more about modules.
+ </p>
+ <p>
+  Modules can help you to save and access your code in a more structured way, and in this reading, you'll learn about some foundational concepts of working with JavaScript modules.
+ </p>
+ <p>
+  This knowledge is crucial in order to understand the syntax and the logic behind how the example React apps in this course are put together.
+ </p>
+ <p>
+  This reading will cover the three main concepts:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    JavaScript modules
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Module exports
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="3">
+   <p>
+    Module imports
+   </p>
+  </li>
+ </ol>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   JavaScript Modules
+  </strong>
+ </h2>
+ <p>
+  In JavaScript, a module is simply a file.
+ </p>
+ <p>
+  The purpose of a module is to have more modular code, where you can work with smaller files, and import and export them so that the apps you build are more customizable and have more composable parts.
+ </p>
+ <p>
+  A module can be as simple as a single function in a separate file.
+ </p>
+ <p>
+  Consider the following function declaration:
+ </p>
+ <pre language="javascript">function addTwo(a, b) {
+    console.log(a + b);
+}</pre>
+ <p>
+  Say that you have a file named
+  <strong>
+   addTwo.js
+  </strong>
+  that contains only the above code.
+ </p>
+ <p>
+  How would you make this file a JavaScript module?
+ </p>
+ <p>
+  All that you would need to do to make it a JavaScript module is use the export syntax.
+ </p>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Module Exports
+  </strong>
+ </h2>
+ <p>
+  There is more than one way to export a module in JavaScript.
+ </p>
+ <p>
+  While all the various syntactical differences are not listed, here are a few examples that will cover all the ways that the importing and exporting of JavaScript modules will be done in this course.
+ </p>
+ <p>
+  In general, there are two ways to export modules in JavaScript:
+ </p>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="1">
+   <p>
+    Using default exports
+   </p>
+  </li>
+ </ol>
+ <ol bullettype="numbers">
+  <li aria-level="1" aria-posinset="2">
+   <p>
+    Using named exports
+   </p>
+  </li>
+ </ol>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Default Exports
+  </strong>
+ </h3>
+ <p>
+  You can have
+  <strong>
+   one default export
+  </strong>
+  per JavaScript module.
+ </p>
+ <p>
+  Using the above
+  <strong>
+   addTwo.js
+  </strong>
+  file as an example, here are two ways to perform a default export:
+ </p>
+ <pre language="javascript">export default function addTwo(a, b) {
+    console.log(a + b);
+}</pre>
+ <p>
+  So, in the above example, you’re adding the
+  <var>
+   export default
+  </var>
+  keywords in front of the
+  <var>
+   addTwo
+  </var>
+  function declaration.
+ </p>
+ <p>
+  Here's an alternative syntax:
+ </p>
+ <pre language="javascript">function addTwo(a, b) {
+    console.log(a + b);
+}
+
+export default addTwo;</pre>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Named Exports
+  </strong>
+ </h3>
+ <p>
+  Named exports are a way to export only certain parts of a given JavaScript file.
+ </p>
+ <p>
+  In contrast with default exports, you can export as many items from any JavaScript file as you want.
+ </p>
+ <p>
+  In other words, there can be only one default export, but as many named exports as you want.
+ </p>
+ <p>
+  For example:
+ </p>
+ <pre language="javascript">function addTwo(a, b) {
+    console.log(a + b);
+}
+
+function addThree(a + b + c) {
+    console.log(a + b + c);
+}</pre>
+ <p>
+  If you want to export both the
+  <var>
+   addTwo
+  </var>
+  and the
+  <var>
+   addThree
+  </var>
+  functions as named exports, one way to do it would be the following:
+ </p>
+ <pre language="javascript">export function addTwo(a, b) {
+    console.log(a + b);
+}
+
+export function addThree(a + b + c) {
+    console.log(a + b + c);
+}</pre>
+ <p>
+  Here's another way you could do it:
+ </p>
+ <pre language="javascript">function addTwo(a, b) {
+    console.log(a + b);
+}
+
+function addThree(a + b + c) {
+    console.log(a + b + c);
+}
+
+export { addTwo, addThree };</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Importing Modules
+  </strong>
+ </h2>
+ <p>
+  Just like when exporting modules in JavaScript, there are several ways to import them.
+ </p>
+ <p>
+  The exact syntax depends on how the module was exported.
+ </p>
+ <p>
+  Say that you have two modules in a folder.
+ </p>
+ <p>
+  The first module is
+  <strong>
+   addTwo.js
+  </strong>
+  and the second module is
+  <strong>
+   mathOperations.js
+  </strong>
+  .
+ </p>
+ <p>
+  You want to import the
+  <strong>
+   addTwo.js
+  </strong>
+  module into the
+  <strong>
+   mathOperations.js
+  </strong>
+  module.
+ </p>
+ <h3 level="3" variant="h3bold">
+  <strong>
+   Importing a Module that was Exported as Default
+  </strong>
+ </h3>
+ <p>
+  Consider the previous example of exporting the
+  <var>
+   addTwo
+  </var>
+  <strong>
+  </strong>
+  function as a default module:
+ </p>
+ <pre language="javascript">// addTwo.js module:
+function addTwo(a, b) {
+    console.log(a + b);
+}
+
+export default addTwo;</pre>
+ <p>
+  To import it into the
+  <strong>
+   mathOperations.js
+  </strong>
+  module, you could use the following syntax:
+ </p>
+ <pre language="javascript">import addTwo from "./addTwo";
+
+// the rest of the mathOperations.js code goes here</pre>
+ <p>
+  So, you could start this import with the
+  <var>
+   import
+  </var>
+  keyword, then the name under which you’ll use this imported code inside the
+  <strong>
+   mathOperations.js
+  </strong>
+  file. You would then type the keyword
+  <var>
+   from
+  </var>
+  , and finally the location of the file,
+  <em>
+   without the .js extension.
+  </em>
+ </p>
+ <p>
+  Contrast the above import of the default
+  <var>
+   addTwo export
+  </var>
+  with the different import syntax if the
+  <var>
+   addTwo
+  </var>
+  function was instead a named export:
+ </p>
+ <pre language="javascript">import { addTwo } from "./addTwo";
+
+// the rest of the mathOperations.js code goes here</pre>
+ <h2 level="2" variant="h2semibold">
+  <strong>
+   Conclusion
+  </strong>
+ </h2>
+ <p>
+  In this reading, you've learned about the very basics of what modules are in JavaScript, why they are used and how they get exported and imported.
+ </p>
+ <p>
+  The examples you've seen here are the core of how you'll deal with imports and exports of various modules in the example React apps on this course.
+ </p>
+ <p>
+  However, please note that there are many more caveats, rules, and implementations of working with modules in JavaScript. The examples given in this reading are there just to make it easier to comprehend what is happening in React apps that you'll be building in this course. The intent of this reading was just to get you familiar with the most common syntax used - not as a comprehensive overview of modules in JavaScript.
+ </p>
+</co-content>
+<style>
+ body {
+    padding: 50px 85px 50px 85px;
+}
+
+table th, table td {
+    border: 1px solid #e0e0e0;
+    padding: 5px 20px;
+    text-align: left;
+}
+input {
+    margin: 10px;
+}
+}
+th {
+    font-weight: bold;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
+pre {
+    display: block;
+    margin: 20px;
+    background: #424242;
+    color: #fff;
+    font-size: 13px;
+    white-space: pre-wrap;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    border: 1px solid #ccc;
+}
+</style>
+<script async="" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ['$','$'] ],
+      displayMath: [ ["\\[","\\]"] ],
+      processEscapes: true
+    }
+  });
+</script>

@@ -1,0 +1,2513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<meta content = 'uft-8' name = 'charset'></meta>
+
+<title>The Practical Test Pyramid</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta content = 'summary_large_image' name = 'twitter:card'></meta>
+
+<meta content = '16665197' name = 'twitter:site:id'></meta>
+
+<meta content = '@martinfowler' name = 'twitter:site'></meta>
+
+<meta content = '@hamvocke' name = 'twitter:creator'></meta>
+
+<meta content = 'The Practical Test Pyramid' property = 'og:title'></meta>
+
+<meta content = 'https://martinfowler.com/articles/practical-test-pyramid.html' property = 'og:url'></meta>
+
+<meta content = 'Find out what kinds of automated tests you should implement for your application and learn by examples what these tests could look like.' property = 'og:description'></meta>
+
+<meta content = 'https://martinfowler.com/articles/practical-test-pyramid/title.png' property = 'og:image'></meta>
+
+<meta content = 'martinfowler.com' property = 'og:site_name'></meta>
+
+<meta content = 'article' property = 'og:type'></meta>
+
+<meta content = '2018-02-26' property = 'og:article:modified_time'></meta>
+
+<meta content = '@hamvocke' name = 'twitter:creator'></meta>
+
+<meta content = 'width=device-width, initial-scale=1' name = 'viewport'></meta>
+
+<link href = 'practical-test-pyramid.css' rel = 'stylesheet' type = 'text/css'></link>
+</head>
+
+<body><header id = 'banner' style = 'background-image: url("/banner.png"); background-repeat: no-repeat'>
+
+<div class = 'name-logo'><a href = 'https://martinfowler.com'><img src = '/mf-name-white.png'></img></a></div>
+  <div class = 'search'>
+    <!-- SiteSearch Google -->
+    <form method='GET' action="https://www.google.com/search">
+      <input type='hidden' name='ie' value='UTF-8'/>
+      <input type='hidden' name='oe' value='UTF-8'/>
+      <input class = 'field' type='text' 
+             name='q' size='15' maxlength='255' value=""/>
+      <button class = 'button' type='submit' 
+             name='btnG' value=" " title = "Search"/>
+      <input type='hidden' name='domains' value="martinfowler.com"/>
+      <input type='hidden' name='sitesearch' value=""/> 
+      <input
+          type='hidden' name='sitesearch' value="martinfowler.com"/>
+    </form>
+  </div>
+
+<div class = 'menu-button navmenu-button'><a class = 'icon icon-bars' href = '#navmenu-bottom'></a></div>
+
+<nav class = 'top-menu'>
+<ul>
+<li><a class = '' href = 'https://refactoring.com'>Refactoring</a></li>
+
+<li><a class = '' href = '/agile.html'>Agile</a></li>
+
+<li><a class = '' href = '/architecture'>Architecture</a></li>
+
+<li><a class = '' href = '/aboutMe.html'>About</a></li>
+
+<li><a class = 'tw' href = 'https://www.thoughtworks.com'>Thoughtworks</a></li>
+
+<li><a class = 'icon icon-rss' href = '/feed.atom' title = 'feed'></a></li>
+
+<li><a class = 'icon icon-twitter' href = 'https://www.twitter.com/martinfowler' title = 'Twitter stream'></a></li>
+
+<li class = 'icon'><a href = 'https://toot.thoughtworks.com/@mfowler' title = 'Mastoton stream'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M433 179.11c0-97.2-63.71-125.7-63.71-125.7-62.52-28.7-228.56-28.4-290.48 0 0 0-63.72 28.5-63.72 125.7 0 115.7-6.6 259.4 105.63 289.1 40.51 10.7 75.32 13 103.33 11.4 50.81-2.8 79.32-18.1 79.32-18.1l-1.7-36.9s-36.31 11.4-77.12 10.1c-40.41-1.4-83-4.4-89.63-54a102.54 102.54 0 0 1-.9-13.9c85.63 20.9 158.65 9.1 178.75 6.7 56.12-6.7 105-41.3 111.23-72.9 9.8-49.8 9-121.5 9-121.5zm-75.12 125.2h-46.63v-114.2c0-49.7-64-51.6-64 6.9v62.5h-46.33V197c0-58.5-64-56.6-64-6.9v114.2H90.19c0-122.1-5.2-147.9 18.41-175 25.9-28.9 79.82-30.8 103.83 6.1l11.6 19.5 11.6-19.5c24.11-37.1 78.12-34.8 103.83-6.1 23.71 27.3 18.4 53 18.4 175z"/></svg></a></li>
+</ul>
+</nav>
+</header>
+<nav id = 'top-navmenu'>
+<nav class = 'navmenu'>
+<div class = 'nav-head'>  <div class = 'search'>
+    <!-- SiteSearch Google -->
+    <form method='GET' action="https://www.google.com/search">
+      <input type='hidden' name='ie' value='UTF-8'/>
+      <input type='hidden' name='oe' value='UTF-8'/>
+      <input class = 'field' type='text' 
+             name='q' size='15' maxlength='255' value=""/>
+      <button class = 'button' type='submit' 
+             name='btnG' value=" " title = "Search"/>
+      <input type='hidden' name='domains' value="martinfowler.com"/>
+      <input type='hidden' name='sitesearch' value=""/> 
+      <input
+          type='hidden' name='sitesearch' value="martinfowler.com"/>
+    </form>
+  </div>
+
+<div class = 'closediv'>
+<span class = 'close' title = 'close'></span>
+</div>
+</div>
+
+<div class = 'nav-body'>
+<div class = 'topics'>
+<h2>Topics</h2>
+
+<p><a href = '/architecture'>Architecture</a></p>
+
+<p><a href = 'https://refactoring.com'>Refactoring</a></p>
+
+<p><a href = '/agile.html'>Agile</a></p>
+
+<p><a href = '/delivery.html'>Delivery</a></p>
+
+<p><a href = '/microservices'>Microservices</a></p>
+
+<p><a href = '/data'>Data</a></p>
+
+<p><a href = '/testing'>Testing</a></p>
+
+<p><a href = '/dsl.html'>DSL</a></p>
+</div>
+
+<div class = 'about'>
+<h2>about me</h2>
+
+<p><a href = '/aboutMe.html'>About</a></p>
+
+<p><a href = '/books'>Books</a></p>
+
+<p><a href = '/faq.html'>FAQ</a></p>
+</div>
+
+<div class = 'content'>
+<h2>content</h2>
+
+<p><a href = '/videos.html'>Videos</a></p>
+
+<p><a href = '/tags'>Content Index</a></p>
+
+<p><a href = '/articles/eurogames'>Board Games</a></p>
+
+<p><a href = '/photos'>Photography</a></p>
+</div>
+
+<div class = 'tw'>
+<h2>Thoughtworks</h2>
+
+<p><a href = 'https://thoughtworks.com/insights'>Insights</a></p>
+
+<p><a href = 'https://thoughtworks.com/careers'>Careers</a></p>
+
+<p><a href = 'https://thoughtworks.com/products'>Products</a></p>
+</div>
+
+<div class = 'feeds'>
+<h2>follow</h2>
+
+<p><a href = 'https://www.twitter.com/martinfowler'>Twitter</a></p>
+
+<p><a href = '/feed.atom'>RSS</a></p>
+
+<p><a href = 'https://toot.thoughtworks.com/@mfowler'>Mastodon</a></p>
+</div>
+</div>
+</nav>
+</nav>
+
+<nav id = 'toc-dropdown'>
+<button class = 'dropdown-button'>
+<h2>Table of Contents</h2>
+</button>
+
+<div class = 'hidden' id = 'dropdownLinks'>
+<ul>
+<li><a href = '#top'>Top</a></li>
+
+<li><a href = '#TheImportanceOftestAutomation'>The Importance of (Test) Automation</a></li>
+
+<li><a href = '#TheTestPyramid'>The Test Pyramid</a></li>
+
+<li><a href = '#ToolsAndLibrariesWellLookAt'>Tools and Libraries We'll Look at</a></li>
+
+<li><a href = '#TheSampleApplication'>The Sample Application</a>
+<ul>
+<li><a href = '#Functionality'>Functionality</a></li>
+
+<li><a href = '#High-levelStructure'>High-level Structure</a></li>
+
+<li><a href = '#InternalArchitecture'>Internal Architecture</a></li>
+</ul>
+</li>
+
+<li><a href = '#UnitTests'>Unit tests</a>
+<ul>
+<li><a href = '#WhatsAUnit'>What's a Unit?</a></li>
+
+<li><a href = '#SociableAndSolitary'>Sociable and Solitary</a></li>
+
+<li><a href = '#MockingAndStubbing'>Mocking and Stubbing</a></li>
+
+<li><a href = '#WhatToTest'>What to Test?</a></li>
+
+<li><a href = '#TestStructure'>Test Structure</a></li>
+
+<li><a href = '#ImplementingAUnitTest'>Implementing a Unit Test</a></li>
+</ul>
+</li>
+
+<li><a href = '#IntegrationTests'>Integration Tests</a>
+<ul>
+<li><a href = '#DatabaseIntegration'>Database Integration</a></li>
+
+<li><a href = '#IntegrationWithSeparateServices'>Integration With Separate Services</a></li>
+</ul>
+</li>
+
+<li><a href = '#ContractTests'>Contract Tests</a>
+<ul>
+<li><a href = '#ConsumerTestourTeam'>Consumer Test (our team)</a></li>
+
+<li><a href = '#ProviderTesttheOtherTeam'>Provider Test (the other team)</a></li>
+
+<li><a href = '#ProviderTestourTeam'>Provider Test (our team)</a></li>
+</ul>
+</li>
+
+<li><a href = '#UiTests'>UI Tests</a></li>
+
+<li><a href = '#End-to-endTests'>End-to-End Tests</a>
+<ul>
+<li><a href = '#UserInterfaceEnd-to-endTest'>User Interface End-to-End Test</a></li>
+
+<li><a href = '#RestApiEnd-to-endTest'>REST API End-to-End Test</a></li>
+</ul>
+</li>
+
+<li><a href = '#acceptance'>Acceptance Tests &#x2014; Do Your Features Work Correctly?</a></li>
+
+<li><a href = '#ExploratoryTesting'>Exploratory Testing</a></li>
+
+<li><a href = '#TheConfusionAboutTestingTerminology'>The Confusion About Testing Terminology</a></li>
+
+<li><a href = '#PuttingTestsIntoYourDeploymentPipeline'>Putting Tests Into Your Deployment Pipeline</a></li>
+
+<li><a href = '#AvoidTestDuplication'>Avoid Test Duplication</a></li>
+
+<li><a href = '#WritingCleanTestCode'>Writing Clean Test Code</a></li>
+
+<li><a href = '#Conclusion'>Conclusion</a></li>
+</ul>
+
+<h3>Sidebars</h3>
+
+<ul>
+<li><a href = '#private-methods-sidebar'>But I Really Need to Test This Private Method</a></li>
+
+<li><a href = '#SpecialisedTestHelpers'>Specialised Test Helpers</a></li>
+</ul>
+</div>
+</nav>
+
+<main>
+<h1>The Practical Test Pyramid</h1>
+
+<section class = 'frontMatter'>
+<p class = 'abstract'><i>
+    The "Test Pyramid" is a metaphor that tells us to group software
+    tests into buckets of different granularity. It also gives an idea
+    of how many tests we should have in each of these groups. Although
+    the concept of the Test Pyramid has been around for a while, teams
+    still struggle to put it into practice properly. This article
+    revisits the original concept of the Test Pyramid and shows how
+    you can put this into practice. It shows which kinds of tests you
+    should be looking for in the different levels of the pyramid and
+    gives practical examples on how these can be implemented.
+  </i></p>
+
+<p class = 'date'>26 February 2018</p>
+<hr></hr>
+<div class = 'front-grid'>
+<div class = 'author-list'>
+<div class = 'author'>
+<div class = 'photo'><a href = 'http://www.hamvocke.com'><img alt = 'Photo of Ham Vocke' src = 'practical-test-pyramid/ham.jpg' width = '80'></img></a></div>
+
+<address class = 'name'><a href = 'http://www.hamvocke.com' rel = 'author'>Ham Vocke</a></address>
+
+<div class = 'bio'>
+<p>Ham is a software developer and consultant
+      at Thoughtworks in Germany. Being tired of deploying software
+      manually at 3 a.m., he added continuous delivery and
+      diligent automation to his toolbox and set out to help teams
+      deliver high-quality software reliably and efficiently. He
+      makes up for the time gained by annoying people with his antics.
+      </p>
+</div>
+</div>
+</div>
+
+<div class = 'tags'>
+<p class = 'tag-link'><a href = /tags/testing.html>testing</a></p>
+</div>
+
+<div class = 'translations'><b>Translations: </b><a href = 'https://insights.thoughtworks.cn/practical-test-pyramid/'>Chinese</a></div>
+
+<div class = 'contents'>
+<h2>Contents</h2>
+
+<ul>
+<li><a href = '#TheImportanceOftestAutomation'>The Importance of (Test) Automation</a></li>
+
+<li><a href = '#TheTestPyramid'>The Test Pyramid</a></li>
+
+<li><a href = '#ToolsAndLibrariesWellLookAt'>Tools and Libraries We'll Look at</a></li>
+
+<li><a href = '#TheSampleApplication'>The Sample Application</a>
+<ul>
+<li><a href = '#Functionality'>Functionality</a></li>
+
+<li><a href = '#High-levelStructure'>High-level Structure</a></li>
+
+<li><a href = '#InternalArchitecture'>Internal Architecture</a></li>
+</ul>
+</li>
+
+<li><a href = '#UnitTests'>Unit tests</a>
+<ul>
+<li><a href = '#WhatsAUnit'>What's a Unit?</a></li>
+
+<li><a href = '#SociableAndSolitary'>Sociable and Solitary</a></li>
+
+<li><a href = '#MockingAndStubbing'>Mocking and Stubbing</a></li>
+
+<li><a href = '#WhatToTest'>What to Test?</a></li>
+
+<li><a href = '#TestStructure'>Test Structure</a></li>
+
+<li><a href = '#ImplementingAUnitTest'>Implementing a Unit Test</a></li>
+</ul>
+</li>
+
+<li><a href = '#IntegrationTests'>Integration Tests</a>
+<ul>
+<li><a href = '#DatabaseIntegration'>Database Integration</a></li>
+
+<li><a href = '#IntegrationWithSeparateServices'>Integration With Separate Services</a></li>
+</ul>
+</li>
+
+<li><a href = '#ContractTests'>Contract Tests</a>
+<ul>
+<li><a href = '#ConsumerTestourTeam'>Consumer Test (our team)</a></li>
+
+<li><a href = '#ProviderTesttheOtherTeam'>Provider Test (the other team)</a></li>
+
+<li><a href = '#ProviderTestourTeam'>Provider Test (our team)</a></li>
+</ul>
+</li>
+
+<li><a href = '#UiTests'>UI Tests</a></li>
+
+<li><a href = '#End-to-endTests'>End-to-End Tests</a>
+<ul>
+<li><a href = '#UserInterfaceEnd-to-endTest'>User Interface End-to-End Test</a></li>
+
+<li><a href = '#RestApiEnd-to-endTest'>REST API End-to-End Test</a></li>
+</ul>
+</li>
+
+<li><a href = '#acceptance'>Acceptance Tests &#x2014; Do Your Features Work Correctly?</a></li>
+
+<li><a href = '#ExploratoryTesting'>Exploratory Testing</a></li>
+
+<li><a href = '#TheConfusionAboutTestingTerminology'>The Confusion About Testing Terminology</a></li>
+
+<li><a href = '#PuttingTestsIntoYourDeploymentPipeline'>Putting Tests Into Your Deployment Pipeline</a></li>
+
+<li><a href = '#AvoidTestDuplication'>Avoid Test Duplication</a></li>
+
+<li><a href = '#WritingCleanTestCode'>Writing Clean Test Code</a></li>
+
+<li><a href = '#Conclusion'>Conclusion</a></li>
+</ul>
+
+<h3>Sidebars</h3>
+
+<ul>
+<li><a href = '#private-methods-sidebar'>But I Really Need to Test This Private Method</a></li>
+
+<li><a href = '#SpecialisedTestHelpers'>Specialised Test Helpers</a></li>
+</ul>
+</div>
+</div>
+<hr></hr></section>
+
+<div class = 'paperBody deep'><img src = 'practical-test-pyramid/teaser.png'></img>
+<p>Production-ready software requires testing before it goes into production. As
+  the discipline of software development matured, software testing approaches have
+  matured too. Instead of having myriads of manual software testers, development
+  teams have moved towards automating the biggest portion of their testing
+  efforts. Automating their tests allows teams to know whether their
+  software is broken in a matter of seconds and minutes instead of days and
+  weeks.</p>
+
+<p>The drastically shortened feedback loop fuelled by automated tests goes hand
+  in hand with agile development practices, continuous delivery and DevOps
+  culture. Having an effective software testing approach allows teams to move
+  fast and with confidence.</p>
+
+<p>This article explores what a well-rounded test portfolio should look
+  like to be responsive, reliable and maintainable - regardless of whether
+  you're building a microservices architecture, mobile apps or IoT ecosystems.
+  We'll also get into the details of building effective and readable
+  automated tests.</p>
+
+<section id = 'TheImportanceOftestAutomation'>
+<h2>The Importance of (Test) Automation</h2>
+
+<p>Software has become an essential part of the world we live in. It has
+    outgrown its early sole purpose of making businesses more efficient. Today
+    companies try to find ways to become first-class digital companies. As users
+    everyone of us interacts with an ever-increasing amount of software every
+    day. The wheels of innovation are turning faster.</p>
+
+<p>If you want to keep pace you'll have to look into ways to deliver your
+    software faster without sacrificing its quality. <b>Continuous delivery</b>, a
+    practice where you automatically ensure that your software can be released
+    into production any time, can help you with that. With continuous delivery
+    you use a <b>build pipeline</b> to automatically test your software and deploy
+    it to your testing and production environments.</p>
+
+<p>Building, testing and deploying an ever-increasing amount of software
+    manually soon becomes impossible &#x2014; unless you want to spend all your time
+    with manual, repetitive work instead of delivering working software.
+    Automating everything &#x2014; from build to tests, deployment and infrastructure &#x2014;
+    is your only way forward.</p>
+
+<div class = 'figure ' id = 'buildPipeline.png'><img src = 'practical-test-pyramid/buildPipeline.png'></img>
+<p class = 'photoCaption'>Figure 1: Use build pipelines to automatically and
+    reliably get your software into production </p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>Traditionally software testing was overly manual work done by deploying your
+    application to a test environment and then performing some black-box style
+    testing e.g. by clicking through your user interface to see if anything's
+    broken.
+    Often these tests would be specified by test scripts to ensure the
+    testers would do consistent checking.</p>
+
+<p>It's obvious that testing all changes manually is time-consuming, repetitive
+    and tedious. Repetitive is boring, boring leads to mistakes and makes you look
+    for a different job by the end of the week.</p>
+
+<p>Luckily there's a remedy for repetitive tasks: <i>automation</i>.</p>
+
+<p>Automating your repetitive tests can be a big game changer in your life as a software
+    developer. Automate these tests and you no longer have to mindlessly follow click
+    protocols in order to check if your software still works correctly. Automate
+    your tests and you can change your codebase without batting an eye. If you've
+    ever tried doing a large-scale refactoring without a proper test suite I bet you
+    know what a terrifying experience this can be. How would you know if you
+    accidentally broke stuff along the way? Well, you click through all your manual
+    test cases, that's how. But let's be honest: do you really enjoy that? How about
+    making even large-scale changes and knowing whether you broke stuff within
+    seconds while taking a nice sip of coffee? Sounds more enjoyable if you ask
+    me.</p>
+</section>
+
+<section id = 'TheTestPyramid'>
+<h2>The Test Pyramid</h2>
+
+<p>If you want to get serious about automated tests for your software there
+        is one key concept you should know about: the <b>test pyramid</b>. Mike
+        Cohn came up with this concept in his book <i>Succeeding with Agile</i>.
+        It's a great visual metaphor telling you to think about different layers
+        of testing. It also tells you how much testing to do on each layer.
+        
+<div class = 'figure ' id = 'testPyramid.png'><img src = 'practical-test-pyramid/testPyramid.png'></img>
+<p class = 'photoCaption'>Figure 2: The Test Pyramid</p>
+</div>
+
+<div class = 'clear'></div>
+</p>
+
+<p>Mike Cohn's original test pyramid consists of three layers that your
+    test suite should consist of (bottom to top):</p>
+
+<ol>
+<li>Unit Tests</li>
+
+<li>Service Tests</li>
+
+<li>User Interface Tests</li>
+</ol>
+
+<p>Unfortunately the concept of the test pyramid falls a little short if
+    you take a closer look. Some argue that either the naming or some
+    conceptual aspects of Mike Cohn's test pyramid are not ideal, and I have to
+    agree. From a modern point of view the test pyramid seems overly simplistic
+    and can therefore be misleading.</p>
+
+<p>Still, due to its simplicity the essence of the test pyramid serves as
+    a good rule of thumb when it comes to establishing your own test suite.
+    Your best bet is to remember two things from Cohn's original test pyramid:</p>
+
+<ol>
+<li>Write tests with different granularity</li>
+
+<li>The more high-level you get the fewer tests you should have</li>
+</ol>
+
+<p>Stick to the pyramid shape to come up with a healthy, fast and
+    maintainable test suite: Write <i>lots</i> of small and fast <i>unit
+    tests</i>. Write <i>some</i> more coarse-grained tests and <i>very few</i>
+    high-level tests that test your application from end to end. Watch out that
+    you don't end up with a <a href = 'https://watirmelon.blog/testing-pyramids/'>
+    test ice-cream cone</a> that will be a nightmare to maintain and takes
+    way too long to run.</p>
+
+<p>Don't become too attached to the names of the individual layers in Cohn's
+    test pyramid. In fact they can be quite misleading: <i>service test</i> is a
+    term that is hard to grasp (Cohn himself talks about the observation that
+    <a href = 'https://www.mountaingoatsoftware.com/blog/the-forgotten-layer-of-the-test-automation-pyramid'>
+    a lot of developers completely ignore this layer</a>). In the days of
+    single page application frameworks like react, angular, ember.js and others
+    it becomes apparent that <i>UI tests</i> don't have to be on the highest
+    level of your pyramid - you're perfectly able to unit test your UI in all
+    of these frameworks.</p>
+
+<p>Given the shortcomings of the original names it's totally okay to come
+    up with other names for your test layers, as long as you keep it consistent
+    within your codebase and your team's discussions.</p>
+</section>
+
+<section id = 'ToolsAndLibrariesWellLookAt'>
+<h2>Tools and Libraries We'll Look at</h2>
+
+<ul class = 'tool-list'>
+<li><a href = 'http://junit.org'>JUnit</a>: our test runner</li>
+
+<li><a href = 'http://site.mockito.org/'>Mockito</a>: 
+        for mocking dependencies
+      </li>
+
+<li><a href = 'http://wiremock.org/'>Wiremock</a>: 
+        for stubbing out external services
+      </li>
+
+<li><a href = 'https://docs.pact.io/'>Pact</a>: 
+        for writing CDC tests
+      </li>
+
+<li><a href = 'http://docs.seleniumhq.org/'>Selenium</a>: 
+        for writing UI-driven end-to-end tests
+      </li>
+
+<li><a href = 'https://github.com/rest-assured/rest-assured'>REST-assured</a>: 
+        for writing REST API-driven end-to-end tests
+      </li>
+</ul>
+</section>
+
+<section id = 'TheSampleApplication'>
+<h2>The Sample Application</h2>
+
+<p>I've written a <a href = 'https://github.com/hamvocke/spring-testing'>simple
+    microservice</a> including a test
+    suite with tests for the different layers of the test pyramid.
+    </p>
+
+<p>The sample application shows traits of a typical microservice. It
+    provides a REST interface, talks to a database and fetches information from
+    a third-party REST service. It's implemented in <a href = 'https://projects.spring.io/spring-boot/'>Spring Boot
+    </a> and should be understandable even
+    if you've never worked with Spring Boot before.</p>
+
+<p>Make sure to check
+    out <a href = 'https://github.com/hamvocke/spring-testing'>the code on Github</a>. The
+    readme contains instructions you need to run the application and its
+    automated tests on your machine.</p>
+
+<section id = 'Functionality'>
+<h3>Functionality</h3>
+
+<p>The application's functionality is simple. It
+      provides a REST interface with three endpoints:</p>
+
+<table class = 'app-function'>
+<tr><td class = 'path'>GET /hello</td><td class = 'result'>Returns <i>"Hello World"</i>. Always.</td></tr>
+
+<tr><td class = 'path'>GET /hello/{lastname}</td><td class = 'result'>Looks up the person with the provided last name. If the person
+          is known, returns <i>"Hello {Firstname} {Lastname}"</i>.</td></tr>
+
+<tr><td class = 'path'>GET /weather</td><td class = 'result'> Returns the current weather conditions for <i>Hamburg,
+          Germany</i>.</td></tr>
+</table>
+</section>
+
+<section id = 'High-levelStructure'>
+<h3>High-level Structure</h3>
+
+<p>On a high-level the system has the
+      following structure:</p>
+
+<div class = 'figure ' id = 'testService.png'><img src = 'practical-test-pyramid/testService.png'></img>
+<p class = 'photoCaption'>Figure 3: the high level structure of our microservice system</p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>Our microservice provides a REST interface that can be called via HTTP.
+      For some endpoints the service will fetch information from a database. In
+      other cases the service will call an external <a href = 'https://darksky.net'>weather
+      API</a> via HTTP to fetch and display current weather
+      conditions.</p>
+</section>
+
+<section id = 'InternalArchitecture'>
+<h3>Internal Architecture</h3>
+
+<p>Internally, the Spring Service has a Spring-typical architecture:</p>
+
+<div class = 'figure ' id = 'testArchitecture.png'><img src = 'practical-test-pyramid/testArchitecture.png'></img>
+<p class = 'photoCaption'>Figure 4: the internal structure of our microservice</p>
+</div>
+
+<div class = 'clear'></div>
+
+<ul>
+<li><code>Controller</code> classes provide <i>REST</i> endpoints and deal with <i>HTTP</i>
+        requests and responses</li>
+
+<li><code>Repository</code> classes interface with the <i>database</i> and take care of
+        writing and reading data to/from persistent storage</li>
+
+<li><code>Client</code> classes talk to other APIs, in our case it fetches <i>JSON</i>
+        via <i>HTTPS</i> from the darksky.net weather API</li>
+
+<li><code>Domain</code> classes capture our <a href = 'https://en.wikipedia.org/wiki/Domain_model'>domain model</a> including
+        the domain logic (which, to be fair, is quite trivial in our case).</li>
+</ul>
+
+<p>Experienced Spring developers might notice that a frequently used layer
+      is missing here: Inspired by <a href = 'https://en.wikipedia.org/wiki/Domain-driven_design'>Domain-Driven
+      Design</a> a lot of developers build a <i>service layer</i> consisting of
+      <i>service</i> classes. I decided not to include a service layer in this
+      application. One reason is that our application is simple enough, a
+      service layer would have been an unnecessary level of indirection. The
+      other one is that I think people overdo it with service layers. I often
+      encounter codebases where the entire business logic is captured within
+      service classes. The domain model becomes merely a layer for data, not for
+      behaviour (an <a href = 'https://en.wikipedia.org/wiki/Anemic_domain_model'>
+      Anemic Domain Model</a>). For every non-trivial application this wastes a lot of
+      potential to keep your code well-structured and testable and does not
+      fully utilise the power of object orientation.</p>
+
+<p>Our repositories are straightforward and provide simple 
+<abbr title = 'Create Read Update Delete'>CRUD</abbr>
+ functionality. To keep the
+      code simple I used <a href = 'http://projects.spring.io/spring-data/'>Spring Data</a>.
+      Spring Data gives us a simple and generic CRUD repository implementation
+      that we can use instead of rolling our own. It also takes care of spinning
+      up an in-memory database for our tests instead of using a real PostgreSQL
+      database as it would in production.</p>
+
+<p>Take a look at the codebase and make yourself familiar with the
+      internal structure. It will be useful for our next step: Testing the
+      application!</p>
+</section>
+</section>
+
+<section id = 'UnitTests'>
+<h2>Unit tests</h2>
+
+<p>The foundation of your test suite will be made up of unit tests. Your unit
+  tests make sure that a certain unit (your <i>subject under test</i>) of your
+  codebase works as intended. Unit tests have the narrowest scope of all the
+  tests in your test suite. The number of unit tests in your test suite will
+  largely outnumber any other type of test.</p>
+
+<div class = 'figure ' id = 'unitTest.png'><img src = 'practical-test-pyramid/unitTest.png'></img>
+<p class = 'photoCaption'>Figure 5: A unit test typically replaces external
+  collaborators with test doubles</p>
+</div>
+
+<div class = 'clear'></div>
+
+<section id = 'WhatsAUnit'>
+<h3>What's a Unit?</h3>
+
+<p>If you ask three different people what <i>"unit"</i> means in the context of
+    unit tests, you'll probably receive four different, slightly nuanced
+    answers. To a certain extent it's a matter of your own definition and it's
+    okay to have no canonical answer.</p>
+
+<p>If you're working in a functional language a <i>unit</i> will most likely be a
+    single function. Your unit tests will call a function with different
+    parameters and ensure that it returns the expected values. In an
+    object-oriented language a unit can range from a single method to an entire
+    class.</p>
+</section>
+
+<section id = 'SociableAndSolitary'>
+<h3>Sociable and Solitary</h3>
+
+<p>Some argue that all collaborators (e.g. other classes that are called by
+    your class under test) of your subject under test should be substituted with
+    <i>mocks</i> or <i>stubs</i> to come up with perfect isolation and to avoid
+    side-effects and a complicated test setup. Others argue that only
+    collaborators that are slow or have bigger side effects (e.g. classes that
+    access databases or make network calls) should be stubbed or mocked.</p>
+
+<p><a href = '/bliki/UnitTest.html'>Occasionally</a> people
+    label these two sorts of tests as <b>solitary unit tests</b> for tests that
+    stub all collaborators and <b>sociable unit tests</b> for tests that allow
+    talking to real collaborators (Jay Fields' <a href = 'https://leanpub.com/wewut'>Working Effectively with Unit Tests</a> coined
+    these terms). If you have some spare time you can go down the rabbit hole
+    and <a href = '/articles/mocksArentStubs.html'>read more about
+    the pros and cons</a> of the different schools of thought.</p>
+
+<p>At the end of the day it's not important to decide if you go for solitary
+    or sociable unit tests. Writing automated tests is what's important.
+    Personally, I find myself using both approaches all the time. If it becomes
+    awkward to use real collaborators I will use mocks and stubs generously. If
+    I feel like involving the real collaborator gives me more confidence in a
+    test I'll only stub the outermost parts of my service.</p>
+</section>
+
+<section id = 'MockingAndStubbing'>
+<h3>Mocking and Stubbing</h3>
+
+    Mocks and Stubs are two different kinds of
+    <a href = '/bliki/TestDouble.html'>Test Doubles</a> (there are more than these
+    two). A lot of people use the terms Mock and Stub interchangeably. I
+    think it's good to be precise and keep their specific properties in mind.
+    You can use test doubles to replace objects you'd use in production with
+    an implementation that helps you with testing.
+    
+<p>In plain words it means that you replace a real thing (e.g. a class,
+    module or function) with a fake version of that thing. The fake version
+    looks and acts like the real thing (answers to the same method calls) but
+    answers with canned responses that you define yourself at the beginning of
+    your unit test.</p>
+
+<p>Using test doubles is not specific to unit testing. More elaborate
+    test doubles can be used to simulate entire parts of your system in a
+    controlled way. However, in unit testing you're most likely to encounter
+    a lot of mocks and stubs (depending of whether you're the sociable or
+    solitary kind of developer), simply because lots of modern languages and
+    libraries make it easy and comfortable to set up mocks and stubs.</p>
+
+<p>Regardless of your technology choice, there's a good chance that either
+    your language's standard library or some popular third-party library will
+    provide you with elegant ways to set up mocks. And even writing your own
+    mocks from scratch is only a matter of writing a fake class/module/function
+    with the same signature as the real one and setting up the fake in your
+    test.</p>
+
+<p>Your unit tests will run very fast. On a decent machine you can expect to
+    run thousands of unit tests within a few minutes. Test small pieces of your
+    codebase in isolation and avoid hitting databases, the filesystem or firing
+    HTTP queries (by using mocks and stubs for these parts) to keep your tests
+    fast.</p>
+
+<p>Once you got a hang of writing unit tests you will become more and more
+    fluent in writing them. Stub out external collaborators, set up some input
+    data, call your subject under test and check that the returned value is
+    what you expected. Look into <a href = 'https://en.wikipedia.org/wiki/Test-driven_development'>Test-Driven
+    Development</a> and let your unit tests guide your development; if applied
+    correctly it can help you get into a great flow and come up with a good
+    and maintainable design while automatically producing a comprehensive and
+    fully automated test suite. Still, it's no silver bullet. Go ahead, give
+    it a real chance and see if it feels right for you.</p>
+</section>
+
+<section id = 'WhatToTest'>
+<aside class = 'sidebar' id = 'private-methods-sidebar'>
+<h3>But I <i>Really</i> Need to Test This Private Method</h3>
+
+<p>If you ever find yourself in a situation where you <i>really really</i> need
+      to test a private method you should take a step back and ask yourself
+      why.</p>
+
+<p>I'm pretty sure this is more of a design problem than a scoping problem.
+      Most likely you feel the need to test a private method because it's complex
+      and testing this method through the public interface of the class requires a
+      lot of awkward setup.</p>
+
+<p>Whenever I find myself in this situation I usually come to the conclusion
+      that the class I'm testing is already too complex. It's doing too much and
+      violates the <i>single responsibility</i> principle - the <i>S</i> of the five
+      <a href = 'https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)'>SOLID</a>
+      principles.</p>
+
+<p>The solution that often works for me is to split the original class into
+      two classes. It often only takes one or two minutes of thinking to find a
+      good way to cut the one big class into two smaller classes with individual
+      responsibility. I move the private method (that I urgently want to test) to
+      the new class and let the old class call the new method. Voil&#xE0;, my
+      awkward-to-test private method is now public and can be tested easily. On
+      top of that I have improved the structure of my code by adhering to the
+      single responsibility principle.</p>
+</aside>
+
+<h3>What to Test?</h3>
+
+<p>The good thing about unit tests is that you can write them for all your
+    production code classes, regardless of their functionality or which layer in
+    your internal structure they belong to. You can unit tests controllers just
+    like you can unit test repositories, domain classes or file readers. Simply
+    stick to the <b>one test class per production class</b> rule of thumb and
+    you're off to a good start.</p>
+
+<p>A unit test class should at least <b>test the <i>public</i> interface of the
+    class</b>. Private methods can't be tested anyways since you simply can't call
+    them from a different test class. <i>Protected</i> or <i>package-private</i> are
+    accessible from a test class (given the package structure of your test class
+    is the same as with the production class) but testing these methods could
+    already go too far.</p>
+
+<p>There's a fine line when it comes to writing unit tests: They should
+    ensure that all your non-trivial code paths are tested (including happy path
+    and edge cases). At the same time they shouldn't be tied to your
+    implementation too closely.</p>
+
+<p>Why's that?</p>
+
+<p>Tests that are too close to the production code quickly become annoying.
+    As soon as you refactor your production code (quick recap: refactoring means
+    changing the internal structure of your code without changing the externally
+    visible behaviour) your unit tests will break.</p>
+
+<p>This way you lose one big benefit of unit tests: acting as a safety net
+    for code changes. You rather become fed up with those stupid tests failing
+    every time you refactor, causing more work than being helpful; and whose idea
+    was this stupid testing stuff anyways?</p>
+
+<p>What do you do instead? Don't reflect your internal code structure within
+    your unit tests. Test for observable behaviour instead. Think about</p>
+
+<p class = 'phrase-quote'>if I enter values <code>x</code> and <code>y</code>,
+      will the result be <code>z</code>?</p>
+
+<p>instead of</p>
+
+<p class = 'phrase-quote'>if I enter <code>x</code> and <code>y</code>, will the
+      method call class A first, then call class B and then return the result of
+      class A plus the result of class B?</p>
+
+<p>Private methods should generally be considered an implementation detail.
+    That's why you shouldn't even have the urge to test them.</p>
+
+<p>I often hear opponents of unit testing (or 
+<abbr title = 'Test-Driven     Development'>TDD</abbr>
+) arguing that writing unit tests becomes pointless
+    work where you have to test all your methods in order to come up with a high
+    test coverage. They often cite scenarios where an overly eager team lead
+    forced them to write unit tests for getters and setters and all other sorts
+    of trivial code in order to come up with 100% test coverage.</p>
+
+<p>There's so much wrong with that.</p>
+
+<p>Yes, you should <i>test the public interface</i>. More importantly, however,
+    you <b>don't test trivial code</b>. Don't worry,
+    <a href = 'https://stackoverflow.com/questions/153234/how-deep-are-your-unit-tests/'>
+    Kent Beck said it's ok</a>. You won't gain anything from testing
+    simple <i>getters</i> or <i>setters</i> or other trivial implementations (e.g.
+    without any conditional logic). Save the time, that's one more meeting you
+    can attend, hooray!</p>
+</section>
+
+<section id = 'TestStructure'>
+<h3>Test Structure</h3>
+
+<p>A good structure for all your tests (this is not limited to unit tests)
+    is this one:</p>
+
+<ol>
+<li>Set up the test data</li>
+
+<li>Call your method under test</li>
+
+<li>Assert that the expected results are returned</li>
+</ol>
+
+<p>There's a nice mnemonic to remember this structure:
+    <a href = 'https://xp123.com/articles/3a-arrange-act-assert/'><i>"Arrange, Act, Assert"</i></a>.
+    Another one that you can use takes inspiration from 
+<abbr title = 'Behavior-Driven Development'>BDD</abbr>
+.
+    It's the <a href = '/bliki/GivenWhenThen.html'><i>"given"</i>, <i>"when"</i>, <i>"then"</i></a>
+    triad, where <i>given</i> reflects the setup, <i>when</i> the method call
+    and <i>then</i> the assertion part.</p>
+
+<p>This pattern can be applied to other, more high-level tests as well. In
+    every case they ensure that your tests remain easy and consistent to read.
+    On top of that tests written with this structure in mind tend to be shorter
+    and more expressive.</p>
+</section>
+
+<aside class = 'sidebar' id = 'SpecialisedTestHelpers'>
+<h2>Specialised Test Helpers</h2>
+
+    It's a thing of beauty that you can write unit tests for your entire
+    codebase, regardless of what layer of your application's architecture
+    you're on. The example shows a simple unit test for a controller.
+    Unfortunately, when it comes to Spring's controllers there's a downside to
+    this approach: Spring MVC's controller make heavy use of annotations
+    to declare which paths they're listening on, which HTTP verbs to use,
+    which parameters they parse from the URL path or query params and so on.
+    Simply invoking a controller's method within your unit tests won't test
+    all of these crucial things.
+    Luckily, the Spring folks came up with a nice test helper you can use
+    to write better controller tests. Make sure to check out
+    <a href = 'https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-server'>MockMVC</a>.
+    It gives you a nice DSL you can use to fire fake requests
+    against your controller and check that everything's cool. I've included an
+    <a href = 'https://github.com/hamvocke/spring-testing/blob/master/src/test/java/example/ExampleControllerAPITest.java'>example</a> in the sample codebase.
+    A lot of frameworks offer test helpers to make testing specific aspects of
+    your codebase more pleasant. Check out the documentation of your framework
+    of choice and see if it offers any useful helpers for your automated tests.
+  </aside>
+
+<section id = 'ImplementingAUnitTest'>
+<h3>Implementing a Unit Test</h3>
+
+<p>Now that we know what to test and how to structure our unit tests we can
+    finally see a real example.</p>
+
+<p>Let's take a simplified version of the <code>ExampleController</code> class:</p>
+
+<pre>@RestController
+public class ExampleController {
+
+    private final PersonRepository personRepo;
+
+    @Autowired
+    public ExampleController(final PersonRepository personRepo) {
+        this.personRepo = personRepo;
+    }
+
+    @GetMapping("/hello/{lastName}")
+    public String hello(@PathVariable final String lastName) {
+        Optional&lt;Person> foundPerson = personRepo.findByLastName(lastName);
+
+        return foundPerson
+                .map(person -> String.format("Hello %s %s!",
+                        person.getFirstName(),
+                        person.getLastName()))
+                .orElse(String.format("Who is this &#39;%s&#39; you&#39;re talking about?",
+                        lastName));
+    }
+}
+</pre>
+
+<p>A unit test for the <code>hello(lastname)</code> method could look like
+    this:</p>
+
+<pre>public class ExampleControllerTest {
+
+    private ExampleController subject;
+
+    @Mock
+    private PersonRepository personRepo;
+
+    @Before
+    public void setUp() throws Exception {
+        initMocks(this);
+        subject = new ExampleController(personRepo);
+    }
+
+    @Test
+    public void shouldReturnFullNameOfAPerson() throws Exception {
+        Person peter = new Person("Peter", "Pan");
+        given(personRepo.findByLastName("Pan"))
+            .willReturn(Optional.of(peter));
+
+        String greeting = subject.hello("Pan");
+
+        assertThat(greeting, is("Hello Peter Pan!"));
+    }
+
+    @Test
+    public void shouldTellIfPersonIsUnknown() throws Exception {
+        given(personRepo.findByLastName(anyString()))
+            .willReturn(Optional.empty());
+
+        String greeting = subject.hello("Pan");
+
+        assertThat(greeting, is("Who is this &#39;Pan&#39; you&#39;re talking about?"));
+    }
+}
+</pre>
+
+<p>We're writing the unit tests using <a href = 'http://junit.org'>JUnit</a>, the de-facto standard testing framework for
+    Java. We use <a href = 'http://site.mockito.org/'>Mockito</a> to replace the
+    real <code>PersonRepository</code> class with a stub for our test. This stub
+    allows us to define canned responses the stubbed method should return in
+    this test. Stubbing makes our test more simple, predictable and allows us to
+    easily setup test data.</p>
+
+<p>Following the <i>arrange, act, assert</i> structure, we write two unit tests
+    - a positive case and a case where the searched person cannot be found. The
+    first, positive test case creates a new person object and tells the mocked
+    repository to return this object when it's called with <i>"Pan"</i> as the value
+    for the <code>lastName</code> parameter. The test then goes on to call the method that
+    should be tested. Finally it asserts that the response is equal to the
+    expected response.</p>
+
+<p>The second test works similarly but tests the scenario where the tested
+    method does not find a person for the given parameter.</p>
+</section>
+</section>
+
+<section id = 'IntegrationTests'>
+<h2>Integration Tests</h2>
+
+<p>All non-trivial applications will integrate with some other parts
+  (databases, filesystems, network calls to other applications). When writing
+  unit tests these are usually the parts you leave out in order to come up
+  with better isolation and faster tests. Still, your application will interact
+  with other parts and this needs to be tested.
+  <b><a href = '/bliki/IntegrationTest.html'>Integration Tests</a></b> are there
+  to help. They test the integration of your application with all the parts
+  that live outside of your application.</p>
+
+<p>For your automated tests this means you don't just need to run your own
+  application but also the component you're integrating with. If you're
+  testing the integration with a database you need to run a database when
+  running your tests. For testing that you can read files from a disk you need
+  to save a file to your disk and load it in your integration test.</p>
+
+<p>I mentioned before that "unit tests" is a vague term, this is even more
+  true for "integration tests". For some people integration testing means
+  to test through the entire stack of your application connected to other
+  applications within your system. I like to treat integration
+  testing more narrowly and test one integration point at a time by
+  replacing separate services and databases with test doubles. Together with
+  contract testing and running contract tests against test doubles as well
+  as the real implementations you can come up with integration tests that
+  are faster, more independent and usually easier to reason about.</p>
+
+<p>Narrow integration tests live at the boundary of your service. Conceptually
+  they're always about triggering an action that leads to integrating with the
+  outside part (filesystem, database, separate service). A database integration
+  test would look like this:</p>
+
+<div class = 'figure ' id = 'dbIntegrationTest.png'><img src = 'practical-test-pyramid/dbIntegrationTest.png'></img>
+<p class = 'photoCaption'>Figure 6: 
+    A database integration test integrates your code with a real database
+  </p>
+</div>
+
+<div class = 'clear'></div>
+
+<ol>
+<li>start a database</li>
+
+<li>connect your application to the database</li>
+
+<li>trigger a function within your code that writes data to the database</li>
+
+<li>check that the expected data has been written to the database by reading
+    the data from the database</li>
+</ol>
+
+<p>Another example, testing that your service integrates with a
+    separate service via a REST API could look like this:</p>
+
+<div class = 'figure ' id = 'httpIntegrationTest.png'><img src = 'practical-test-pyramid/httpIntegrationTest.png'></img>
+<p class = 'photoCaption'>Figure 7: 
+    This kind of integration test checks that your application can
+    communicate with a separate service correctly
+  </p>
+</div>
+
+<div class = 'clear'></div>
+
+<ol>
+<li>start your application</li>
+
+<li>start an instance of the separate service (or a test double with
+    the same interface)</li>
+
+<li>trigger a function within your code that reads from the separate
+    service's API</li>
+
+<li>check that your application can parse the response correctly</li>
+</ol>
+
+<p>Your integration tests - like unit tests - can be fairly whitebox. Some
+  frameworks allow you to start your application while still being able to mock
+  some other parts of your application so that you can check that the correct
+  interactions have happened.</p>
+
+<p>Write integration tests for all pieces of code where you either <i>serialize</i>
+  or <i>deserialize</i> data. This happens more often than you might think. Think
+  about:</p>
+
+<ul>
+<li>Calls to your services' REST API</li>
+
+<li>Reading from and writing to databases</li>
+
+<li>Calling other application's APIs</li>
+
+<li>Reading from and writing to queues</li>
+
+<li>Writing to the filesystem</li>
+</ul>
+
+<p>Writing integration tests around these boundaries ensures that writing data
+  to and reading data from these external collaborators works fine.</p>
+
+<p>When writing <i>narrow integration tests</i> you should aim to run your
+  external dependencies locally: spin up a local MySQL database, test against
+  a local ext4 filesystem. If you're integrating with a separate service
+  either run an instance of that service locally or build and run a fake
+  version that mimics the behaviour of the real service.</p>
+
+<p>If there's no way to run a third-party service locally you should opt for
+  running a dedicated test instance and point at this test instance when
+  running your integration tests. Avoid integrating with the real production
+  system in your automated tests. Blasting thousands of test requests
+  against a production system is a surefire way to get people angry because
+  you're cluttering their logs (in the best case) or even
+  
+<abbr title = 'Denial of Service'>DoS</abbr>
+'ing their service (in the worst
+  case). Integrating with a service over the network is a typical characteristic
+  of a <i>broad integration test</i> and makes your tests slower and usually
+  harder to write.</p>
+
+<p>With regards to the test pyramid, integration tests are on a higher level
+  than your unit tests. Integrating slow parts like filesystems and databases
+  tends to be much slower than running unit tests with these parts stubbed out.
+  They can also be harder to write than small and isolated unit tests, after all
+  you have to take care of spinning up an external part as part of your tests.
+  Still, they have the advantage of giving you the confidence that your
+  application can correctly work with all the external parts it needs to talk to.
+  Unit tests can't help you with that.</p>
+
+<section id = 'DatabaseIntegration'>
+<h3>Database Integration</h3>
+
+<p>The <code>PersonRepository</code> is the only repository class in the codebase. It
+    relies on <i>Spring Data</i> and has no actual implementation. It just extends
+    the <code>CrudRepository</code> interface and provides a single method header. The rest
+    is Spring magic.</p>
+
+<pre>public interface PersonRepository extends CrudRepository&lt;Person, String> {
+    Optional&lt;Person> findByLastName(String lastName);
+}
+</pre>
+
+<p>With the <code>CrudRepository</code> interface Spring Boot offers a fully functional
+    CRUD repository with <code>findOne</code>, <code>findAll</code>, <code>save</code>, <code>update</code> and <code>delete</code>
+    methods. Our custom method definition (<code>findByLastName()</code>) extends this
+    basic functionality and gives us a way to fetch <code>Person</code>s by their last
+    name. Spring Data analyses the return type of the method and its method name
+    and checks the method name against a naming convention to figure out what it
+    should do.</p>
+
+<p>Although Spring Data does the heavy lifting of implementing database
+    repositories I still wrote a database integration test. You might argue that
+    this is <i>testing the framework</i> and something that I should avoid as it's
+    not our code that we're testing. Still, I believe having at least one
+    integration test here is crucial. First it tests that our custom
+    <code>findByLastName</code> method actually behaves as expected. Secondly it proves
+    that our repository used Spring's wiring correctly and can connect to the
+    database.</p>
+
+<p>To make it easier for you to run the tests on your machine (without
+    having to install a PostgreSQL database) our test connects to an in-memory
+    <i>H2</i> database.</p>
+
+<p>I've defined H2 as a test dependency in the <code>build.gradle</code> file. The
+    <code>application.properties</code> in the test directory doesn't define any
+    <code>spring.datasource</code> properties. This tells Spring Data to use an in-memory
+    database. As it finds H2 on the classpath it simply uses H2 when running
+    our tests.</p>
+
+<p>When running the real application with the <code>int</code> profile (e.g. by setting
+    <code>SPRING_PROFILES_ACTIVE=int</code> as environment variable) it connects to a
+    PostgreSQL database as defined in the <code>application-int.properties</code>.</p>
+
+<p>I know, that's an awful lot of Spring specifics to know and understand.
+    To get there, you'll have to sift through <a href = 'https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html#boot-features-embedded-database-support'>a lot of
+    documentation</a>.
+    The resulting code is easy on the eye but hard to understand if you don't
+    know the fine details of Spring.</p>
+
+<p>On top of that going with an in-memory database is risky business. After
+    all, our integration tests run against a different type of database than
+    they would in production. Go ahead and decide for yourself if you prefer
+    Spring magic and simple code over an explicit yet more verbose
+    implementation.</p>
+
+<p>Enough explanation already, here's a simple integration test that saves a
+    Person to the database and finds it by its last name:</p>
+
+<pre>@RunWith(SpringRunner.class)
+@DataJpaTest
+public class PersonRepositoryIntegrationTest {
+    @Autowired
+    private PersonRepository subject;
+
+    @After
+    public void tearDown() throws Exception {
+        subject.deleteAll();
+    }
+
+    @Test
+    public void shouldSaveAndFetchPerson() throws Exception {
+        Person peter = new Person("Peter", "Pan");
+        subject.save(peter);
+
+        Optional&lt;Person> maybePeter = subject.findByLastName("Pan");
+
+        assertThat(maybePeter, is(Optional.of(peter)));
+    }
+}
+</pre>
+
+<p>You can see that our integration test follows the same <i>arrange, act,
+    assert</i> structure as the unit tests. Told you that this was a universal
+    concept!</p>
+</section>
+
+<section id = 'IntegrationWithSeparateServices'>
+<h3>Integration With Separate Services</h3>
+
+<p>Our microservice talks to <a href = 'https://darksky.net'>darksky.net</a>,
+    a weather REST API. Of course we want to ensure that our service sends
+    requests and parses the responses correctly.</p>
+
+<p>We want to avoid hitting the real <i>darksky</i> servers when running
+    automated tests. Quota limits of our free plan are only part of the reason.
+    The real reason is <i>decoupling</i>. Our tests should run independently of
+    whatever the lovely people at darksky.net are doing. Even when your machine
+    can't access the <i>darksky</i> servers or the darksky servers are down
+    for maintenance.</p>
+
+<p>We can avoid hitting the real <i>darksky</i> servers by running our own,
+    fake <i>darksky</i> server while running our integration tests. This might
+    sound like a huge task. Thanks to tools like
+    <a href = 'http://wiremock.org/'>Wiremock</a> it's easy peasy. Watch this:</p>
+
+<pre>@RunWith(SpringRunner.class)
+@SpringBootTest
+public class WeatherClientIntegrationTest {
+
+    @Autowired
+    private WeatherClient subject;
+
+    @Rule
+    public WireMockRule wireMockRule = new WireMockRule(8089);
+
+    @Test
+    public void shouldCallWeatherService() throws Exception {
+        wireMockRule.stubFor(get(urlPathEqualTo("/some-test-api-key/53.5511,9.9937"))
+                .willReturn(aResponse()
+                        .withBody(FileLoader.read("classpath:weatherApiResponse.json"))
+                        .withHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withStatus(200)));
+
+        Optional&lt;WeatherResponse> weatherResponse = subject.fetchWeather();
+
+        Optional&lt;WeatherResponse> expectedResponse = Optional.of(new WeatherResponse("Rain"));
+        assertThat(weatherResponse, is(expectedResponse));
+    }
+}
+</pre>
+
+<p>To use Wiremock we instantiate a <code>WireMockRule</code> on a fixed
+    port (<code>8089</code>). Using the DSL we can set up the Wiremock server,
+    define the endpoints it should listen on and set canned responses it should
+    respond with.</p>
+
+<p>Next we call the method we want to test, the one that calls the
+    third-party service and check if the result is parsed correctly.</p>
+
+<p>It's important to understand how the test knows that it should call the
+    fake Wiremock server instead of the real <i>darksky</i> API. The secret is
+    in our <code>application.properties</code> file contained in
+    <code>src/test/resources</code>. This is the properties file Spring loads
+    when running tests. In this file we override configuration like API keys and
+    URLs with values that are suitable for our testing purposes, e.g. calling
+    the fake Wiremock server instead of the real one:</p>
+
+<pre>weather.url = http://localhost:8089</pre>
+
+<p>Note that the port defined here has to be the same we define when
+    instantiating the <code>WireMockRule</code> in our test. Replacing the real weather
+    API's URL with a fake one in our tests is made possible by injecting the URL
+    in our <code>WeatherClient</code> class' constructor:</p>
+
+<pre>@Autowired
+public WeatherClient(final RestTemplate restTemplate,
+                     @Value("${weather.url}") final String weatherServiceUrl,
+                     @Value("${weather.api_key}") final String weatherServiceApiKey) {
+    this.restTemplate = restTemplate;
+    this.weatherServiceUrl = weatherServiceUrl;
+    this.weatherServiceApiKey = weatherServiceApiKey;
+}
+</pre>
+
+<p>This way we tell our <code>WeatherClient</code> to read the
+    <code>weatherUrl</code> parameter's value from the <code>weather.url</code>
+    property we define in our application properties.</p>
+
+<p>Writing <i>narrow integration tests</i> for a separate service is quite easy
+    with tools like Wiremock. Unfortunately there's a downside to this
+    approach: How can we ensure that the fake server we set up behaves
+    like the real server? With the current implementation, the separate service
+    could change its API and our tests would still pass. Right now we're merely
+    testing that our <code>WeatherClient</code> can parse the responses that
+    the fake server sends. That's a start but it's very brittle. Using
+    <i>end-to-end tests</i> and running the tests
+    against a test instance of the real service instead of using a fake
+    service would solve this problem but would make us reliant on the
+    availability of the test service. Fortunately, there's a better solution to
+    this dilemma: Running contract tests against the fake and the real server
+    ensures that the fake we use in our integration tests is a faithful test
+    double. Let's see how this works next.</p>
+</section>
+</section>
+
+<section id = 'ContractTests'>
+<h2>Contract Tests</h2>
+
+<p>More modern software development organisations have found ways of scaling
+  their development efforts by spreading the development of a system across
+  different teams. Individual teams build individual, loosely coupled services
+  without stepping on each others toes and integrate these services into a
+  big, cohesive system. The more recent buzz around microservices focuses on
+  exactly that.</p>
+
+<p>Splitting your system into many small services often means that these
+  services need to communicate with each other via certain (hopefully
+  well-defined, sometimes accidentally grown) interfaces.</p>
+
+<p>Interfaces between different applications can come in different shapes
+  and technologies. Common ones are</p>
+
+<ul>
+<li>REST and JSON via HTTPS</li>
+
+<li>
+<abbr title = 'remote procedure calls'>RPC</abbr>
+ using something like
+    <a href = 'https://grpc.io/'>gRPC</a></li>
+
+<li>building an event-driven architecture using queues</li>
+</ul>
+
+<p>For each interface there are two parties involved: the provider and
+  the consumer. The <b>provider</b> serves data to consumers. The
+  <b>consumer</b> processes data obtained from a provider. In a REST
+  world a provider builds a REST API with all required endpoints; a consumer
+  makes calls to this REST API to fetch data or trigger changes in the other
+  service. In an asynchronous, event-driven world, a provider (often rather
+  called <b>publisher</b>) publishes data to a queue; a consumer (often called
+  <b>subscriber</b>) subscribes to these queues and reads and processes data.</p>
+
+<div class = 'figure ' id = 'contract_tests.png'><img src = 'practical-test-pyramid/contract_tests.png'></img>
+<p class = 'photoCaption'>Figure 8: 
+    Each interface has a providing (or publishing) and a consuming (or
+    subscribing) party. The specification of an interface can be considered a
+    contract.
+  </p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>As you often spread the consuming and providing services across different
+  teams you find yourself in the situation where you have to clearly specify the
+  interface between these services (the so called <b>contract</b>). Traditionally
+  companies have approached this problem in the following way:</p>
+
+<ul>
+<li>Write a long and detailed interface specification (the <i>contract</i>)</li>
+
+<li>Implement the providing service according to the defined contract</li>
+
+<li>Throw the interface specification over the fence to the consuming team</li>
+
+<li>Wait until they implement their part of consuming the interface</li>
+
+<li>Run some large-scale manual system test to see if everything works</li>
+
+<li>Hope that both teams stick to the interface definition forever and don't
+    screw up</li>
+</ul>
+
+<p>More modern software development teams have replaced steps 5. and 6. with
+  something more automated:
+  Automated <a href = '/bliki/ContractTest.html'>contract tests</a>
+  make sure that the implementations on the consumer and provider
+  side still stick to the defined contract. They serve as a good regression test
+  suite and make sure that deviations from the contract will be noticed
+  early.</p>
+
+<p>In a more agile organisation you should take the more efficient and less
+  wasteful route. You build your applications within the same organisation. It
+  really shouldn't be too hard to talk to the developers of the other services
+  directly instead of throwing overly detailed documentation over the fence.
+  After all they're your co-workers and not a third-party vendor that you could
+  only talk to via customer support or legally bulletproof contracts.</p>
+
+<p><b>Consumer-Driven Contract tests</b> (CDC tests) let the
+  <a href = '/articles/consumerDrivenContracts.html'>consumers drive
+  the implementation of a contract</a>.
+  Using CDC, consumers of an interface write
+  tests that check the interface for all data they need from that interface. The
+  consuming team then publishes these tests so that the publishing team can
+  fetch and execute these tests easily. The providing team can now develop their
+  API by running the CDC tests. Once all tests pass they know they have
+  implemented everything the consuming team needs.</p>
+
+<div class = 'figure ' id = 'cdc_tests.png'><img src = 'practical-test-pyramid/cdc_tests.png'></img>
+<p class = 'photoCaption'>Figure 9: Contract tests ensure that the provider and all
+  consumers of an interface stick to the defined interface contract. With CDC
+  tests consumers of an interface publish their requirements in the form of
+  automated tests; the providers fetch and execute these tests
+  continuously</p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>This approach allows the providing team to implement only what's really
+  necessary (keeping things simple, 
+<abbr title = 'You ain&#39;t gonna need   it'>YAGNI</abbr>
+ and all that). The team providing the interface should fetch
+  and run these CDC tests continuously (in their build pipeline) to spot any
+  breaking changes immediately. If they break the interface their CDC tests will
+  fail, preventing breaking changes to go live. As long as the tests stay green
+  the team can make any changes they like without having to worry about other
+  teams. The Consumer-Driven Contract approach would leave you with a process
+  looking like this:</p>
+
+<ul>
+<li>The consuming team writes automated tests with all consumer
+    expectations</li>
+
+<li>They publish the tests for the providing team</li>
+
+<li>The providing team runs the CDC tests continuously and keeps them
+    green</li>
+
+<li>Both teams talk to each other once the CDC tests break</li>
+</ul>
+
+<p>If your organisation adopts a microservices approach, having CDC tests is a
+  big step towards establishing autonomous teams. CDC tests are an automated way
+  to foster team communication. They ensure that interfaces between teams are
+  working at any time. Failing CDC tests are a good indicator that you should
+  walk over to the affected team, have a chat about any upcoming API changes and
+  figure out how you want to move forward.</p>
+
+<p>A naive implementation of CDC tests can be as simple as firing requests
+  against an API and assert that the responses contain everything you need. You
+  then package these tests as an executable (.gem, .jar, .sh) and upload it
+  somewhere the other team can fetch it (e.g. an artifact repository like
+  <a href = 'https://www.jfrog.com/artifactory/'>Artifactory</a>).</p>
+
+<p>Over the last couple of years the CDC approach has become more and more
+  popular and several tools been build to make writing and exchanging them
+  easier.</p>
+
+<p><a href = 'https://github.com/realestate-com-au/pact'>Pact</a> is probably the most
+  prominent one these days. It has a sophisticated approach of writing tests for
+  the consumer and the provider side, gives you stubs for separate services
+  out of the box and allows you to exchange CDC tests with other teams. Pact has
+  been ported to a lot of platforms and can be used with JVM languages, Ruby,
+  .NET, JavaScript and many more.</p>
+
+<p>If you want to get started with CDCs and don't know how, Pact can be a sane
+  choice. The <a href = 'https://docs.pact.io/'>documentation</a> can be overwhelming at
+  first. Be patient and work through it. It helps to get a firm understanding
+  for CDCs which in turn makes it easier for you to advocate for the use of CDCs
+  when working with other teams.</p>
+
+<p>Consumer-Driven Contract tests can be a real game changer to establish
+  autonomous teams that can move fast and with confidence. Do yourself a favor,
+  read up on that concept and give it a try. A solid suite of CDC tests is
+  invaluable for being able to move fast without breaking other services and
+  cause a lot of frustration with other teams.</p>
+
+<section id = 'ConsumerTestourTeam'>
+<h3>Consumer Test (our team)</h3>
+
+<p>Our microservice consumes the weather API. So it's our responsibility to
+    write a <b>consumer test</b> that defines our expectations for the contract
+    (the API) between our microservice and the weather service.</p>
+
+<p>First we include a library for writing pact consumer tests in our
+    <code>build.gradle</code>:</p>
+
+<pre>testCompile(&#39;au.com.dius:pact-jvm-consumer-junit_2.11:3.5.5&#39;)
+</pre>
+
+<p>Thanks to this library we can implement a consumer test and use pact's mock services:</p>
+
+<pre>@RunWith(SpringRunner.class)
+@SpringBootTest
+public class WeatherClientConsumerTest {
+
+    @Autowired
+    private WeatherClient weatherClient;
+
+    @Rule
+    public PactProviderRuleMk2 weatherProvider =
+            new PactProviderRuleMk2("weather_provider", "localhost", 8089, this);
+
+    @Pact(consumer="test_consumer")
+    public RequestResponsePact createPact(PactDslWithProvider builder) throws IOException {
+        return builder
+                .given("weather forecast data")
+                .uponReceiving("a request for a weather request for Hamburg")
+                    .path("/some-test-api-key/53.5511,9.9937")
+                    .method("GET")
+                .willRespondWith()
+                    .status(200)
+                    .body(FileLoader.read("classpath:weatherApiResponse.json"),
+                            ContentType.APPLICATION_JSON)
+                .toPact();
+    }
+
+    @Test
+    @PactVerification("weather_provider")
+    public void shouldFetchWeatherInformation() throws Exception {
+        Optional&lt;WeatherResponse> weatherResponse = weatherClient.fetchWeather();
+        assertThat(weatherResponse.isPresent(), is(true));
+        assertThat(weatherResponse.get().getSummary(), is("Rain"));
+    }
+}
+</pre>
+
+<p>If you look closely, you'll see that the
+    <code>WeatherClientConsumerTest</code> is very similar to the
+    <code>WeatherClientIntegrationTest</code>. Instead of using Wiremock for the
+    server stub we use Pact this time. In fact the consumer test works exactly
+    as the integration test, we replace the real third-party server with a stub,
+    define the expected response and check that our client can parse the
+    response correctly. In this sense the <code>WeatherClientConsumerTest</code>
+    is a narrow integration test itself.
+    The advantage over the wiremock-based test is that this test
+    generates a <i>pact file</i> (found in <code>target/pacts/&amp;pact-name&gt;.json</code>)
+    each time it runs. This pact file describes our expectations for the
+    contract in a special JSON format. This pact file can then be used to
+    verify that our stub server behaves like the real server. We can take the
+    pact file and hand it to the team providing the interface. They take this
+    pact file and write a provider test using the expectations defined in
+    there. This way they test if their API fulfils all our expectations.</p>
+
+<p>You see that this is where the <i>consumer-driven</i> part of CDC comes
+    from. The consumer drives the implementation of the interface by describing
+    their expectations. The provider has to make sure that they fulfil all
+    expectations and they're done. No gold-plating, no YAGNI and stuff.</p>
+
+<p>Getting the pact file to the providing team can happen in multiple ways.
+    A simple one is to check them into version control and tell the provider
+    team to always fetch the latest version of the pact file. A more advances
+    one is to use an artifact repository, a service like Amazon's S3 or the pact
+    broker. Start simple and grow as you need.</p>
+
+<p>In your real-world application you don't need both, an <i>integration test</i>
+    and a <i>consumer test</i> for a client class. The sample codebase contains both
+    to show you how to use either one. If you want to write CDC tests using pact
+    I recommend sticking to the latter. The effort of writing the tests is the
+    same. Using pact has the benefit that you automatically get a pact file with
+    the expectations to the contract that other teams can use to easily
+    implement their provider tests. Of course this only makes sense if you can
+    convince the other team to use pact as well. If this doesn't work, using the
+    <i>integration test</i> and Wiremock combination is a decent plan b.</p>
+</section>
+
+<section id = 'ProviderTesttheOtherTeam'>
+<h3>Provider Test (the other team)</h3>
+
+<p>The provider test has to be implemented by the people providing the
+    weather API. We're consuming a public API provided by darksky.net. In theory
+    the darksky team would implement the provider test on their end to check
+    that they're not breaking the contract between their application and our
+    service.</p>
+
+<p>Obviously they don't care about our meager sample application and won't
+    implement a CDC test for us. That's the big difference between a
+    public-facing API and an organisation adopting microservices. Public-facing
+    APIs can't consider every single consumer out there or they'd become unable
+    to move forward. Within your own organisation, you can &#x2014; and should. Your
+    app will most likely serve a handful, maybe a couple dozen of consumers max.
+    You'll be fine writing provider tests for these interfaces in order to keep
+    a stable system.</p>
+
+<p>The providing team gets the pact file and runs it against their providing
+    service. To do so they implement a provider test that reads the pact file,
+    stubs out some test data and runs the expectations defined in the pact file
+    against their service.</p>
+
+<p>The pact folks have written several libraries for implementing provider
+    tests. Their main <a href = 'https://github.com/DiUS/pact-jvm'>GitHub
+    repo</a> gives you a nice overview which consumer and which provider
+    libraries are available. Pick the one that best matches your tech stack.</p>
+
+<p>For simplicity let's assume that the darksky API is implemented in Spring
+    Boot as well. In this case they could use the <a href = 'https://github.com/DiUS/pact-jvm/tree/master/pact-jvm-provider-spring'>Spring
+    pact provider</a> which hooks nicely into Spring's MockMVC mechanisms. A
+    hypothetical provider test that the darksky.net team would implement could
+    look like this:</p>
+
+<pre>@RunWith(RestPactRunner.class)
+@Provider("weather_provider") // same as the "provider_name" in our clientConsumerTest
+@PactFolder("target/pacts") // tells pact where to load the pact files from
+public class WeatherProviderTest {
+    @InjectMocks
+    private ForecastController forecastController = new ForecastController();
+
+    @Mock
+    private ForecastService forecastService;
+
+    @TestTarget
+    public final MockMvcTarget target = new MockMvcTarget();
+
+    @Before
+    public void before() {
+        initMocks(this);
+        target.setControllers(forecastController);
+    }
+
+    @State("weather forecast data") // same as the "given()" in our clientConsumerTest
+    public void weatherForecastData() {
+        when(forecastService.fetchForecastFor(any(String.class), any(String.class)))
+                .thenReturn(weatherForecast("Rain"));
+    }
+}
+</pre>
+
+<p>You see that all the provider test has to do is to load a pact file (e.g.
+    by using the <code>@PactFolder</code> annotation to load previously downloaded pact
+    files) and then define how test data for pre-defined states should be
+    provided (e.g. using Mockito mocks). There's no custom test to be
+    implemented. These are all derived from the pact file. It's important that
+    the provider test has matching counterparts to the <i>provider name</i> and
+    <i>state</i> declared in the consumer test.</p>
+</section>
+
+<section id = 'ProviderTestourTeam'>
+<h3>Provider Test (our team)</h3>
+
+<p>
+    We've seen how to test the contract between our service and the
+    weather provider. With this interface our service acts as consumer,
+    the weather service acts as provider. Thinking a little further we'll see
+    that our service also acts as a provider for others: We provide a REST
+    API that offers a couple of endpoints ready to be consumed by others.
+    </p>
+
+<p>As we've just learned that contract tests are all the rage, we of
+    course write a contract test for this contract as well. Luckily we're
+    using consumer-driven contracts so there's all the consuming teams sending
+    us their Pacts that we can use to implement our provider tests for our
+    REST API.</p>
+
+<p>Let's first add the Pact provider library for Spring to our project:
+    
+<pre>testCompile(&#39;au.com.dius:pact-jvm-provider-spring_2.12:3.5.5&#39;)
+</pre>
+</p>
+
+<p>Implementing the provider test follows the same pattern as described
+    before. For the sake of simplicity I simply checked the pact file
+    from our <a href = 'https://github.com/hamvocke/spring-testing-consumer'>simple
+    consumer</a> into our service's repository. This makes it
+    easier for our purpose, in a real-life scenario you're probably going
+    to use a more sophisticated mechanism to distribute your pact files.</p>
+
+<pre>@RunWith(RestPactRunner.class)
+@Provider("person_provider")// same as in the "provider_name" part in our pact file
+@PactFolder("target/pacts") // tells pact where to load the pact files from
+public class ExampleProviderTest {
+
+    @Mock
+    private PersonRepository personRepository;
+
+    @Mock
+    private WeatherClient weatherClient;
+
+    private ExampleController exampleController;
+
+    @TestTarget
+    public final MockMvcTarget target = new MockMvcTarget();
+
+    @Before
+    public void before() {
+        initMocks(this);
+        exampleController = new ExampleController(personRepository, weatherClient);
+        target.setControllers(exampleController);
+    }
+
+    @State("person data") // same as the "given()" part in our consumer test
+    public void personData() {
+        Person peterPan = new Person("Peter", "Pan");
+        when(personRepository.findByLastName("Pan")).thenReturn(Optional.of
+                (peterPan));
+    }
+}
+</pre>
+
+<p>The shown <code>ExampleProviderTest</code> needs to provide state
+    according to the pact file we're given, that's it. Once we run the provider
+    test, Pact will pick up the pact file and fire HTTP request against our
+    service that then responds according to the state we've set up.</p>
+</section>
+</section>
+
+<section id = 'UiTests'>
+<h2>UI Tests</h2>
+
+<p>Most applications have some sort of user interface. Typically we're
+    talking about a web interface in the context of web applications. People
+    often forget that a REST API or a command line interface is as much of a
+    user interface as a fancy web user interface.</p>
+
+<p><i>UI tests</i> test that the user interface of your application works
+    correctly. User input should trigger the right actions, data should be
+    presented to the user, the UI state should change as expected.</p>
+
+<div class = 'figure ' id = 'ui_tests.png'><img src = 'practical-test-pyramid/ui_tests.png'></img>
+<p class = 'photoCaption'></p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>UI Tests and end-to-end tests are sometimes (as in Mike Cohn's case) said to
+    be the same thing. For me this conflates two things that are
+    rather orthogonal concepts.</p>
+
+<p>Yes, testing your application end-to-end often means driving your tests
+    through the user interface. The inverse, however, is not true.</p>
+
+<p>Testing your user interface doesn't have to be done in an end-to-end fashion.
+    Depending on the technology you use, testing your user interface can be as
+    simple as writing some unit tests for your frontend javascript code with your
+    backend stubbed out.</p>
+
+<p>With traditional web applications testing the user interface can be achieved
+    with tools like <a href = 'http://docs.seleniumhq.org/'>Selenium</a>. If you consider a REST
+    API to be your user interface you should have everything you need by writing
+    proper integration tests around your API.</p>
+
+<p>With web interfaces there's multiple aspects that you probably want to test
+    around your UI: behaviour, layout, usability or adherence to your corporate
+    design are only a few.</p>
+
+<p>Fortunately, testing the <i>behaviour</i> of your user interface is
+    pretty simple. You click here, enter data there and want the state of the
+    user interface to change accordingly. Modern single page application
+    frameworks (<a href = 'https://facebook.github.io/react/'>react</a>, <a href = 'https://vuejs.org/'>vue.js</a>, <a href = 'https://angular.io/'>Angular</a> and the like) often come with their own
+    tools and helpers that allow you to thoroughly test these interactions in a
+    pretty low-level (unit test) fashion. Even if you roll your own frontend
+    implementation using vanilla javascript you can use your regular testing
+    tools like <a href = 'https://jasmine.github.io/'>Jasmine</a> or <a href = 'http://mochajs.org/'>Mocha</a>. With a more traditional, server-side
+    rendered application, Selenium-based tests will be your best choice.</p>
+
+<p>Testing that your web application's <i>layout</i> remains intact is a little
+    harder. Depending on your application and your users' needs you may want to make
+    sure that code changes don't break the website's layout by accident.</p>
+
+<p>The problem is that computers are notoriously bad at checking if something
+    "looks good" (maybe some clever machine learning algorithm can change that in
+    the future).</p>
+
+<p>There are some tools to try if you want to automatically check your web
+    application's design in your build pipeline. Most of these tools utilise
+    Selenium to open your web application in different browsers and formats, take
+    screenshots and compare these to previously taken screenshots. If the old and
+    new screenshots differ in an unexpected way, the tool will let you know.</p>
+
+<p><a href = 'http://galenframework.com/'>Galen</a> is one of these tools. But even rolling
+    your own solution isn't too hard if you have special requirements. Some teams
+    I've worked with built <a href = 'https://github.com/otto-de/lineup'>lineup</a> and its
+    Java-based cousin <a href = 'https://github.com/otto-de/jlineup'>jlineup</a> to achieve
+    something similar. Both tools take the same Selenium-based approach I described
+    before.</p>
+
+<p>Once you want to test for <i>usability</i> and a "looks good" factor you
+    leave the realms of automated testing. This is the area where you should
+    rely on <a href = 'https://en.wikipedia.org/wiki/Exploratory_testing'>exploratory testing</a>,
+    usability testing (this can even be as simple as <a href = 'https://en.wikipedia.org/wiki/Usability_testing#Hallway_testing'>hallway
+    testing</a>) and showcases with your users to see if they like using your
+    product and can use all features without getting frustrated or annoyed.</p>
+</section>
+
+<section id = 'End-to-endTests'>
+<h2>End-to-End Tests</h2>
+
+<p>Testing your deployed application via its user interface is the most
+  end-to-end way you could test your application. The previously described,
+  webdriver driven UI tests are a good example of end-to-end tests.</p>
+
+<div class = 'figure ' id = 'e2etests.png'><img src = 'practical-test-pyramid/e2etests.png'></img>
+<p class = 'photoCaption'>Figure 11: End-to-end tests test your entire, completely
+  integrated system</p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>End-to-end tests
+  (also called <a href = '/bliki/BroadStackTest.html'>Broad Stack Tests</a>)
+  give you the biggest confidence when you need to decide
+  if your software is working or not. <a href = 'http://docs.seleniumhq.org/'>Selenium</a> and the <a href = 'https://www.w3.org/TR/webdriver/'>WebDriver Protocol</a> allow you to
+  automate your tests by automatically driving a (headless) browser against
+  your deployed services, performing clicks, entering data and checking the
+  state of your user interface. You can use Selenium directly or use tools
+  that are build on top of it, <a href = 'http://nightwatchjs.org/'>Nightwatch</a> being one of them.</p>
+
+<p>End-to-End tests come with their own kind of problems. They are notoriously
+  flaky and often fail for unexpected and unforeseeable reasons. Quite often their
+  failure is a false positive. The more sophisticated your user interface, the
+  more flaky the tests tend to become. Browser quirks, timing issues, animations
+  and unexpected popup dialogs are only some of the reasons that got me spending
+  more of my time with debugging than I'd like to admit.</p>
+
+<p>In a microservices world there's also the big question of who's in charge of
+  writing these tests. Since they span multiple services (your entire system)
+  there's no single team responsible for writing end-to-end tests.</p>
+
+<p>If you have a centralised <i>quality assurance</i> team they look like a
+  good fit. Then again having a centralised QA team is a big anti-pattern and
+  shouldn't have a place in a DevOps world where your teams are meant to be
+  truly cross-functional. There's no easy answer who should own end-to-end
+  tests. Maybe your organisation has a community of practice or a <i>quality
+  guild</i> that can take care of these. Finding the correct answer highly
+  depends on your organisation.</p>
+
+<p>Furthermore, end-to-end tests require a lot of maintenance and run pretty
+  slowly. Thinking about a landscape with more than a couple of microservices in
+  place you won't even be able to run your end-to-end tests locally &#x2014; as this
+  would require to start all your microservices locally as well. Good luck
+  spinning up hundreds of applications on your development machine without frying
+  your RAM.</p>
+
+<p>Due to their high maintenance cost you should aim to reduce the number of
+  end-to-end tests to a bare minimum.</p>
+
+<p>Think about the high-value interactions users will have with your
+  application. Try to come up with user journeys that define the core value of
+  your product and translate the most important steps of these user journeys into
+  automated end-to-end tests.</p>
+
+<p>If you're building an e-commerce site your most valuable customer journey
+  could be a user searching for a product, putting it in the shopping basket and
+  doing a checkout. That's it. As long as this journey still works you shouldn't
+  be in too much trouble. Maybe you'll find one or two more crucial user journeys
+  that you can translate into end-to-end tests. Everything more than that will
+  likely be more painful than helpful.</p>
+
+<p>Remember: you have lots of lower levels in your test pyramid where you
+  already tested all sorts of edge cases and integrations with other parts of
+  the system. There's no need to repeat these tests on a higher level. High
+  maintenance effort and lots of false positives will slow you down and cause
+  you to lose trust in your tests, sooner rather than later.</p>
+
+<section id = 'UserInterfaceEnd-to-endTest'>
+<h3>User Interface End-to-End Test</h3>
+
+<p>For end-to-end tests <a href = 'http://docs.seleniumhq.org/'>Selenium</a> and the
+    <a href = 'https://www.w3.org/TR/webdriver/'>WebDriver</a> protocol are the tool of
+    choice for many developers. With Selenium you can pick a browser you like
+    and let it automatically call your website, click here and there, enter data
+    and check that stuff changes in the user interface.</p>
+
+<p>Selenium needs a browser that it can start and use for running its tests.
+    There are multiple so-called <i>'drivers'</i> for different browsers that you
+    could use. <a href = 'https://www.mvnrepository.com/search?q=selenium+driver'>Pick
+    one</a> (or multiple)
+    and add it to your <code>build.gradle</code>. Whatever browser you choose, you need to
+    make sure that all devs in your team and your CI server have installed the
+    correct version of the browser locally. This can be pretty painful to keep
+    in sync. For Java, there's a nice little library called
+    <a href = 'https://github.com/bonigarcia/webdrivermanager'>webdrivermanager</a> that can
+    automate downloading and setting up the correct version of the browser you
+    want to use. Add these two dependencies to your <code>build.gradle</code> and you're
+    good to go:</p>
+
+<pre>testCompile(&#39;org.seleniumhq.selenium:selenium-chrome-driver:2.53.1&#39;)
+testCompile(&#39;io.github.bonigarcia:webdrivermanager:1.7.2&#39;)
+</pre>
+
+<p>Running a fully-fledged browser in your test suite can be a hassle.
+    Especially when using continuous delivery the server running your pipeline
+    might not be able to spin up a browser including a user interface (e.g.
+    because there's no X-Server available). You can take a workaround for this
+    problem by starting a virtual X-Server like
+    <a href = 'https://en.wikipedia.org/wiki/Xvfb'>xvfb</a>.</p>
+
+<p>A more recent approach is to use a <i>headless</i> browser (i.e. a browser
+    that doesn't have a user interface) to run your webdriver tests. Until
+    recently <a href = 'http://phantomjs.org/'>PhantomJS</a> was the leading headless browser
+    used for browser automation. Ever since both
+    <a href = 'https://developers.google.com/web/updates/2017/04/headless-chrome'>Chromium</a>
+    and <a href = 'https://developer.mozilla.org/en-US/Firefox/Headless_mode'>Firefox</a>
+    announced that they've implemented a headless mode in their browsers
+    PhantomJS all of a sudden became obsolete. After all it's better to test
+    your website with a browser that your users actually use (like Firefox and
+    Chrome) instead of using an artificial browser just because it's convenient
+    for you as a developer.</p>
+
+<p>Both, headless Firefox and Chrome, are brand new and yet to be widely
+    adopted for implementing webdriver tests. We want to keep things simple.
+    Instead of fiddling around to use the bleeding edge headless modes let's
+    stick to the classic way using Selenium and a regular browser. A simple
+    end-to-end test that fires up Chrome, navigates to our service and checks
+    the content of the website looks like this:</p>
+
+<pre>@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class HelloE2ESeleniumTest {
+
+    private WebDriver driver;
+
+    @LocalServerPort
+    private int port;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        ChromeDriverManager.getInstance().setup();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        driver = new ChromeDriver();
+    }
+
+    @After
+    public void tearDown() {
+        driver.close();
+    }
+
+    @Test
+    public void helloPageHasTextHelloWorld() {
+        driver.get(String.format("http://127.0.0.1:%s/hello", port));
+
+        assertThat(driver.findElement(By.tagName("body")).getText(), containsString("Hello World!"));
+    }
+}
+</pre>
+
+<p>Note that this test will only run on your system if you have Chrome
+    installed on the system you run this test on (your local machine, your CI
+    server).</p>
+
+<p>The test is straightforward. It spins up the entire Spring application on
+    a random port using <code>@SpringBootTest</code>. We then instantiate a new Chrome
+    webdriver, tell it to go navigate to the <code>/hello</code> endpoint of our
+    microservice and check that it prints "Hello World!" on the browser window.
+    Cool stuff!</p>
+</section>
+
+<section id = 'RestApiEnd-to-endTest'>
+<h3>REST API End-to-End Test</h3>
+
+<p>Avoiding a graphical user interface when testing your application can
+    be a good idea to come up with tests that are less flaky than full
+    end-to-end tests while still covering a broad part of your application's
+    stack. This can come in handy when testing through the web interface of
+    your application is particularly hard. Maybe you don't even have a web
+    UI but serve a REST API instead (because you have a single page
+    application somewhere talking to that API, or simply because you despise
+    everything that's nice and shiny). Either way, a
+    <a href = '/bliki/SubcutaneousTest.html'>Subcutaneous Test</a> that tests just beneath the graphical
+    user interface and can get you really far without compromising on
+    confidence too much. Just the right thing if you're serving a REST API
+    like we do in our example code:</p>
+
+<pre>@RestController
+public class ExampleController {
+    private final PersonRepository personRepository;
+
+    // shortened for clarity
+
+    @GetMapping("/hello/{lastName}")
+    public String hello(@PathVariable final String lastName) {
+        Optional&lt;Person> foundPerson = personRepository.findByLastName(lastName);
+
+        return foundPerson
+             .map(person -> String.format("Hello %s %s!",
+                     person.getFirstName(),
+                     person.getLastName()))
+             .orElse(String.format("Who is this &#39;%s&#39; you&#39;re talking about?",
+                     lastName));
+    }
+}
+</pre>
+
+<p>Let me show you one more library that comes in handy when testing a
+    service that provides a REST API. <a href = 'https://github.com/rest-assured/rest-assured'>REST-assured</a> is a library
+    that gives you a nice DSL for firing real HTTP requests against an API and
+    evaluating the responses you receive.</p>
+
+<p>First things first: Add the dependency to your <code>build.gradle</code>.</p>
+
+<pre>testCompile(&#39;io.rest-assured:rest-assured:3.0.3&#39;)</pre>
+
+<p>With this library at our hands we can implement an end-to-end test for
+    our REST API:</p>
+
+<pre>@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class HelloE2ERestTest {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @LocalServerPort
+    private int port;
+
+    @After
+    public void tearDown() throws Exception {
+        personRepository.deleteAll();
+    }
+
+    @Test
+    public void shouldReturnGreeting() throws Exception {
+        Person peter = new Person("Peter", "Pan");
+        personRepository.save(peter);
+
+        when()
+                .get(String.format("http://localhost:%s/hello/Pan", port))
+        .then()
+                .statusCode(is(200))
+                .body(containsString("Hello Peter Pan!"));
+    }
+}
+</pre>
+
+<p>Again, we start the entire Spring application using
+    <code>@SpringBootTest</code>. In this case we <code>@Autowire</code> the
+    <code>PersonRepository</code> so that we can write test data into our
+    database easily. When we now ask the REST API to say "hello" to our friend
+    "Mr Pan" we're being presented with a nice greeting. Amazing! And more than
+    enough of an end-to-end test if you don't even sport a web interface.</p>
+</section>
+</section>
+
+<section id = 'acceptance'>
+<h2>Acceptance Tests &#x2014; Do Your Features Work Correctly?</h2>
+
+<p>The higher you move up in your test pyramid the more likely you enter the
+    realms of testing whether the features you're building work correctly from a
+    user's perspective. You can treat your application as a black box and shift
+    the focus in your tests from</p>
+
+<p class = 'acc-test-line'> when I enter the values <code>x</code> and <code>y</code>, the return value should be <code>z</code></p>
+
+<p>towards</p>
+
+<p class = 'acc-test-line'><i>given</i> there's a logged in user </p>
+
+<p class = 'acc-test-line'><i>and</i> there's an article "bicycle" </p>
+
+<p class = 'acc-test-line'><i>when</i> the user navigates to
+    the "bicycle" article's detail page </p>
+
+<p class = 'acc-test-line'><i>and</i> clicks the "add to basket" button </p>
+
+<p class = 'acc-test-line'><i>then</i> the article "bicycle" should be in their shopping basket</p>
+
+<p>Sometimes you'll hear the terms <a href = 'https://en.wikipedia.org/wiki/Functional_testing'><b>functional
+    test</b></a> or <a href = 'https://en.wikipedia.org/wiki/Acceptance_testing#Acceptance_testing_in_extreme_programming'><b>acceptance
+    test</b></a> for these kinds of tests. Sometimes people will tell you
+    that functional and acceptance tests are different things. Sometimes the
+    terms are conflated. Sometimes people will argue endlessly about wording and
+    definitions. Often this discussion is a pretty big source of confusion.</p>
+
+<p>Here's the thing: At one point you should make sure to test that your
+    software works correctly from a <i>user's</i> perspective, not just from a technical
+    perspective. What you call these tests is really not that important. Having
+    these tests, however, is. Pick a term, stick to it, and write those tests.</p>
+
+<p>This is also the moment where people talk about 
+<abbr title = 'Behaviour-Driven     Development'>BDD</abbr>
+ and tools that allow you to implement tests in a BDD
+    fashion. BDD or a BDD-style way of writing tests can be a nice trick to shift
+    your mindset from implementation details towards the users' needs. Go ahead and
+    give it a try.</p>
+
+<p>You don't even need to adopt full-blown BDD tools like
+    <a href = 'https://cucumber.io/'>Cucumber</a> (though you can). Some assertion libraries
+    (like <a href = 'http://chaijs.com/guide/styles/#should'>chai.js</a> allow you to write
+    assertions with <code>should</code>-style keywords that can make your tests read more
+    BDD-like. And even if you don't use a library that provides this notation,
+    clever and well-factored code will allow you to write user behaviour focused
+    tests. Some helper methods/functions can get you a very long way:</p>
+
+<pre># a sample acceptance test in Python
+
+def test_add_to_basket():
+    # given
+    user = a_user_with_empty_basket()
+    user.login()
+    bicycle = article(name="bicycle", price=100)
+
+    # when
+    article_page.add_to_.basket(bicycle)
+
+    # then
+    assert user.basket.contains(bicycle)
+</pre>
+
+<p>Acceptance tests can come in different levels of granularity. Most of the
+    time they will be rather high-level and test your service through the user
+    interface. However, it's good to understand that there's technically no need
+    to write acceptance tests at the highest level of your test pyramid. If your
+    application design and your scenario at hand permits that you write an
+    acceptance test at a lower level, go for it. Having a low-level test is
+    better than having a high-level test. The concept of acceptance tests -
+    proving that your features work correctly for the user - is completely
+    orthogonal to your test pyramid.</p>
+</section>
+
+<section id = 'ExploratoryTesting'>
+<h2>Exploratory Testing</h2>
+
+<p>Even the most diligent test automation efforts are not perfect. Sometimes
+    you miss certain edge cases in your automated tests. Sometimes it's nearly
+    impossible to detect a particular bug by writing a unit test. Certain
+    quality issues don't even become apparent within your automated tests (think
+    about design or usability). Despite your best intentions with regards to
+    test automation, manual testing of some sorts is still a good idea.</p>
+
+<div class = 'figure ' id = 'exploratoryTesting.png'><img src = 'practical-test-pyramid/exploratoryTesting.png'></img>
+<p class = 'photoCaption'>Figure 12: Use exploratory testing to spot all
+    quality issues that your build pipeline didn't spot </p>
+</div>
+
+<div class = 'clear'></div>
+
+<p>Include <a href = 'https://en.wikipedia.org/wiki/Exploratory_testing'>Exploratory
+    Testing</a> in your testing
+    portfolio. It is a manual testing approach that emphasises the tester's freedom
+    and creativity to spot quality issues in a running system. Simply take some time
+    on a regular schedule, roll up your sleeves and try to break your application.
+    Use a destructive mindset and come up with ways to provoke issues and errors in
+    your application. Document everything you find for later. Watch out for bugs,
+    design issues, slow response times, missing or misleading error messages and
+    everything else that would annoy you as a user of your software.</p>
+
+<p>The good news is that you can happily automate most of your findings with
+    automated tests. Writing automated tests for the bugs you spot makes sure there
+    won't be any regressions of that bug in the future. Plus it helps you narrowing
+    down the root cause of that issue during bugfixing.</p>
+
+<p>During exploratory testing you will spot problems that slipped through your
+    build pipeline unnoticed. Don't be frustrated. This is great feedback on the
+    maturity of your build pipeline. As with any feedback, make sure to act on it:
+    Think about what you can do to avoid these kinds of problems in the future.
+    Maybe you're missing out on a certain set of automated tests. Maybe you have
+    just been sloppy with your automated tests in this iteration and need to test
+    more thoroughly in the future. Maybe there's a shiny new tool or approach that
+    you could use in your pipeline to avoid these issues in the future. Make sure to
+    act on it so your pipeline and your entire software delivery will grow more
+    mature the longer you go.</p>
+</section>
+
+<section id = 'TheConfusionAboutTestingTerminology'>
+<h2>The Confusion About Testing Terminology</h2>
+
+<p>Talking about different test classifications is always difficult. What
+    I mean when I talk about <i>unit tests</i> can be slightly different
+    from your understanding. With integration tests it's even worse. For some
+    people integration testing is a very broad activity that tests through
+    a lot of different parts of your entire system. For me it's a rather
+    narrow thing, only testing the integration with one external part at a
+    time. Some call them <i>integration tests</i>, some refer to them as
+    <i>component tests</i>, some prefer the term <i>service test</i>. Even
+    others will argue, that all of these three terms are totally different
+    things. There's no right or wrong. The software development community
+    simply hasn't managed to settle on well-defined terms around testing.</p>
+
+<p>Don't get too hung up on sticking to ambiguous terms. It doesn't
+    matter if you call it end-to-end or broad stack test or functional test.
+    It doesn't matter if your integration tests mean something different to
+    you than to the folks at another company. Yes, it would be really
+    nice if our profession could settle on some well-defined terms and all
+    stick to it. Unfortunately this hasn't happened yet. And since there are
+    many nuances when it comes to writing tests it's really more of a
+    spectrum than a bunch of discrete buckets anyways, which makes consistent
+    naming even harder.</p>
+
+<p>The important takeaway is that you should find terms that work for you
+    and your team. Be clear about the different types of tests that
+    you want to write. Agree on the naming in your team and find consensus on
+    the scope of each type of test. If you get this consistent within your team
+    (or maybe even within your organisation) that's really all you should
+    care about. <a href = 'https://testing.googleblog.com/2010/12/test-sizes.html'>
+    Simon Stewart</a> summed this up very nicely when he described the
+    approach they use at Google. And I think it shows perfectly how getting
+    too hung up on names and naming conventions just isn't worth the hassle.</p>
+</section>
+
+<section id = 'PuttingTestsIntoYourDeploymentPipeline'>
+<h2>Putting Tests Into Your Deployment Pipeline</h2>
+
+<p>If you're using Continuous Integration or Continuous Delivery, you'll
+    have a <a href = '/bliki/DeploymentPipeline.html'>Deployment Pipeline</a> in place that will run
+    automated tests every time you make a change to your software. Usually
+    this pipeline is split into several stages that gradually give you more
+    confidence that your software is ready to be deployed to production.
+    Hearing about all these different kinds of tests you're probably wondering
+    how you should place them within your deployment pipeline. To answer this
+    you should just think about one of the very foundational values of
+    Continuous Delivery (indeed one of the core
+    <a href = 'http://www.extremeprogramming.org/values.html'>values of Extreme
+    Programming</a> and agile software development): <b>Fast Feedback</b>.</p>
+
+<p>A good build pipeline tells you that you messed up as quick as possible.
+    You don't want to wait an hour just to find out that your latest change
+    broke some simple unit tests. Chances are that you've probably gone
+    home already if your pipeline takes that long to give you that feedback.
+    You could get this information within a matter of seconds, maybe a few
+    minutes by putting the fast running tests in the earlier stages of your
+    pipeline. Conversely you put the longer running tests - usually the
+    ones with a broader scope - in the later stages to not defer the
+    feedback from the fast-running tests. You see that defining the stages of
+    your deployment pipeline is not driven by the types of tests but rather
+    by their speed and scope. With that in mind it can be a very reasonable
+    decision to put some of the really narrowly-scoped and fast-running
+    integration tests in the same stage as your unit tests - simply because
+    they give you faster feedback and not because you want to draw the line
+    along the formal type of your tests.</p>
+</section>
+
+<section id = 'AvoidTestDuplication'>
+<h2>Avoid Test Duplication</h2>
+
+<p>Now that you know that you should write different types of tests there's
+    one more pitfall to avoid: duplicating tests throughout the different
+    layers of the pyramid. While your gut feeling might say that there's no
+    such thing as too many tests let me assure you, there is. Every single
+    test in your test suite is additional baggage and doesn't
+    come for free. Writing and maintaining tests takes time. Reading and
+    understanding other people's test takes time. And of course, running tests
+    takes time.</p>
+
+<p>As with production code you should strive for simplicity and avoid
+    duplication. In the context of implementing your test pyramid you should
+    keep two rules of thumb in mind:</p>
+
+<ol>
+<li>If a higher-level test spots an error and there's no
+      lower-level test failing, you need to write a lower-level test</li>
+
+<li>Push your tests as far down the test pyramid as you can</li>
+</ol>
+
+<p>The first rule is important because lower-level tests allow you to
+    better narrow down errors and replicate them in an isolated way. They'll
+    run faster and will be less bloated when you're debugging the issue at
+    hand. And they will serve as a good regression test for the future. The
+    second rule is important to keep your test suite fast. If you have
+    tested all conditions confidently on a lower-level test, there's no need
+    to keep a higher-level test in your test suite. It just doesn't add
+    more confidence that everything's working. Having redundant tests will
+    become annoying in your daily work. Your test suite will be slower and you
+    need to change more tests when you change the behaviour of your code.
+    </p>
+
+<p>Let's phrase this differently: If a higher-level test gives you more
+    confidence that your application works correctly, you should have it.
+    Writing a unit test for a <code>Controller</code> class helps to test the
+    logic within the Controller itself. Still, this won't tell you whether
+    the REST endpoint this Controller provides actually responds to HTTP
+    requests. So you move up the test pyramid and add a test that checks
+    for exactly that - but nothing more. You don't test all the conditional
+    logic and edge cases that your lower-level tests already cover in the
+    higher-level test again. Make sure that the higher-level test focuses
+    on the part that the lower-level tests couldn't cover.</p>
+
+<p>I'm rigorous when it comes to eliminating tests that don't provide
+    any value. I delete high-level tests that are already covered on a lower
+    level (given they don't provide extra value). I replace higher-level
+    tests with lower-level tests if possible. Sometimes that's hard,
+    especially if you know that coming up with a test was hard work. Beware
+    of the sunk cost fallacy and hit the delete key. There's
+    no reason to waste more precious time on a test that ceased to
+    provide value.</p>
+</section>
+
+<section id = 'WritingCleanTestCode'>
+<h2>Writing Clean Test Code</h2>
+
+<p>As with writing code in general, coming up with good and clean test
+    code takes great care. Here are some more hints for coming up with
+    maintainable test code before you go ahead and hack away on your
+    automated test suite:</p>
+
+<p>
+<ol>
+<li>Test code is as important as production code. Give it the same
+                level of care and attention. <i>"this is only test code"</i>
+                is not a valid excuse to justify sloppy code
+            </li>
+
+<li>Test one condition per test. This helps you to keep your tests
+                short and easy to reason about
+            </li>
+
+<li><i>"arrange, act, assert"</i> or <i>"given, when, then"</i> are
+                good mnemonics to keep your tests well-structured
+            </li>
+
+<li>Readability matters. Don't try to be overly
+                
+<abbr title = 'Don&#39;t Repeat Yourself'>DRY</abbr>
+. Duplication
+                is okay, if it improves readability. Try to find a balance
+                between <a href = 'https://stackoverflow.com/questions/6453235/what-does-damp-not-dry-mean-when-talking-about-unit-tests'>
+                DRY and 
+<abbr title = 'Descriptive and Meaningful Phrases'>DAMP
+                </abbr>
+</a>
+                code
+            </li>
+
+<li>When in doubt use the <a href = 'https://blog.codinghorror.com/rule-of-three/'>Rule of
+                Three</a> to decide when to refactor. <i>Use before reuse</i></li>
+</ol>
+</p>
+</section>
+
+<section id = 'Conclusion'>
+<h2>Conclusion</h2>
+
+<p>That's it! I know this was a long and tough read to explain why
+    and how you should test your software. The great news is that this information
+    is pretty timeless and independent of what kind of software you're building.
+    It doesn't matter if you're working on a microservices landscape, IoT
+    devices, mobile apps or web applications, the lessons from this article can
+    be applied to all of these.</p>
+
+<p>I hope that there's something useful in this article. Now go ahead and
+    check out the <a href = 'https://github.com/hamvocke/spring-testing'>sample
+    code</a> and get some of the concepts explained here into your testing
+    portfolio. Having a solid test portfolio takes some effort. It will pay
+    off in the longer term and it will make your live as a developer more
+    peaceful, trust me.</p>
+</section>
+
+<div class = 'appendix'>
+<section id = 'Acknowledgements'>
+<h2>Acknowledgements</h2>
+
+<p>Thanks to Clare Sudbery, Chris Ford, Martha Rohte, Andrew Jones-Weiss
+      David Swallow, Aiko Klostermann, Bastian Stein, Sebastian Roidl and
+      Birgitta B&#xF6;ckeler for providing feedback and suggestions to early drafts
+      of this article. Thanks to Martin Fowler for his advice, insights and
+      support.</p>
+</section>
+</div>
+
+<hr class = 'bodySep'></hr>
+</div>
+
+<div class = 'appendix'>
+<details id = 'SignificantRevisions'>
+<summary>Significant Revisions</summary>
+
+<p><i>26 February 2018: </i>Published installment with UI tests</p>
+
+<p><i>22 February 2018: </i>Published installment with contract tests</p>
+
+<p><i>20 February 2018: </i>Published installment with integration tests</p>
+
+<p><i>15 February 2018: </i>Published installment with unit tests</p>
+
+<p><i>14 February 2018: </i>First installment, introducing the pyramid and the
+  sample application</p>
+</details>
+</div>
+</main>
+
+<nav id = 'bottom-navmenu'>
+<nav class = 'navmenu'>
+<div class = 'nav-head'>  <div class = 'search'>
+    <!-- SiteSearch Google -->
+    <form method='GET' action="https://www.google.com/search">
+      <input type='hidden' name='ie' value='UTF-8'/>
+      <input type='hidden' name='oe' value='UTF-8'/>
+      <input class = 'field' type='text' 
+             name='q' size='15' maxlength='255' value=""/>
+      <button class = 'button' type='submit' 
+             name='btnG' value=" " title = "Search"/>
+      <input type='hidden' name='domains' value="martinfowler.com"/>
+      <input type='hidden' name='sitesearch' value=""/> 
+      <input
+          type='hidden' name='sitesearch' value="martinfowler.com"/>
+    </form>
+  </div>
+
+<div class = 'closediv'>
+<span class = 'close' title = 'close'></span>
+</div>
+</div>
+
+<div class = 'nav-body'>
+<div class = 'topics'>
+<h2>Topics</h2>
+
+<p><a href = '/architecture'>Architecture</a></p>
+
+<p><a href = 'https://refactoring.com'>Refactoring</a></p>
+
+<p><a href = '/agile.html'>Agile</a></p>
+
+<p><a href = '/delivery.html'>Delivery</a></p>
+
+<p><a href = '/microservices'>Microservices</a></p>
+
+<p><a href = '/data'>Data</a></p>
+
+<p><a href = '/testing'>Testing</a></p>
+
+<p><a href = '/dsl.html'>DSL</a></p>
+</div>
+
+<div class = 'about'>
+<h2>about me</h2>
+
+<p><a href = '/aboutMe.html'>About</a></p>
+
+<p><a href = '/books'>Books</a></p>
+
+<p><a href = '/faq.html'>FAQ</a></p>
+</div>
+
+<div class = 'content'>
+<h2>content</h2>
+
+<p><a href = '/videos.html'>Videos</a></p>
+
+<p><a href = '/tags'>Content Index</a></p>
+
+<p><a href = '/articles/eurogames'>Board Games</a></p>
+
+<p><a href = '/photos'>Photography</a></p>
+</div>
+
+<div class = 'tw'>
+<h2>Thoughtworks</h2>
+
+<p><a href = 'https://thoughtworks.com/insights'>Insights</a></p>
+
+<p><a href = 'https://thoughtworks.com/careers'>Careers</a></p>
+
+<p><a href = 'https://thoughtworks.com/products'>Products</a></p>
+</div>
+
+<div class = 'feeds'>
+<h2>follow</h2>
+
+<p><a href = 'https://www.twitter.com/martinfowler'>Twitter</a></p>
+
+<p><a href = '/feed.atom'>RSS</a></p>
+
+<p><a href = 'https://toot.thoughtworks.com/@mfowler'>Mastodon</a></p>
+</div>
+</div>
+</nav>
+</nav>
+<footer id='page-footer'>
+<div class='tw-logo'>
+<a href='http://www.thoughtworks.com'>
+<img src='/thoughtworks_white.png'>
+</a>
+</div>
+<div class='menu-button'>
+<div class='icon-bars navmenu-button'></div>
+</div>
+<div class='copyright'>
+<p>© Martin Fowler | <a href="http://www.thoughtworks.com/privacy-policy">Privacy Policy</a> | <a href="/aboutMe.html#disclosures">Disclosures</a></p>
+</div>
+</footer>
+<!-- Google Analytics -->
+<!-- old Google Universal -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-17005812-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- New Google GA4 -->
+<!-- global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6D51F4BDVF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6D51F4BDVF');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script src = '/jquery-1.11.3.min.js' type = 'text/javascript'></script>
+
+<script src = '/mfcom.js' type = 'text/javascript'></script>
+</body>
+</html>
