@@ -22,10 +22,13 @@ function App() {
     else {
       alert("Por Favor Ingrese Valores para Realizar los Calculos");
     }
-  }
+  };
 
   return (
     <div className="App">
+      {
+        //TODO: Crear un componente para este logo, asi hacemos un componente facil rehutilizable
+      }
       <div className="freecodecamp-logo-contenedor">
         <img
           src={freeCodeCamp}
@@ -34,6 +37,10 @@ function App() {
         />
       </div>
       <div className="contenedor-calculadora">
+        {
+          //TODO: Que pasa si se ponen varios operadores seguidos y se le da al igual? tipo " 3+-/++-4 "
+          // Se jode y no hace nada, solucionar ese error
+        }
         <Pantalla input={input}/>
         <div className="fila">
           <Boton manejarClick={agregarInput}>1</Boton>

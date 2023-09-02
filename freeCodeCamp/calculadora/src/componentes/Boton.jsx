@@ -4,11 +4,11 @@ import '../styles/Boton.css';
 function Boton(props) {
 
   const esOperador = valor => {
-    return isNaN(valor) && (valor != '.') && (valor != '=');
+    return isNaN(valor) && (valor !== '.') && (valor !== '=');
   };
 
   return (
-  <div 
+  <button 
     className={`boton-contenedor ${esOperador(props.children) ? 'operador' : ''}`.trim()}
     onClick={() => props.manejarClick(props.children)
       //sirve porque es funcion de flecha, osease se llamara SOLO cuando suceda el click, sin eso es la llamada a la funcion, mas no le metemos una funcion al onClick
@@ -17,7 +17,7 @@ function Boton(props) {
     }
     >
     {props.children}
-  </div>);
+  </button>);
 }
 
 export default Boton;
