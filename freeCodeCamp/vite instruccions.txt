@@ -1,4 +1,7 @@
 npm create vite@latest [appName]
 cd [appName]
-npm install
+npm install		o		npm i 	(es lo mismo, install)
 npm run dev
+
+
+cd.. es para ir al directorio/carpeta padre (la anterior a donde nos encontramos)
