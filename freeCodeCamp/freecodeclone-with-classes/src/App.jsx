@@ -5,19 +5,16 @@ import sarah from './img/sarah.png';
 import emma from './img/emma.png';
 import React from 'react';
 
-class App extends React.Component{
-render() {
-  return(
-    <div className='App'>
-{
 /* Diferencia con los componentes funcionales es mas que todo, que los funcionales son mas nuevos y actuales.
 Originalmente los componentes clase (como estos) se usaban para usar States y demas, pero ya se pueden usar en los funcionales
 Gracias a los Hooks, Pero aun existen los de clase por razon de compatibilidad, su diferencia principal es que REQUIERE
 de poseer el Metodo Render, que retorna el componente tipo jsx, (que los funcionales hacen con el retorn de una, sin el render)
 y aparte, sus props es con el uso de "this.props"
 */
-};
-
+class App extends React.Component{
+render() {
+  return(
+    <div className='App'>
       <div className='contenedor-principal'>
         <h1>Esto es lo que dicen nuestros alumnos sobre freeCodeCamp:</h1>
 
